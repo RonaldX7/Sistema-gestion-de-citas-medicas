@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.proyecto</groupId>
-	<artifactId>soa</artifactId>
+	<artifactId>SGCM</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>soa</name>
-	<description>proyecto soa</description>
+	<description>proyecto SGCM</description>
 	<url/>
 	<licenses>
 		<license/>
