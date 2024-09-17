@@ -10,11 +10,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "rol")
+@Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     Long id;
-    @Column(name = "nombre")
-    String name;
 }
