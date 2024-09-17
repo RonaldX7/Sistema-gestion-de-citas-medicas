@@ -1,4 +1,4 @@
-package com.proyecto.soa.entities;
+package com.project.integradorII.entities;
 
 import jakarta.persistence.*;
 import static jakarta.persistence.GenerationType.*;

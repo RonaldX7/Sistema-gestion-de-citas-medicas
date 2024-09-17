@@ -1,7 +1,6 @@
-package com.proyecto.soa.controllers;
+package com.project.integradorII.controllers;
 
-import com.proyecto.soa.entities.User;
-import com.proyecto.soa.services.UserService;
+import com.project.integradorII.entities.User;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

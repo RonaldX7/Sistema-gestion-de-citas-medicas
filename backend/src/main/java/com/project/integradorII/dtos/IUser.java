@@ -1,4 +1,4 @@
-package com.proyecto.soa.dtos;
+package com.project.integradorII.dtos;
 
 public interface IUser {
     boolean isAdmin();

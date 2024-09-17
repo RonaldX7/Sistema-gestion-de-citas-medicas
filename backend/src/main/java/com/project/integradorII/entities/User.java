@@ -1,10 +1,10 @@
-package com.proyecto.soa.entities;
+package com.project.integradorII.entities;
 
 import static jakarta.persistence.GenerationType.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.proyecto.soa.dtos.IUser;
+import com.project.integradorII.dtos.IUser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

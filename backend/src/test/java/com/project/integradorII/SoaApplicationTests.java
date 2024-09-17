@@ -1,4 +1,4 @@
-package com.proyecto.soa;
+package com.project.integradorII;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

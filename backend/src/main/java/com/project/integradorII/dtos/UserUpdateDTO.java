@@ -1,4 +1,4 @@
-package com.proyecto.soa.dtos;
+package com.project.integradorII.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
