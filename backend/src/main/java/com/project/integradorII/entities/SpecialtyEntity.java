@@ -3,6 +3,9 @@ package com.project.integradorII.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,5 +19,6 @@ public class SpecialtyEntity {
     private Long id;
 
     @Column(name = "specialty_name")
-    private SpecialtyEnum specialtyEnum;
+    private String specialtyName;
+
 }

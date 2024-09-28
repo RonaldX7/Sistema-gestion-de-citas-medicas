@@ -6,4 +6,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/holomedic")
 public class PrincipalController {
 
+
+
+    @GetMapping("/get")
+    public String hello() {
+        return "Hello, World!";
+    }
+
+    @PostMapping("/post")
+    public String post() {
+        return "Post request has been made!";
+    }
 }

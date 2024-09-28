@@ -1,11 +1,11 @@
 package com.project.integradorII.entities;
 
 import jakarta.persistence.*;
-import static jakarta.persistence.GenerationType.*;
 
 import lombok.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,7 +23,7 @@ public class RoleEntity {
     @Enumerated(EnumType.STRING)
     private RoleEnum roleEnum;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<UserEntity> users;
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private Set<UserEntity> users = new HashSet<>();
 
 }
