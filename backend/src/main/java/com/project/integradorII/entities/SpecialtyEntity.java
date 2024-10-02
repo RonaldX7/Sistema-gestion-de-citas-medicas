@@ -16,6 +16,6 @@ public class SpecialtyEntity {
     private Long id;
 
     @Column(name = "specialty_name")
-    private String specialtyName;
+    private String name;
 
 }

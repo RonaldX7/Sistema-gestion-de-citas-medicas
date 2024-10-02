@@ -1,18 +1,20 @@
 package com.project.integradorII.controllers;
 
-import com.project.integradorII.repositories.DoctorRepository;
+import com.project.integradorII.dto.doctor.DoctorRequest;
+import com.project.integradorII.entities.DoctorEntity;
+import com.project.integradorII.services.DoctorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/holomedic")
 public class DoctorController {
 
     @Autowired
-    private DoctorRepository doctorRepository;
+    private DoctorService doctorService;
 
     @GetMapping("/getmedico")
     public String hello() {
@@ -20,8 +22,8 @@ public class DoctorController {
     }
 
     @PostMapping("/postmedico")
-    public String post() {
-        return "Post request has been made!";
+    public ResponseEntity<DoctorEntity> createDoctor(@RequestBody @Valid DoctorRequest doctorRequest){
+        return new ResponseEntity<>(this.doctorService.createDoctor(doctorRequest), HttpStatus.CREATED);
     }
 
 

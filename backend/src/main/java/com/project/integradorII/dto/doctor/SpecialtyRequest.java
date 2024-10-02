@@ -2,11 +2,11 @@ package com.project.integradorII.dto.doctor;
 
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Set;
+import java.util.List;
 
 @Validated
 public record SpecialtyRequest(
 
-    Set<String> specialtyListName
+    List<String> specialtyListName
 ) {
 }

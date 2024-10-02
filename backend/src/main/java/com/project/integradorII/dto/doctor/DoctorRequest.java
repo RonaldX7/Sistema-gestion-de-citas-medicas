@@ -1,5 +1,7 @@
 package com.project.integradorII.dto.doctor;
 
+import com.project.integradorII.entities.RoleEnum;
+
 public record DoctorRequest(
         String name,
         String lastName,
@@ -9,6 +11,6 @@ public record DoctorRequest(
         String password,
         String cmp,
         SpecialtyRequest specialty,
-        Long roleId
+        String roleName
 ) {
 }
