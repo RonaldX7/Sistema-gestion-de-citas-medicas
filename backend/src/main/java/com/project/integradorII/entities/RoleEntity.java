@@ -23,7 +23,7 @@ public class RoleEntity {
     @Enumerated(EnumType.STRING)
     private RoleEnum roleEnum;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<UserEntity> users = new HashSet<>();
 
 }

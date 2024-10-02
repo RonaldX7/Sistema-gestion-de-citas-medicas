@@ -46,9 +46,9 @@ public class DoctorService {
         RoleEntity roleEntity = rolRepository.findRoleEntitiesByRoleEnum(roleEnum)
                 .orElseThrow(() -> new RuntimeException("El rol no existe"));
 
-//        if (roleEntity == null) {
-//            throw new IllegalArgumentException("Agrege un rol valido");
-//        }
+        if (roleEntity == null) {
+            throw new IllegalArgumentException("Agrege un rol valido");
+        }
         userEntity.setRole(roleEntity);
 
         UserEntity userEntitySaved = userRepository.save(userEntity);
