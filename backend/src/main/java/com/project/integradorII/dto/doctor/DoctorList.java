@@ -2,9 +2,9 @@ package com.project.integradorII.dto.doctor;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record DoctorUpdate(
-        @NotBlank
-        String cmp,
+import java.util.List;
+
+public record DoctorList(
         @NotBlank
         String name,
         @NotBlank
@@ -12,8 +12,8 @@ public record DoctorUpdate(
         @NotBlank
         String phone,
         @NotBlank
-        String email,
+        String cmp,
         @NotBlank
-        String password
+        List<String> specialties
 ) {
 }

@@ -1,5 +1,6 @@
 package com.project.integradorII.services;
 
+import com.project.integradorII.dto.doctor.DoctorList;
 import com.project.integradorII.dto.doctor.DoctorRequest;
 import com.project.integradorII.dto.doctor.DoctorUpdate;
 import com.project.integradorII.entities.*;
@@ -9,6 +10,7 @@ import com.project.integradorII.repositories.SpecialtyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +26,25 @@ public class DoctorService {
 
     @Autowired
     private RoleRepository rolRepository;
+
+    //Metodo para listar todos los medicos
+    public List<DoctorList> ListAllDoctors(){
+
+        List<DoctorEntity> doctors = doctorRepository.findAll();
+
+        //Mapear la lista de doctores
+        List<DoctorList> doctorLists = doctors.stream().map(doctorEntity -> {
+            return new DoctorList(
+                    doctorEntity.getUser().getName(),
+                    doctorEntity.getUser().getLastName(),
+                    doctorEntity.getUser().getPhone(),
+                    doctorEntity.getCmp(),
+                    doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName).collect(Collectors.toList())
+            );
+        }).collect(Collectors.toList());
+
+        return doctorLists;
+    }
 
     public DoctorEntity createDoctor(DoctorRequest doctorRequest) {
 
@@ -81,18 +102,15 @@ public class DoctorService {
         DoctorEntity doctorEntity = doctorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
 
-        //Actualizar doctor
-        DoctorEntity.builder()
-                .cmp(doctorUpdate.cmp())
-                .user(UserEntity.builder()
-                        .id(doctorUpdate.id())
-                        .name(doctorUpdate.name())
-                        .lastName(doctorUpdate.lastName())
-                        .phone(doctorUpdate.phone())
-                        .email(doctorUpdate.email())
-                        .password(doctorUpdate.password())
-                        .build())
-                .build();
+        //Actualizar datos del medico
+        doctorEntity.setCmp(doctorUpdate.cmp());
+
+        UserEntity user = doctorEntity.getUser();
+        user.setName(doctorUpdate.name());
+        user.setLastName(doctorUpdate.lastName());
+        user.setPhone(doctorUpdate.phone());
+        user.setEmail(doctorUpdate.email());
+        user.setPassword(doctorUpdate.password());
 
         return doctorRepository.save(doctorEntity);
     }
