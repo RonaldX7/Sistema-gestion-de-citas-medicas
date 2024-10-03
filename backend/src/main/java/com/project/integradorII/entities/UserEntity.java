@@ -21,6 +21,7 @@ public class UserEntity {
 
     private String phone;
 
+    @Column(unique = true)
     private String email;
 
     @Column(unique = true)

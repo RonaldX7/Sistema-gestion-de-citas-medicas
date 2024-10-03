@@ -9,8 +9,7 @@ import com.project.integradorII.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,21 +23,9 @@ public class DoctorService {
     private SpecialtyRepository specialtyRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private RoleRepository rolRepository;
 
     public DoctorEntity createDoctor(DoctorRequest doctorRequest) {
-        //Crear y persistir el usuario
-        UserEntity userEntity = new UserEntity();
-
-        userEntity.setName(doctorRequest.name());
-        userEntity.setLastName(doctorRequest.lastName());
-        userEntity.setPhone(doctorRequest.phone());
-        userEntity.setEmail(doctorRequest.email());
-        userEntity.setUsername(doctorRequest.username());
-        userEntity.setPassword(doctorRequest.password());
 
         RoleEnum roleEnum = RoleEnum.valueOf(doctorRequest.roleName());
 
@@ -49,21 +36,38 @@ public class DoctorService {
         if (roleEntity == null) {
             throw new IllegalArgumentException("Agrege un rol valido");
         }
-        userEntity.setRole(roleEntity);
 
-        UserEntity userEntitySaved = userRepository.save(userEntity);
+        //Guardar la especialidad si no existe
+        doctorRequest.specialty().specialtyListName().forEach(specialtyName -> {
+            Optional<SpecialtyEntity> specialtyEntity = specialtyRepository.findByName(specialtyName);
 
-        //Crear y persistir el doctor
-        DoctorEntity doctorEntity = new DoctorEntity();
-        doctorEntity.setCmp(doctorRequest.cmp());
-        doctorEntity.setUser(userEntitySaved);
+            //Si no existe la especialidad se crea
+            if (specialtyEntity.isEmpty()) {
+                SpecialtyEntity specialty = SpecialtyEntity.builder().name(specialtyName).build();
+                specialtyRepository.save(specialty);
+            }
+        });
+
 
         // Asignar especialidades al doctor
-    Set<SpecialtyEntity> specialties = specialtyRepository.
-            findSpecialtyEntitiesByNameIn(doctorRequest.specialty().specialtyListName())
-            .stream().collect(Collectors.toSet());
+        Set<SpecialtyEntity> specialties = specialtyRepository.
+                findSpecialtyEntitiesByNameIn(doctorRequest.specialty().specialtyListName())
+                .stream().collect(Collectors.toSet());
 
-        doctorEntity.setSpecialties(specialties);
+        //Crear y persistir el Doctor
+        DoctorEntity doctorEntity = DoctorEntity.builder()
+                .cmp(doctorRequest.cmp())
+                .specialties(specialties)
+                .user(UserEntity.builder()
+                        .name(doctorRequest.name())
+                        .lastName(doctorRequest.lastName())
+                        .phone(doctorRequest.phone())
+                        .email(doctorRequest.email())
+                        .username(doctorRequest.username())
+                        .password(doctorRequest.password())
+                        .role(roleEntity)
+                        .build())
+                .build();
 
         //Guardar doctor
         return doctorRepository.save(doctorEntity);

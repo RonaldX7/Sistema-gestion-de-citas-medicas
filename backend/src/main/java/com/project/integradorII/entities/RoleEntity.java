@@ -1,5 +1,6 @@
 package com.project.integradorII.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -24,6 +25,7 @@ public class RoleEntity {
     private RoleEnum roleEnum;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<UserEntity> users = new HashSet<>();
 
 }
