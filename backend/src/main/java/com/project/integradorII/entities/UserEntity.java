@@ -29,7 +29,13 @@ public class UserEntity {
 
     private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @Column(name = "is_enable")
+    private boolean isEnabled;
+
+    @Column(name = "account_No_Locked")
+    private boolean accountNoLocked;
+
+    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.PERSIST)
     @JoinColumn(name = "role_id")
     private RoleEntity role;
 }

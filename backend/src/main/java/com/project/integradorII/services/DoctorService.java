@@ -1,11 +1,11 @@
 package com.project.integradorII.services;
 
 import com.project.integradorII.dto.doctor.DoctorRequest;
+import com.project.integradorII.dto.doctor.DoctorUpdate;
 import com.project.integradorII.entities.*;
 import com.project.integradorII.repositories.DoctorRepository;
 import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.repositories.SpecialtyRepository;
-import com.project.integradorII.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +27,10 @@ public class DoctorService {
 
     public DoctorEntity createDoctor(DoctorRequest doctorRequest) {
 
-        RoleEnum roleEnum = RoleEnum.valueOf(doctorRequest.roleName());
+        RoleEnum role = RoleEnum.valueOf(doctorRequest.roleName());
 
         //Asignar el rol al usuario
-        RoleEntity roleEntity = rolRepository.findRoleEntitiesByRoleEnum(roleEnum)
+        RoleEntity roleEntity = rolRepository.findRoleEntitiesByRoleEnum(role)
                 .orElseThrow(() -> new RuntimeException("El rol no existe"));
 
         if (roleEntity == null) {
@@ -48,7 +48,6 @@ public class DoctorService {
             }
         });
 
-
         // Asignar especialidades al doctor
         Set<SpecialtyEntity> specialties = specialtyRepository.
                 findSpecialtyEntitiesByNameIn(doctorRequest.specialty().specialtyListName())
@@ -65,6 +64,8 @@ public class DoctorService {
                         .email(doctorRequest.email())
                         .username(doctorRequest.username())
                         .password(doctorRequest.password())
+                        .isEnabled(true)
+                        .accountNoLocked(true)
                         .role(roleEntity)
                         .build())
                 .build();
@@ -73,4 +74,26 @@ public class DoctorService {
         return doctorRepository.save(doctorEntity);
     }
 
+    //Metodo para actualizar los datos del medico
+    public DoctorEntity updateDoctor(Long id, DoctorUpdate doctorUpdate){
+
+        //Buscar medico por ID
+        DoctorEntity doctorEntity = doctorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
+
+        //Actualizar doctor
+        DoctorEntity.builder()
+                .cmp(doctorUpdate.cmp())
+                .user(UserEntity.builder()
+                        .id(doctorUpdate.id())
+                        .name(doctorUpdate.name())
+                        .lastName(doctorUpdate.lastName())
+                        .phone(doctorUpdate.phone())
+                        .email(doctorUpdate.email())
+                        .password(doctorUpdate.password())
+                        .build())
+                .build();
+
+        return doctorRepository.save(doctorEntity);
+    }
 }

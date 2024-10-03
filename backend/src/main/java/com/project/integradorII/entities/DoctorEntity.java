@@ -18,7 +18,7 @@ public class DoctorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "medical_college_number")
+    @Column(name = "medical_college_number", unique = true)
     private String cmp;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
