@@ -1,6 +1,7 @@
 package com.project.integradorII.dto.patient;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
@@ -11,7 +12,7 @@ public record PatientCreate(
         String lastName,
         @NotBlank
         String dni,
-        @NotBlank
+        @NotNull(message = "birthDate is required")
         Date birthDate,
         @NotBlank
         String direction,
