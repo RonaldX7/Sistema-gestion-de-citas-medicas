@@ -34,7 +34,7 @@ public class DoctorController {
     }
 
     //metodo para crear medico
-    @PostMapping("/crear")
+    @PostMapping("/registrar")
     public ResponseEntity<DoctorEntity> createDoctor(@RequestBody @Valid DoctorRequest doctorRequest){
         return new ResponseEntity<>(this.doctorService.createDoctor(doctorRequest), HttpStatus.CREATED);
     }

@@ -46,11 +46,12 @@ public class DoctorService {
         return doctorLists;
     }
 
+    //Metodo para crear un medico
     public DoctorEntity createDoctor(DoctorRequest doctorRequest) {
 
         RoleEnum role = RoleEnum.valueOf(doctorRequest.roleName());
 
-        //Asignar el rol al usuario
+        //Asignar el rol al medico
         RoleEntity roleEntity = rolRepository.findRoleEntitiesByRoleEnum(role)
                 .orElseThrow(() -> new RuntimeException("El rol no existe"));
 
