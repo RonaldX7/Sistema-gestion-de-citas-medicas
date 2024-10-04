@@ -1,6 +1,7 @@
 package com.project.integradorII.services;
 
 import com.project.integradorII.dto.patient.PatientCreate;
+import com.project.integradorII.dto.patient.PatientUpdate;
 import com.project.integradorII.entities.PatientEntity;
 import com.project.integradorII.entities.RoleEntity;
 import com.project.integradorII.entities.RoleEnum;
@@ -58,6 +59,23 @@ public class PatientService {
     }
 
     //Metodo para actualizar un paciente
+    public PatientEntity updatePatient(Long id, PatientUpdate patientUpdate){
 
+        //Buscar al paciente por ID
+        PatientEntity patientEntity = patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
+
+        //Actualizar los datos del paciente
+        patientEntity.setDirection(patientUpdate.direction());
+
+        UserEntity user = patientEntity.getUser();
+        user.setName(patientUpdate.name());
+        user.setLastName(patientUpdate.lastName());
+        user.setPhone(patientUpdate.phone());
+        user.setEmail(patientUpdate.email());
+        user.setPassword(patientUpdate.password());
+
+        return patientRepository.save(patientEntity);
+    }
 
 }
