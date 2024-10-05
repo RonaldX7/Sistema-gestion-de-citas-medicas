@@ -3,7 +3,7 @@ package com.project.integradorII.dto.patient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public record PatientCreate(
         @NotBlank
@@ -13,7 +13,7 @@ public record PatientCreate(
         @NotBlank
         String dni,
         @NotNull(message = "birthDate is required")
-        Date birthDate,
+        LocalDate birthDate,
         @NotBlank
         String direction,
         @NotBlank
