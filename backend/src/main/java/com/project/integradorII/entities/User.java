@@ -13,5 +13,7 @@ import lombok.Setter;
 public class User{
     @Id
     private Long id;
+    private String nombre;
+    private String email;
 
 }
