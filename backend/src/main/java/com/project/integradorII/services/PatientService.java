@@ -10,6 +10,7 @@ import com.project.integradorII.entities.RoleEnum;
 import com.project.integradorII.entities.UserEntity;
 import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.RoleRepository;
+import com.project.integradorII.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class PatientService {
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     private PatientRepository patientRepository;
@@ -98,6 +102,16 @@ public class PatientService {
         user.setPassword(patientUpdate.password());
 
         return patientRepository.save(patientEntity);
+    }
+
+    //Metodo para eliminar un paciente
+    public void deletePatient(Long id){
+        PatientEntity patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Paciente no encontrado"));
+
+        userRepository.deleteById(patient.getUser().getId());
+
+        patientRepository.deleteById(id);
+
     }
 
 }
