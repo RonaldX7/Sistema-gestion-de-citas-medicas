@@ -1,6 +1,8 @@
 package com.project.integradorII.services;
 
+import com.project.integradorII.dto.doctor.DoctorList;
 import com.project.integradorII.dto.patient.PatientCreate;
+import com.project.integradorII.dto.patient.PatientList;
 import com.project.integradorII.dto.patient.PatientUpdate;
 import com.project.integradorII.entities.PatientEntity;
 import com.project.integradorII.entities.RoleEntity;
@@ -10,6 +12,9 @@ import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientService {
@@ -21,6 +26,22 @@ public class PatientService {
     private RoleRepository rolRepository;
 
     //Metodo para listar todos los pacientes
+    public List<PatientList> ListAllPatients(){
+        List<PatientEntity> patients = patientRepository.findAll();
+
+        //Mapeando lista de pacientes
+        List<PatientList> patientLists = patients.stream().map(patientEntity -> {
+            return new PatientList(
+                    patientEntity.getDni(),
+                    patientEntity.getUser().getName(),
+                    patientEntity.getUser().getLastName(),
+                    patientEntity.getGender(),
+                    patientEntity.getUser().getEmail()
+            );
+
+        }).collect(Collectors.toList());
+        return patientLists;
+    }
 
 
     //Metodo para crear un paciente
@@ -68,6 +89,7 @@ public class PatientService {
         //Actualizar los datos del paciente
         patientEntity.setDirection(patientUpdate.direction());
 
+        //estos son los datos que tientodousuario
         UserEntity user = patientEntity.getUser();
         user.setName(patientUpdate.name());
         user.setLastName(patientUpdate.lastName());
