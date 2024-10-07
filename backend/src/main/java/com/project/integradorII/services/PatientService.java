@@ -78,4 +78,9 @@ public class PatientService {
         return patientRepository.save(patientEntity);
     }
 
+    //Metodo para borrar un paciente
+    public void deletePatient(Long id){
+        patientRepository.deleteById(id);
+    }
+
 }

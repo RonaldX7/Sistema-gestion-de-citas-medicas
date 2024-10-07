@@ -26,6 +26,8 @@ public class DoctorService {
 
     @Autowired
     private RoleRepository rolRepository;
+    @Autowired
+    private UserService userService;
 
     //Metodo para listar todos los medicos
     public List<DoctorList> ListAllDoctors(){
@@ -114,5 +116,10 @@ public class DoctorService {
         user.setPassword(doctorUpdate.password());
 
         return doctorRepository.save(doctorEntity);
+    }
+
+    //Metodo para borrar un medico
+    public void deleteDoctor(Long id){
+        doctorRepository.deleteById(id);
     }
 }

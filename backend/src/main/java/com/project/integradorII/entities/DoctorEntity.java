@@ -25,7 +25,7 @@ public class DoctorEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "doctor_specialties",
             joinColumns = @JoinColumn(name = "doctor_id"),

@@ -48,8 +48,7 @@ public class DoctorController {
     //metodo para eliminar un medico por id
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> deleteDoctor(@PathVariable Long id){
-        userRepository.deleteById(id);
-        doctorRepository.deleteById(id);
+        this.doctorService.deleteDoctor(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
