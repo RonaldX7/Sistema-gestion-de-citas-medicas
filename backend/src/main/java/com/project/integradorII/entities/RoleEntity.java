@@ -24,7 +24,7 @@ public class RoleEntity {
     @Enumerated(EnumType.STRING)
     private RoleEnum roleEnum;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(/*mappedBy = "role",//Esta vaina hacia que no se elimine el User*/ fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonIgnore
     private Set<UserEntity> users = new HashSet<>();
 

@@ -115,4 +115,12 @@ public class DoctorService {
 
         return doctorRepository.save(doctorEntity);
     }
+
+    //Metodo para eliminar un paciente
+    public void deleteDoctor(Long id){
+        DoctorEntity doctor = doctorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
+        // Eliminar el paciente
+        doctorRepository.deleteById(id);
+    }
 }

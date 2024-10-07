@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class PatientService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private PatientRepository patientRepository;
@@ -106,12 +106,9 @@ public class PatientService {
 
     //Metodo para eliminar un paciente
     public void deletePatient(Long id){
-        PatientEntity patient = patientRepository.findById(id).orElseThrow(()-> new RuntimeException("Paciente no encontrado"));
-
-        userRepository.deleteById(patient.getUser().getId());
-
+        PatientEntity patient = patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
+        // Eliminar el paciente
         patientRepository.deleteById(id);
-
     }
-
 }
