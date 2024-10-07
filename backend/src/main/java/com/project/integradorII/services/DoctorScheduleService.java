@@ -10,7 +10,7 @@ public class DoctorScheduleService {
     @Autowired
     private DoctorScheduleRepository doctorScheduleRepository;
 
-    //Metodo para listar los horarios
+    //Metodo para listar los horarios por medico y fecha
 
     //Metodo para registrar el horario de un medico
 
