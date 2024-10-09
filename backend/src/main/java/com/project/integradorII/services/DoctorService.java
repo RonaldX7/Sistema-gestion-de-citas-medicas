@@ -41,7 +41,8 @@ public class DoctorService {
                     doctorEntity.getUser().getLastName(),
                     doctorEntity.getUser().getPhone(),
                     doctorEntity.getCmp(),
-                    doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName).collect(Collectors.toList())
+                    doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName)
+                            .collect(Collectors.toList())
             );
         }).collect(Collectors.toList());
 

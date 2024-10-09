@@ -1,5 +1,6 @@
 package com.project.integradorII.services;
 
+import com.project.integradorII.dto.doctorSchedule.ScheduleList;
 import com.project.integradorII.dto.doctorSchedule.ScheduleRequest;
 import com.project.integradorII.entities.DoctorEntity;
 import com.project.integradorII.entities.DoctorSchedule;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ScheduleService {
@@ -21,8 +23,23 @@ public class ScheduleService {
     private DoctorRepository doctorRepository;
 
     //Metodo para listar los horarios por medico y fecha
-    public List<DoctorSchedule> getScheduleByDoctorAndDate(Long doctorId, LocalDate date) {
-        return scheduleRepository.findByDoctorIdAndDate(doctorId, date);
+    public List<ScheduleList> getScheduleByDoctorAndDate(Long doctorId, LocalDate date) {
+
+        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctorIdAndDate(doctorId, date);
+
+        //Mapear la lista de horarios
+        List<ScheduleList> scheduleLists = doctorSchedules.stream().map(doctorSchedule -> {
+            return new ScheduleList(
+                    doctorSchedule.getId(),
+                    doctorSchedule.getDay(),
+                    doctorSchedule.getDate(),
+                    doctorSchedule.getHour_start(),
+                    doctorSchedule.getHour_end(),
+                    doctorSchedule.isAvialable()
+            );
+        }).collect(Collectors.toList());
+
+        return scheduleLists;
     }
 
     //Metodo para registrar el horario de un medico

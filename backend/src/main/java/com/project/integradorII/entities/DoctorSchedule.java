@@ -37,7 +37,7 @@ public class DoctorSchedule {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
-            name="doctor_schedule_doctor",
+            name="doctorId_scheduleId",
             joinColumns = @JoinColumn(name="doctor_schedule_id"),
             inverseJoinColumns = @JoinColumn(name="doctor_id")
     )
