@@ -26,8 +26,6 @@ public class DoctorService {
 
     @Autowired
     private RoleRepository rolRepository;
-    @Autowired
-    private UserService userService;
 
     //Metodo para listar todos los medicos
     public List<DoctorList> ListAllDoctors(){
@@ -37,6 +35,7 @@ public class DoctorService {
         //Mapear la lista de doctores
         List<DoctorList> doctorLists = doctors.stream().map(doctorEntity -> {
             return new DoctorList(
+                    doctorEntity.getId(),
                     doctorEntity.getUser().getName(),
                     doctorEntity.getUser().getLastName(),
                     doctorEntity.getUser().getPhone(),

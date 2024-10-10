@@ -10,8 +10,6 @@ import java.time.LocalTime;
 public record ScheduleList(
         @NotBlank
         Long doctorId,
-        @NotBlank
-        DayOfWeek days,
         @NotNull
         LocalDate date,
         @NotNull
