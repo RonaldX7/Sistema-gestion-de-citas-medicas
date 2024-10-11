@@ -22,10 +22,6 @@ public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
-    @Autowired
-    private DoctorRepository doctorRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     //metodo para listar medicos
     @GetMapping("/listar")
