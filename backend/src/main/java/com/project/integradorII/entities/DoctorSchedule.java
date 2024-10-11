@@ -22,9 +22,6 @@ public class DoctorSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private DayOfWeek day; // Aquí usas el enum para los días de la semana
-
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
