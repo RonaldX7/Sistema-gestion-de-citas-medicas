@@ -1,6 +1,5 @@
 package com.project.integradorII.dto.doctorSchedule;
 
-import com.project.integradorII.entities.DayOfWeek;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
