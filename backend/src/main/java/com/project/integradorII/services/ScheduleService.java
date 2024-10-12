@@ -90,9 +90,26 @@ public class ScheduleService {
     }
 
     //Metodo para actualizar un horario
+    public DoctorSchedule updateSchedule(Long id, ScheduleRequest scheduleRequest) {
+        //Validar si el horario existe
+        DoctorSchedule doctorSchedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("El horario no existe"));
+
+        //Validar si el horario es correcto
+        validateSchedule(scheduleRequest);
+
+        //Actualizar el horario
+        doctorSchedule.setDate(scheduleRequest.date());
+        doctorSchedule.setHourStart(scheduleRequest.startHour());
+        doctorSchedule.setHourEnd(scheduleRequest.endHour());
+        doctorSchedule.setAvialable(scheduleRequest.isAvailable());
+
+        //Guardar el horario
+        return scheduleRepository.save(doctorSchedule);
+    }
 
     //Metodo para eliminar un horario
-    public void deleteSchedule(Long scheduleId) {
-        scheduleRepository.deleteById(scheduleId);
+    public void deleteSchedule(Long id) {
+        scheduleRepository.deleteById(id);
     }
 }

@@ -36,6 +36,10 @@ public class ScheduleController {
     }
 
     //metodo para actualizar un horario
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<DoctorSchedule> updateSchedule(@PathVariable Long id, @RequestBody @Valid ScheduleRequest scheduleRequest){
+        return new ResponseEntity<>(this.scheduleService.updateSchedule(id, scheduleRequest), HttpStatus.OK);
+    }
 
 
     //metodo para eliminar un horario por id
