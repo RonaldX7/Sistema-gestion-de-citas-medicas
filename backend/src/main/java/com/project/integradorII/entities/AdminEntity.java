@@ -15,6 +15,15 @@ public class AdminEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
+    private String lastName;
+
+    private String phone;
+
+    @Column(unique = true)
+    private String email;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private UserEntity user;

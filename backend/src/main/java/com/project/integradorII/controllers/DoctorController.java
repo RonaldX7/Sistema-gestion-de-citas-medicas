@@ -4,12 +4,9 @@ import com.project.integradorII.dto.doctor.DoctorList;
 import com.project.integradorII.dto.doctor.DoctorRequest;
 import com.project.integradorII.dto.doctor.DoctorUpdate;
 import com.project.integradorII.entities.DoctorEntity;
-import com.project.integradorII.repositories.DoctorRepository;
-import com.project.integradorII.repositories.UserRepository;
-import com.project.integradorII.services.DoctorService;
+import com.project.integradorII.services.Imp.DoctorServiceImp;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +18,7 @@ import java.util.List;
 public class DoctorController {
 
     @Autowired
-    private DoctorService doctorService;
+    private DoctorServiceImp doctorService;
 
     //metodo para listar medicos
     @GetMapping("/listar")

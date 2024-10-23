@@ -3,7 +3,7 @@ package com.project.integradorII.controllers;
 import com.project.integradorII.dto.doctorSchedule.ScheduleList;
 import com.project.integradorII.dto.doctorSchedule.ScheduleRequest;
 import com.project.integradorII.entities.DoctorSchedule;
-import com.project.integradorII.services.ScheduleService;
+import com.project.integradorII.services.Imp.ScheduleServiceImp;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.List;
 public class ScheduleController {
 
     @Autowired
-    private ScheduleService scheduleService;
+    private ScheduleServiceImp scheduleService;
 
 
     //metodo para listar el horario por doctor y fecha

@@ -18,6 +18,15 @@ public class DoctorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
+    private String lastName;
+
+    private String phone;
+
+    @Column(unique = true)
+    private String email;
+
     @Column(name = "medical_college_number", unique = true)
     private String cmp;
 

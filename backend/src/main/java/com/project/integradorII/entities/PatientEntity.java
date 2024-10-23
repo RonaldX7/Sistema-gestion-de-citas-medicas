@@ -19,6 +19,15 @@ public class PatientEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
+    private String lastName;
+
+    private String phone;
+
+    @Column(unique = true)
+    private String email;
+
     @Column(name="dni", unique = true)
     private String dni;
 
@@ -29,7 +38,7 @@ public class PatientEntity {
 
     private String gender;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 }
