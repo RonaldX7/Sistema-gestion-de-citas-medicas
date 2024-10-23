@@ -11,6 +11,7 @@ import com.project.integradorII.services.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class DoctorServiceImp implements DoctorService {
     private final RoleRepository rolRepository;
 
     //Metodo para listar todos los medicos
+    @Transactional
     @Override
     public List<DoctorList> ListAllDoctors(){
 
@@ -50,6 +52,7 @@ public class DoctorServiceImp implements DoctorService {
     }
 
     //Metodo para crear un medico
+    @Transactional
     @Override
     public DoctorEntity createDoctor(DoctorRequest doctorRequest) {
 
@@ -101,6 +104,7 @@ public class DoctorServiceImp implements DoctorService {
     }
 
     //Metodo para actualizar los datos del medico
+    @Transactional
     @Override
     public DoctorEntity updateDoctor(Long id, DoctorUpdate doctorUpdate){
 
@@ -122,6 +126,7 @@ public class DoctorServiceImp implements DoctorService {
     }
 
     //Metodo para borrar un medico
+    @Transactional
     @Override
     public void deleteDoctor(Long id){
         doctorRepository.deleteById(id);
