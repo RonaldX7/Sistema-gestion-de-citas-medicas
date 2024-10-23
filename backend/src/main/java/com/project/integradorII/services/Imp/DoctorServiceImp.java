@@ -7,6 +7,8 @@ import com.project.integradorII.entities.*;
 import com.project.integradorII.repositories.DoctorRepository;
 import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.repositories.SpecialtyRepository;
+import com.project.integradorII.services.DoctorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +17,18 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
-public class DoctorServiceImp {
+public class DoctorServiceImp implements DoctorService {
 
-    @Autowired
-    private DoctorRepository doctorRepository;
+    private final DoctorRepository doctorRepository;
 
-    @Autowired
-    private SpecialtyRepository specialtyRepository;
+    private final SpecialtyRepository specialtyRepository;
 
-    @Autowired
-    private RoleRepository rolRepository;
+    private final RoleRepository rolRepository;
 
     //Metodo para listar todos los medicos
+    @Override
     public List<DoctorList> ListAllDoctors(){
 
         List<DoctorEntity> doctors = doctorRepository.findAll();
@@ -49,6 +50,7 @@ public class DoctorServiceImp {
     }
 
     //Metodo para crear un medico
+    @Override
     public DoctorEntity createDoctor(DoctorRequest doctorRequest) {
 
         RoleEnum role = RoleEnum.valueOf(doctorRequest.roleName());
@@ -99,6 +101,7 @@ public class DoctorServiceImp {
     }
 
     //Metodo para actualizar los datos del medico
+    @Override
     public DoctorEntity updateDoctor(Long id, DoctorUpdate doctorUpdate){
 
         //Buscar medico por ID
@@ -119,6 +122,7 @@ public class DoctorServiceImp {
     }
 
     //Metodo para borrar un medico
+    @Override
     public void deleteDoctor(Long id){
         doctorRepository.deleteById(id);
     }
