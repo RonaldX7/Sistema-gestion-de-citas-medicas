@@ -6,7 +6,7 @@ import com.project.integradorII.dto.patient.PatientUpdate;
 import com.project.integradorII.entities.PatientEntity;
 import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.UserRepository;
-import com.project.integradorII.services.Imp.PatientService;
+import com.project.integradorII.services.Imp.PatientServiceImp;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import java.util.List;
 public class PatientController {
 
     @Autowired
-    private PatientService patientService;
+    private PatientServiceImp patientService;
     @Autowired
     private PatientRepository patientRepository;
     @Autowired

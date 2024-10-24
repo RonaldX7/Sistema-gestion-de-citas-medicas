@@ -2,6 +2,7 @@ package com.project.integradorII.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public class PatientEntity {
     private String phone;
 
     @Column(unique = true)
+    @Email
     private String email;
 
     @Column(name="dni", unique = true)

@@ -1,6 +1,7 @@
 package com.project.integradorII.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.util.HashSet;
@@ -25,6 +26,7 @@ public class DoctorEntity {
     private String phone;
 
     @Column(unique = true)
+    @Email
     private String email;
 
     @Column(name = "medical_college_number", unique = true)
