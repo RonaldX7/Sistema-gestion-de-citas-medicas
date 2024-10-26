@@ -1,6 +1,7 @@
 package com.project.integradorII.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,30 +16,31 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "doctor_schedules")
+@Table(name = "schedules")
 public class DoctorSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private DayOfWeek day; // Aquí usas el enum para los días de la semana
-
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
+    @Column(name = "hour_start")
     @JsonFormat(pattern = "HH:mm")
-    private LocalTime hour_start;
+    private LocalTime hourStart;
+
+    @Column(name = "hour_end")
     @JsonFormat(pattern = "HH:mm")
-    private LocalTime hour_end;
+    private LocalTime hourEnd;
 
     @Column(name = "is_avaible")
     private boolean isAvialable;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JsonIgnore
     @JoinTable(
-            name="doctor_schedule_doctor",
-            joinColumns = @JoinColumn(name="doctor_schedule_id"),
+            name="doctor_schedule",
+            joinColumns = @JoinColumn(name="schedule_id"),
             inverseJoinColumns = @JoinColumn(name="doctor_id")
     )
     private Set<DoctorEntity> doctors = new HashSet<>();
