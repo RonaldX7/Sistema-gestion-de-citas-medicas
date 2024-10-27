@@ -21,6 +21,6 @@ public record DoctorRequest(
         @Valid
         SpecialtyRequest specialty,
         @NotBlank
-        String roleName
+        Long roleId
 ) {
 }

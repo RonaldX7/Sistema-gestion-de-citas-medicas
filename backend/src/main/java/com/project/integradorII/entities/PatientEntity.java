@@ -38,7 +38,9 @@ public class PatientEntity {
 
     private String direction;
 
-    private String gender;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "gender_id")
+    private GenderEntity gender;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

@@ -56,10 +56,8 @@ public class DoctorServiceImp implements DoctorService {
     @Override
     public DoctorEntity createDoctor(DoctorRequest doctorRequest) {
 
-        RoleEnum role = RoleEnum.valueOf(doctorRequest.roleName());
-
         //Asignar el rol al medico
-        RoleEntity roleEntity = rolRepository.findRoleEntitiesByRoleEnum(role)
+        RoleEntity roleEntity = rolRepository.findById(doctorRequest.roleId())
                 .orElseThrow(() -> new RuntimeException("El rol no existe"));
 
         if (roleEntity == null) {

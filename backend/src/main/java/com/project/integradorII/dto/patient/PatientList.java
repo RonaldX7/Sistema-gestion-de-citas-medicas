@@ -10,7 +10,7 @@ public record PatientList(
         @NotBlank
         String lastName,
         @NotBlank
-        String gender,
+        Long genderId,
         @NotBlank
         String email
         ) {

@@ -17,7 +17,7 @@ public record PatientCreate(
         @NotBlank
         String direction,
         @NotBlank
-        String gender,
+        Long genderId,
         @NotBlank
         String phone,
         @NotBlank
@@ -27,6 +27,6 @@ public record PatientCreate(
         @NotBlank
         String password,
         @NotBlank
-        String roleName
+        Long roleId
 ) {
 }

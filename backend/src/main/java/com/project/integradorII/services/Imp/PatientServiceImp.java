@@ -3,10 +3,8 @@ package com.project.integradorII.services.Imp;
 import com.project.integradorII.dto.patient.PatientCreate;
 import com.project.integradorII.dto.patient.PatientList;
 import com.project.integradorII.dto.patient.PatientUpdate;
-import com.project.integradorII.entities.PatientEntity;
-import com.project.integradorII.entities.RoleEntity;
-import com.project.integradorII.entities.RoleEnum;
-import com.project.integradorII.entities.UserEntity;
+import com.project.integradorII.entities.*;
+import com.project.integradorII.repositories.GenderRepository;
 import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.services.PatientService;
@@ -23,6 +21,7 @@ public class PatientServiceImp implements PatientService {
 
     private final PatientRepository patientRepository;
     private final RoleRepository rolRepository;
+    private final GenderRepository genderRepository;
 
     @Transactional
     @Override
@@ -36,7 +35,7 @@ public class PatientServiceImp implements PatientService {
                     patientEntity.getDni(),
                     patientEntity.getName(),
                     patientEntity.getLastName(),
-                    patientEntity.getGender(),
+                    patientEntity.getGender().getId(), //Aqui se obtiene el id del genero
                     patientEntity.getEmail()
             );
 
@@ -47,15 +46,18 @@ public class PatientServiceImp implements PatientService {
     @Transactional
     @Override
     public PatientEntity createPatient(PatientCreate patientCreate) {
-        RoleEnum role = RoleEnum.valueOf(patientCreate.roleName());
 
         //Asignar el rol al paciente
-        RoleEntity roleEntity = rolRepository.findRoleEntitiesByRoleEnum(role)
+        RoleEntity roleEntity = rolRepository.findById(patientCreate.roleId())
                 .orElseThrow(() -> new RuntimeException("El rol no existe"));
 
         if (roleEntity == null) {
             throw new IllegalArgumentException("Agrege un rol valido");
         }
+
+        //Asignar el genero al paciente
+        GenderEntity genderEntity = genderRepository.findById(patientCreate.genderId())
+                .orElseThrow(() -> new RuntimeException("El genero no existe"));
 
         //Crear el paciente
         PatientEntity patientEntity = PatientEntity.builder()
@@ -64,7 +66,7 @@ public class PatientServiceImp implements PatientService {
                 .dni(patientCreate.dni())
                 .birthDate(patientCreate.birthDate())
                 .direction(patientCreate.direction())
-                .gender(patientCreate.gender())
+                .gender(genderEntity)
                 .phone(patientCreate.phone())
                 .email(patientCreate.email())
                 .user(UserEntity.builder()
