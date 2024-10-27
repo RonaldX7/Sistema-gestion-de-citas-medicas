@@ -11,22 +11,18 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "medical_history")
-public class MedicalHistory {
+@Table(name = "medical_diagnosis")
+public class MedicalDiagnosis {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="registration_date")
-    private LocalDate registrationDate;
+    private LocalDate date;
 
-    private String description;
+    private String instructions;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "medical_appointment_id")
+    @JoinColumn(name ="medical_appointment_id")
     private MedicalAppointments medicalAppointment;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "patient_id")
-    private PatientEntity patient;
 }
