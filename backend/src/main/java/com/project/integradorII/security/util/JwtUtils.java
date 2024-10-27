@@ -17,7 +17,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class JwtUltils {
+public class JwtUtils {
 
     @Value("${security.jwt.secret}")
     private String privatekey;

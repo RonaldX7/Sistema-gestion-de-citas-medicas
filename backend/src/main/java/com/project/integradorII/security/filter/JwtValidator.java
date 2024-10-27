@@ -1,7 +1,7 @@
 package com.project.integradorII.security.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.project.integradorII.security.util.JwtUltils;
+import com.project.integradorII.security.util.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,9 +21,9 @@ import java.util.Collection;
 
 public class JwtValidator extends OncePerRequestFilter {
 
-    private JwtUltils jwtUltils;
+    private JwtUtils jwtUltils;
 
-    public JwtValidator(JwtUltils jwtUltils) {
+    public JwtValidator(JwtUtils jwtUltils) {
         this.jwtUltils = jwtUltils;
     }
 
