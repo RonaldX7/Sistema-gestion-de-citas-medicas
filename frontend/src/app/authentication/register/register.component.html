@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - IPS VidaPlena</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Personalización de colores */
+        .bg-custom-light-blue { background-color: #EDF9FC; }
+        .bg-custom-teal { background-color: #80DDDB; }
+        .bg-custom-aqua { background-color: #53CDE2; }
+        .bg-custom-dark-blue { background-color: #005792; }
+        .text-custom-dark-blue { color: #005792; }
+        .border-custom-dark-blue { border-color: #005792; }
+    </style>
+</head>
+<body class="bg-custom-light-blue flex justify-center items-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div class="text-center mb-6">
+            <img src="/imgLogo2.png" alt="IPS VidaPlena Logo" class="mx-auto mb-4 w-40">
+            <h2 class="text-custom-dark-blue text-2xl font-bold">Registro</h2>
+        </div>
+        <form>
+            <div class="mb-4">
+                <label for="cmp" class="block text-sm font-medium text-gray-700">Cod. CMP</label>
+                <input type="text" id="cmp" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
+            </div>
+            <div class="mb-4 flex items-center">
+                <div class="flex-1">
+                    <label for="dni" class="block text-sm font-medium text-gray-700">DNI</label>
+                    <input type="text" id="dni" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
+                </div>
+                <div class="ml-4 mt-5">
+                    <label for="cod-dni" class="text-sm font-medium text-gray-700 flex items-center">
+                        <input type="checkbox" id="cod-dni" class="h-4 w-4 border-gray-300 rounded focus:ring-0 text-custom-dark-blue">
+                        <span class="ml-2">Cod: DNI</span>
+                    </label>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="nombres" class="block text-sm font-medium text-gray-700">Nombres</label>
+                <input type="text" id="nombres" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
+            </div>
+            <div class="mb-4">
+                <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
+                <input type="text" id="apellidos" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
+                <input type="email" id="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                <input type="password" id="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
+            </div>
+            <div class="mb-6">
+                <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmar Contraseña</label>
+                <input type="password" id="confirm-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
+            </div>
+            <button type="submit" class="w-full py-2 px-4 bg-custom-dark-blue text-white font-bold rounded-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-dark-blue">
+                Registrar
+            </button>
+        </form>
+    </div>
+</body>
+</html>
+
