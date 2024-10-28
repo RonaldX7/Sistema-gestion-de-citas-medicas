@@ -7,6 +7,7 @@ export const routes: Routes = [
         path:'login',
         loadComponent:()=> import('./authentication/login/login.component').then(m=>m.LoginComponent)
     },
+    
     {
         path:'patient-home',
         loadComponent:()=> import('./features/patient-home/patient-home.component').then(m=>m.PatientHomeComponent)

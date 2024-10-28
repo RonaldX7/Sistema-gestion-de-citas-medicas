@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,4 +10,8 @@ import { Component } from '@angular/core';
 })
 export class RegisterComponent {
 
+  constructor(private route: ActivatedRoute, private router: Router){}
+  backToLogin(){
+    this.router.navigate(['/login']);
+  }
 }
