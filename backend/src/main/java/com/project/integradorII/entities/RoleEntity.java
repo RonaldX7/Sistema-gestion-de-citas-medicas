@@ -18,14 +18,10 @@ import java.util.Set;
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "role_name")
     @Enumerated(EnumType.STRING)
     private RoleEnum roleEnum;
-
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JsonIgnore
-    private Set<UserEntity> users = new HashSet<>();
 
 }
