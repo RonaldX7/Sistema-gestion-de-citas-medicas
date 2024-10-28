@@ -2,6 +2,7 @@ package com.project.integradorII.dto.doctor;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record DoctorRequest(
         @NotBlank
@@ -20,7 +21,7 @@ public record DoctorRequest(
         String cmp,
         @Valid
         SpecialtyRequest specialty,
-        @NotBlank
+        @NotNull
         Long roleId
 ) {
 }

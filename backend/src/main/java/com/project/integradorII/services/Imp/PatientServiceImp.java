@@ -1,5 +1,7 @@
 package com.project.integradorII.services.Imp;
 
+import com.project.integradorII.dto.authentication.AuthResponse;
+import com.project.integradorII.dto.authentication.UserRequest;
 import com.project.integradorII.dto.patient.PatientCreate;
 import com.project.integradorII.dto.patient.PatientList;
 import com.project.integradorII.dto.patient.PatientUpdate;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class PatientServiceImp implements PatientService {
 
+    private final UserServiceImp userServiceImp;
     private final PatientRepository patientRepository;
     private final RoleRepository rolRepository;
     private final GenderRepository genderRepository;
@@ -59,6 +62,15 @@ public class PatientServiceImp implements PatientService {
         GenderEntity genderEntity = genderRepository.findById(patientCreate.genderId())
                 .orElseThrow(() -> new RuntimeException("El genero no existe"));
 
+        //Crear el usuario
+        UserRequest userRequest = new UserRequest(
+                patientCreate.username(),
+                patientCreate.password(),
+                roleEntity.getId()
+        );
+
+        UserEntity userEntity = userServiceImp.createUser(userRequest);
+
         //Crear el paciente
         PatientEntity patientEntity = PatientEntity.builder()
                 .name(patientCreate.name())
@@ -69,13 +81,7 @@ public class PatientServiceImp implements PatientService {
                 .gender(genderEntity)
                 .phone(patientCreate.phone())
                 .email(patientCreate.email())
-                .user(UserEntity.builder()
-                        .username(patientCreate.username())
-                        .password(patientCreate.password())
-                        .role(roleEntity)
-                        .isEnabled(true)
-                        .accountNoLocked(true)
-                        .build())
+                .user(userEntity)
                 .build();
 
         //Guardar el paciente

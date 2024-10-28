@@ -34,11 +34,6 @@ public class PatientController {
         return new ResponseEntity<>(this.patientService.ListAllPatients(), HttpStatus.OK);
     }
 
-    //metodo para crear paciente
-    @PostMapping("/registrar")
-    public ResponseEntity<PatientEntity> createPatient(@RequestBody @Valid PatientCreate patientCreate) {
-        return new ResponseEntity<>(this.patientService.createPatient(patientCreate), HttpStatus.CREATED);
-    }
 
     //metodo para actualizar paciente
     @PutMapping("/actualizar/{id}")

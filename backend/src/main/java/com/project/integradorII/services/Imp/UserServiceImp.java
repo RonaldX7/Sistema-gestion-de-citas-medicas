@@ -84,7 +84,7 @@ public class UserServiceImp implements UserDetailsService {
     }
 
     //metodo para crear un usuario
-    public AuthResponse createUser(UserRequest userRequest){
+    public UserEntity createUser(UserRequest userRequest){
 
         //Asignar el rol al paciente
         RoleEntity roleEntity = roleRepository.findById(userRequest.roleId())
@@ -115,6 +115,7 @@ public class UserServiceImp implements UserDetailsService {
         String accessToken = jwtUtils.createToken(authentication);
 
         AuthResponse authResponse = new AuthResponse(userCreated.getUsername(), "Usuario creado correctamente", accessToken, true);
-        return authResponse;
+
+        return userCreated;
     }
 }

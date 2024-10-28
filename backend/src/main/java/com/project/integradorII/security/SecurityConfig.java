@@ -34,7 +34,20 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
 
                     //configurar los endpoints privados
-                    http.requestMatchers(HttpMethod.GET, "/paciente/listar").hasAnyRole("ADMIN");
+                    //Endpoints del paciente
+                    http.requestMatchers(HttpMethod.GET, "/paciente/listar").hasAnyRole( "USER");
+                    http.requestMatchers(HttpMethod.POST, "/paciente/registrar").hasAnyRole("USER");
+                    http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").hasAnyRole("USER");
+                    http.requestMatchers(HttpMethod.DELETE, "/paciente/eliminar/{id}").hasAnyRole("USER");
+
+                    //Endpoints del medico
+                    http.requestMatchers(HttpMethod.GET, "/medico/listar").hasAnyRole("MEDICO");
+                    http.requestMatchers(HttpMethod.POST, "/medico/registrar").hasAnyRole("MEDICO");
+                    http.requestMatchers(HttpMethod.PUT, "/medico/actualizar/{id}").hasAnyRole("MEDICO");
+                    http.requestMatchers(HttpMethod.DELETE, "/medico/eliminar/{id}").hasAnyRole("MEDICO");
+
+                    //Endpoints del administrador
+
                     http.anyRequest().denyAll();
                 })
                 .addFilterBefore(new JwtValidator(jwtUtils), BasicAuthenticationFilter.class)
