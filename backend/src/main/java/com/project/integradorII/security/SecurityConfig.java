@@ -34,7 +34,8 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
 
                     //configurar los endpoints privados
-                    http.anyRequest().permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/paciente/listar").hasAnyRole("ADMIN");
+                    http.anyRequest().denyAll();
                 })
                 .addFilterBefore(new JwtValidator(jwtUtils), BasicAuthenticationFilter.class)
                 .build();

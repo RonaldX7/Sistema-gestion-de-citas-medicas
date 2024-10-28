@@ -28,9 +28,9 @@ import java.util.Collections;
 @Service
 public class UserServiceImp implements UserDetailsService {
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    private JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
 
     private final RoleRepository roleRepository;
 
