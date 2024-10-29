@@ -1,5 +1,6 @@
 package com.project.integradorII.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -32,6 +33,7 @@ public class DoctorEntity {
     @Column(name = "medical_college_number", unique = true)
     private String cmp;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private UserEntity user;

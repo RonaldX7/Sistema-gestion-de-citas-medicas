@@ -50,6 +50,13 @@ public class PatientServiceImp implements PatientService {
     @Override
     public PatientEntity createPatient(PatientCreate patientCreate) {
 
+        //Validar si el paciente ya existe
+        PatientEntity patient = patientRepository.findByDni(patientCreate.dni());
+
+        if (patient != null) {
+            throw new IllegalArgumentException("El usuario ya existe");
+        }
+
         //Asignar el rol al paciente
         RoleEntity roleEntity = rolRepository.findById(patientCreate.roleId())
                 .orElseThrow(() -> new RuntimeException("El rol no existe"));

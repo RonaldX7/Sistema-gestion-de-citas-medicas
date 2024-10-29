@@ -1,5 +1,6 @@
 package com.project.integradorII.services.Imp;
 
+import com.project.integradorII.dto.authentication.UserRequest;
 import com.project.integradorII.dto.doctor.DoctorList;
 import com.project.integradorII.dto.doctor.DoctorRequest;
 import com.project.integradorII.dto.doctor.DoctorUpdate;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class DoctorServiceImp implements DoctorService {
+
+    private final UserServiceImp userServiceImp;
 
     private final DoctorRepository doctorRepository;
 
@@ -80,6 +83,15 @@ public class DoctorServiceImp implements DoctorService {
                 findSpecialtyEntitiesByNameIn(doctorRequest.specialty().specialtyListName())
                 .stream().collect(Collectors.toSet());
 
+        //Crear el usuario
+        UserRequest userRequest = new UserRequest(
+                doctorRequest.username(),
+                doctorRequest.password(),
+                roleEntity.getId()
+        );
+
+        UserEntity userEntity = userServiceImp.createUser(userRequest);
+
         //Crear y persistir el Doctor
         DoctorEntity doctorEntity = DoctorEntity.builder()
                 .name(doctorRequest.name())
@@ -88,13 +100,7 @@ public class DoctorServiceImp implements DoctorService {
                 .email(doctorRequest.email())
                 .cmp(doctorRequest.cmp())
                 .specialties(specialties)
-                .user(UserEntity.builder()
-                        .username(doctorRequest.username())
-                        .password(doctorRequest.password())
-                        .isEnabled(true)
-                        .accountNoLocked(true)
-                        .role(roleEntity)
-                        .build())
+                .user(userEntity)
                 .build();
 
         //Guardar doctor
