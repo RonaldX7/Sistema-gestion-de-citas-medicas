@@ -1,4 +1,38 @@
-<p>Login doctor</p>
-<a (click)="registrosenlogin()">Registro</a>
-<br>
-<a (click)="listacita()">Lista cita</a>
+<div class="flex h-screen">
+    <!-- Logo y espacio en blanco -->
+    <div class="w-1/2 flex items-start justify-left bg-white">
+      <img src="/logo-clinica.png" alt="Logo Clínica" class="w-80" />
+    </div>
+
+    <!-- Sección de formulario de login -->
+    <div class="w-1/2 flex items-center justify-center bg-aqua relative">
+      <div class="bg-white p-10 rounded-lg shadow-md w-180">
+        <h2 class="text-[#005792] text-2xl font-semibold mb-6">Iniciar Sesión</h2>
+        <form>
+          <!-- Campo de Email -->
+          <input
+            type="email"
+            placeholder="Email Address"
+            class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+          />
+          <!-- Campo de Contraseña -->
+          <input
+            type="password"
+            placeholder="Contraseña"
+            class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+          />
+          <!-- Link de Olvidé mi contraseña -->
+          <a href="#" class="text-sm text-gray-600 hover:underline mb-4 block text-center">Olvidé mi contraseña</a>
+          <!-- Botón de Ingresar -->
+          <button
+            type="submit"
+            class="w-full py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300"
+          >
+            Ingresar
+          </button>
+          <!-- Link de Crear cuenta -->
+          <a href="#" class="text-sm text-gray-600 hover:underline block text-center mt-4">Crear cuenta</a>
+        </form>
+      </div>
+    </div>
+  </div>
