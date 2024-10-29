@@ -39,7 +39,8 @@ public class DoctorServiceImp implements DoctorService {
         List<DoctorEntity> doctors = doctorRepository.findAll();
 
         //Mapear la lista de doctores
-        List<DoctorList> doctorLists = doctors.stream().map(doctorEntity -> {
+        List<DoctorList> doctorLists = doctors.stream()
+                .map(doctorEntity -> {
             return new DoctorList(
                     doctorEntity.getId(),
                     doctorEntity.getName(),
