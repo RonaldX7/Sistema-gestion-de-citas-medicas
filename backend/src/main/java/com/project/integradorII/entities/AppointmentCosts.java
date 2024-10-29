@@ -9,12 +9,13 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "appointment_costs")
+@Table(name = "tb_appointment_costs")
 public class AppointmentCosts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "specialties_cost")
     private double cost;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

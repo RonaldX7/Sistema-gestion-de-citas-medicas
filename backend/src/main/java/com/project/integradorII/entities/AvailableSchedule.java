@@ -9,13 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "tb_specialties")
-public class SpecialtyEntity {
+@Table(name = "tb_available_schedule")
+public class AvailableSchedule {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "specialty_name")
-    private String name;
-
 }
