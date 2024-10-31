@@ -16,4 +16,6 @@ public interface ScheduleRepository extends JpaRepository<DoctorSchedule, Long> 
     List<DoctorSchedule> findByDoctors_IdAndDate(Long doctorId, LocalDate date);
 
     Optional<DoctorSchedule> findByDoctors_IdAndDateAndHourStartAndHourEnd(Long doctorId, LocalDate date, LocalTime hourStart, LocalTime hourEnd);
+
+    List<DoctorSchedule> findByDoctors_IdAndAvialableIs(Long doctorId, Boolean available);
 }

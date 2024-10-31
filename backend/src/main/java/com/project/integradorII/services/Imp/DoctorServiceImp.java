@@ -10,7 +10,6 @@ import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.repositories.SpecialtyRepository;
 import com.project.integradorII.services.DoctorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +53,31 @@ public class DoctorServiceImp implements DoctorService {
 
         return doctorLists;
     }
+
+    //Metodo para listar los medicos por especialidad
+    @Transactional
+    @Override
+    public List<DoctorList> ListAllDoctorsBySpecialty(Long specialty_id){
+
+        List<DoctorEntity> doctors = doctorRepository.findDoctorEntitiesBySpecialties_Id(specialty_id);
+
+        //Mapear la lista de doctores
+        List<DoctorList> doctorLists = doctors.stream()
+                .map(doctorEntity -> {
+                    return new DoctorList(
+                            doctorEntity.getId(),
+                            doctorEntity.getName(),
+                            doctorEntity.getLastName(),
+                            doctorEntity.getPhone(),
+                            doctorEntity.getCmp(),
+                            doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName)
+                                    .collect(Collectors.toList())
+                    );
+                }).collect(Collectors.toList());
+
+        return doctorLists;
+    }
+
 
     //Metodo para crear un medico
     @Transactional

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ScheduleService {
 
+    List<ScheduleList> getAvaiableSchedulesByDoctor(Long doctorId);
     List<ScheduleList> getScheduleByDoctorAndDate(Long doctorId, LocalDate date);
     DoctorSchedule createSchedule(ScheduleRequest scheduleRequest);
     void validateSchedule(ScheduleRequest scheduleRequest);
