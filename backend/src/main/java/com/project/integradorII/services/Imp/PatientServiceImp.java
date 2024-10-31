@@ -35,6 +35,7 @@ public class PatientServiceImp implements PatientService {
         List<PatientList> patientLists = patients.stream()
                 .map(patientEntity -> {
             return new PatientList(
+                    patientEntity.getId(),
                     patientEntity.getDni(),
                     patientEntity.getName(),
                     patientEntity.getLastName(),

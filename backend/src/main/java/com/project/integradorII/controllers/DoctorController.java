@@ -27,6 +27,12 @@ public class DoctorController {
         return new ResponseEntity<>(this.doctorService.ListAllDoctors(), HttpStatus.OK);
     }
 
+    //metodo para listar medico por especialidad
+    @GetMapping("/listar/{id}")
+    public ResponseEntity<List<DoctorList>> ListAllDoctorsBySpecialty(@PathVariable Long specialty_id){
+        return new ResponseEntity<>(this.doctorService.ListAllDoctorsBySpecialty(specialty_id), HttpStatus.OK);
+    }
+
     //metodo para crear medico
     @PostMapping("/registrar")
     public ResponseEntity<DoctorEntity> createDoctor(@RequestBody @Valid DoctorRequest doctorRequest){
