@@ -17,7 +17,7 @@ export class RegisterComponent {
     lastName: '',
     dni: '',
     birthDate: '',
-    direction: 'Pedro valle 666',
+    direction: '',
     genderId: '',
     phone: '',
     email: '',

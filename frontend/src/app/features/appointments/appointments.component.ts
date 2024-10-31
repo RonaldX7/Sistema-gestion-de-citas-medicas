@@ -1,35 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
+import { SpecialtyService } from '../../core/services/specialty.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-appointments',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './appointments.component.html',
-  styles: [`
-    .blur {
-      filter: blur(5px);
-    }
-  `]
+  standalone: true,
+  imports: [CommonModule]
 })
-export class AppointmentsComponent {
-  private tokenKey = 'authToken';
-  showModal = true;
-  doctors = [
-    { name: 'Carbajal Vasquez, Juliana Del Carmen', schedule: ['12:30', '12:50', '13:10', '13:40', '14:00'] },
-    { name: 'Obregon Candela, Katherine Noelia', schedule: ['15:00', '15:30'] },
-    { name: 'Arostegui Aragon, Fredy', schedule: [] } // Sin horario disponible
-  ];
+export class AppointmentsComponent implements OnInit {
+  showModal = false;
+  doctors: { name: string; schedule: string[] }[] = []; // Cambiamos para obtener desde la base de datos
+  specialties: any[] = []; // Arreglo para almacenar las especialidades
 
-  constructor(private authService:AuthService, private router:Router){}
-  
-  private getToken(): string | null{
-    return localStorage.getItem(this.tokenKey);
+  constructor(
+    private router: Router,
+    private specialtyService: SpecialtyService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadSpecialties();
+    this.loadDoctors(); // Cargar doctores desde el backend
   }
-  logout():void{
-    localStorage.removeItem(this.tokenKey);
+
+  loadSpecialties(): void {
+    this.specialtyService.getSpecialties().subscribe(
+      (data) => {
+        this.specialties = data;
+      },
+      (error) => {
+        console.error('Error al cargar especialidades', error);
+      }
+    );
+  }
+
+  loadDoctors(): void {
+    this.specialtyService.getDoctors().subscribe(
+      (data) => {
+        this.doctors = data;
+      },
+      (error) => {
+        console.error('Error al cargar doctores', error);
+      }
+    );
+  }
+
+  logout(): void {
+    localStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }
 
