@@ -21,10 +21,14 @@ export const routes: Routes = [
         loadComponent:()=>import('./features/doctor-home/doctor-home.component').then(m=>m.DoctorHomeComponent)
     },
     {
+        path: 'appointments',
+        loadComponent:()=>import('./features/appointments/appointments.component').then(m=>m.AppointmentsComponent)
+    },
+    {
         path:'**',
         redirectTo:'login'
     }
-
+    
 
 
 ];

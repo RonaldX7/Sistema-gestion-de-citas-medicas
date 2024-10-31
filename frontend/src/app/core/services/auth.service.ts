@@ -8,16 +8,16 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private LOGIN_URL='LA RUTA HTTP:LOCALHOST/AUTH/LOGIN';
+  private LOGIN_URL='http://localhost:8080/auth/log-in';
   private tokenKey = 'authToken';
   constructor(private httpClient: HttpClient, private router: Router) {}
 
-  login(user: String, password: string): Observable<any>{
-    return this.httpClient.post<any>(this.LOGIN_URL,{user,password}).pipe(
+  login(username: string, password: string): Observable<any>{
+    return this.httpClient.post<any>(this.LOGIN_URL,{username,password}).pipe(
       tap(response =>{
         if(response.token){
           console.log(response.token);
-          localStorage.getItem(response.token);
+          this.setToken(response.token); 
         }
       })
     )

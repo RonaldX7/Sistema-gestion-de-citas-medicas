@@ -1,67 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM3TZ/Y1NfJQww/jgT5dFwtJ5p6L5XkbvN1RoKk" crossorigin="anonymous">
+  <title>Registro</title>
+  <style>
+    /* Aquí se pueden agregar estilos personalizados si es necesario */
+  </style>
+</head>
+<body>
+  <div class="flex h-screen bg-cover bg-center" style="background-image: url('/fondo.png');">
+    <div class="flex h-full w-full">
+      
+      <!-- Sección del logo y texto -->
+      <div class="w-1/2 flex flex-col items-center justify-center">
+        <img src="/logo-render.png" alt="IPS VidaPlena Logo" class="w-100 mb-4">
+        <p class="text-deepBlue text-lg font-semibold text-center">NACIMOS PARA CUIDARTE DE<br> MODO INTEGRAL</p>
+      </div>
 
-<div class="bg-custom-light-blue flex justify-center items-center min-h-screen">
-  <div class="flex flex-col justify-center items-center bg-custom-light-blue p-8 w-1/3">
-    <img src="/imgLogo2.png" alt="IPS VidaPlena Logo" class="w-40 mb-4">
-    <p class="text-custom-dark-blue text-center font-semibold">Sistema web de gestión<br>de pacientes</p>
-</div>
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <div class="text-center mb-6">
-            <h2 class="text-custom-dark-blue text-2xl font-bold">Registro</h2>
+      <!-- Sección de formulario de registro -->
+      <div class="w-1/2 flex items-center justify-center">
+        <div class="bg-white p-10 rounded-lg shadow-md w-100">
+          <h2 class="text-deepBlue text-4xl font-bold mb-6">Registro</h2>
+          <form (submit)="onRegister()">
+            <!-- Campo de DNI y Fecha de Nacimiento en una sola fila -->
+            <div class="mb-4 flex">
+              <div class="w-1/2 mr-2 relative">
+                <input type="text" placeholder="DNI" [(ngModel)]="user.dni" name="dni" class="pl-10 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <i class="fas fa-id-card text-gray-500"></i>
+                </span>
+              </div>
+              <div class="w-1/2 ml-2 relative">
+                <input type="date" placeholder="día/mes/año" [(ngModel)]="user.birthDate" name="birthDate" class="Spl-10 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-3">
+                  <i class="fas fa-calendar-alt text-gray-500"></i>
+                </span>
+              </div>
+            </div>
+
+            <!-- Campos de Nombres y Apellidos -->
+            <div class="relative mb-4">
+              <input type="text" placeholder="Nombres" [(ngModel)]="user.name" name="name" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fas fa-user text-gray-500"></i>
+              </span>
+            </div>
+            <div class="relative mb-4">
+              <input type="text" placeholder="Apellidos" [(ngModel)]="user.lastName" name="lastName" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fas fa-user text-gray-500"></i>
+              </span>
+            </div>
+
+            <!-- Campo de Dirección -->
+            <div class="relative mb-4">
+              <input type="text" placeholder="Dirección" [(ngModel)]="user.direction" name="direction" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fas fa-map-marker-alt text-gray-500"></i>
+              </span>
+            </div>
+
+            <!-- Campo de Teléfono y Género en una sola fila -->
+            <div class="mb-4 flex">
+              <div class="w-1/2 mr-2 relative">
+                <input type="text" placeholder="Teléfono" [(ngModel)]="user.phone" name="phone" class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <i class="fas fa-phone text-gray-500"></i>
+                </span>
+              </div>
+              <div class="w-1/2 ml-2 relative">
+                <select [(ngModel)]="user.genderId" name="genderId" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue text-gray-400">
+                  <option value="" disabled selected class="text-gray-400">Género</option>
+                  <option value="1" class="text-gray-700">Masculino</option>
+                  <option value="2" class="text-gray-700">Femenino</option>
+                  <option value="3" class="text-gray-700">Otros</option>
+                </select>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <i class="fas fa-venus-mars text-gray-500"></i>
+                </span>
+              </div>
+            </div>
+            
+            <!-- Campo de Usuario -->
+            <div class="relative mb-4">
+              <input type="text" placeholder="Username" [(ngModel)]="user.username" name="username" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fas fa-user text-gray-500"></i>
+              </span>
+            </div>
+            
+            <!-- Campo de Email -->
+            <div class="relative mb-4">
+              <input type="email" placeholder="E-mail" [(ngModel)]="user.email" name="email" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fas fa-envelope text-gray-500"></i>
+              </span>
+            </div>
+            
+            <!-- Campo de Contraseña -->
+            <div class="relative mb-4">
+              <input type="password" placeholder="Contraseña" [(ngModel)]="user.password" name="password" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fas fa-lock text-gray-500"></i>
+              </span>
+            </div>
+            
+            <!-- Campo de Confirmar Contraseña -->
+            <div class="relative mb-6">
+              <input type="password" placeholder="Confirmar Contraseña" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fas fa-lock text-gray-500"></i>
+              </span>
+            </div>
+            
+            <!-- Botón de Registrar -->
+            <button type="submit" class="w-full py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300">
+              Registrar
+            </button>
+            
+            <!-- Link de Iniciar Sesión -->
+            <a (click)="backToLogin()" class="text-sm text-gray-600 hover:underline block text-center mt-4 cursor-pointer">¿Ya tienes una cuenta? Inicia sesión</a>
+          </form>
         </div>
-        <form>
-            <div class="mb-4">
-                <label for="nombres" class="block text-sm font-medium text-gray-700">Nombres</label>
-                <input type="text" id="nombres" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
-            </div>
-            <div class="mb-4">
-                <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
-                <input type="text" id="apellidos" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
-            </div>
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" id="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
-            </div>
-            <div class="mb-4 flex items-center">
-              <div class="flex-1">
-                  <label for="dni" class="block text-sm font-medium text-gray-700">DNI</label>
-                  <input type="text" id="dni" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
-              </div>
-            </div>
-            <div class="mb-4 flex items-center">
-              <div class="flex-1">
-                  <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento</label>
-                  <input type="date" id="fecha" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
-              </div>
-            </div>
-            <div class="mb-4 flex items-center">
-              <div class="flex-1">
-                  <label for="fecha" class="block text-sm font-medium text-gray-700">Direccion</label>
-                  <input type="text" id="direccion" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
-              </div>
-            </div>
-            <div class="mb-4">
-              <label for="username" class="block text-sm font-medium text-gray-700">Usuario</label>
-              <input type="text" id="usernmae" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
-            </div>
-
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                <input type="password" id="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
-            </div>
-            <div class="mb-6">
-                <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmar Contraseña</label>
-                <input type="password" id="confirm-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-custom-teal focus:border-custom-dark-blue">
-            </div>
-
-
-            <button
-            type="submit"
-            class="w-full py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300"
-          >
-            Registrar
-          </button>
-
-          <a (click)="backToLogin()" class="text-sm text-gray-600 hover:underline block text-center mt-4">¿Ya tienes una cuenta? Inicia sesión</a>
-        </form>
+      </div>
     </div>
-</div>
+  </div>
+</body>
+</html>
