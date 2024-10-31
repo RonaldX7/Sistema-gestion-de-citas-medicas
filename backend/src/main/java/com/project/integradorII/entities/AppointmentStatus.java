@@ -1,12 +1,7 @@
 package com.project.integradorII.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import lombok.*;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -14,14 +9,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "tb_roles")
-public class RoleEntity {
+@Table(name = "tb_appointment_status")
+public class AppointmentStatus {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role_name")
-    @Enumerated(EnumType.STRING)
-    private RoleEnum roleEnum;
-
+    private boolean status;
 }

@@ -8,6 +8,7 @@ import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.UserRepository;
 import com.project.integradorII.services.Imp.PatientServiceImp;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +17,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/paciente")
 public class PatientController {
 
-    @Autowired
-    private PatientServiceImp patientService;
-    @Autowired
-    private PatientRepository patientRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final PatientServiceImp patientService;
+
+    private final PatientRepository patientRepository;
+
+    private final UserRepository userRepository;
 
 
     //metodo para listar pacientes
@@ -44,7 +45,8 @@ public class PatientController {
     //eliminar el paciente
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long id){
-        patientService.deletePatient(id);
+        userRepository.deleteById(id);
+        patientRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

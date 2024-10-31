@@ -25,6 +25,27 @@ public class ScheduleServiceImp implements ScheduleService {
 
     private final DoctorRepository doctorRepository;
 
+    //Metodo para listar los horarios por medico
+    @Transactional
+    @Override
+    public List<ScheduleList> getAvaiableSchedulesByDoctor(Long doctorId) {
+
+        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndAvialableIs(doctorId, true);
+
+        //Mapear la lista de horarios
+        List<ScheduleList> scheduleLists = doctorSchedules.stream().map(doctorSchedule -> {
+            return new ScheduleList(
+                    doctorSchedule.getId(),
+                    doctorSchedule.getDate(),
+                    doctorSchedule.getHourStart(),
+                    doctorSchedule.getHourEnd(),
+                    doctorSchedule.isAvialable()
+            );
+        }).collect(Collectors.toList());
+
+        return scheduleLists;
+    }
+
     //Metodo para listar los horarios por medico y fecha
     @Transactional
     @Override
@@ -63,7 +84,7 @@ public class ScheduleServiceImp implements ScheduleService {
                 .date(scheduleRequest.date())
                 .hourStart(scheduleRequest.startHour())
                 .hourEnd(scheduleRequest.endHour())
-                .isAvialable(scheduleRequest.isAvailable())
+                .avialable(scheduleRequest.isAvailable())
                 .build();
 
         //Asignar el medico al horario

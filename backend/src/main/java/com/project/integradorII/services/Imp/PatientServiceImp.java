@@ -35,6 +35,7 @@ public class PatientServiceImp implements PatientService {
         List<PatientList> patientLists = patients.stream()
                 .map(patientEntity -> {
             return new PatientList(
+                    patientEntity.getId(),
                     patientEntity.getDni(),
                     patientEntity.getName(),
                     patientEntity.getLastName(),
@@ -49,6 +50,13 @@ public class PatientServiceImp implements PatientService {
     @Transactional
     @Override
     public PatientEntity createPatient(PatientCreate patientCreate) {
+
+        //Validar si el paciente ya existe
+        PatientEntity patient = patientRepository.findByDni(patientCreate.dni());
+
+        if (patient != null) {
+            throw new IllegalArgumentException("El usuario ya existe");
+        }
 
         //Asignar el rol al paciente
         RoleEntity roleEntity = rolRepository.findById(patientCreate.roleId())
