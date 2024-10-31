@@ -5,8 +5,6 @@ public record AppointmentRequest(
         Long patientId,
         Long specialtyId,
         Long doctorId,
-        Long costId,
-        Long scheduleId,
-        Long statusId
+        Long scheduleId
 ) {
 }

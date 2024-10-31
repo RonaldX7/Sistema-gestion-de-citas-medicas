@@ -1,5 +1,4 @@
 package com.project.integradorII.controllers;
-
 import com.project.integradorII.dto.appointment.AppointmentRequest;
 import com.project.integradorII.entities.MedicalAppointment;
 import com.project.integradorII.services.Imp.AppointmentServiceImp;

@@ -84,7 +84,7 @@ public class ScheduleServiceImp implements ScheduleService {
                 .date(scheduleRequest.date())
                 .hourStart(scheduleRequest.startHour())
                 .hourEnd(scheduleRequest.endHour())
-                .isAvialable(scheduleRequest.isAvailable())
+                .avialable(scheduleRequest.isAvailable())
                 .build();
 
         //Asignar el medico al horario

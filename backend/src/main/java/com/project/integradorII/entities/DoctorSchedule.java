@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "tb_doctors_schedules")
+@Table(name = "tb_schedules")
 public class DoctorSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,12 +34,12 @@ public class DoctorSchedule {
     private LocalTime hourEnd;
 
     @Column(name = "is_avaible")
-    private boolean isAvialable;
+    private boolean avialable;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonIgnore
     @JoinTable(
-            name="doctor_schedule",
+            name="tb_doctor_schedule",
             joinColumns = @JoinColumn(name="schedule_id"),
             inverseJoinColumns = @JoinColumn(name="doctor_id")
     )

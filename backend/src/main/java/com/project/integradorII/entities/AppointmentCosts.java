@@ -1,5 +1,6 @@
 package com.project.integradorII.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class AppointmentCosts {
     @Column(name = "specialties_cost")
     private double cost;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "specialty_id")
     private SpecialtyEntity specialty;
