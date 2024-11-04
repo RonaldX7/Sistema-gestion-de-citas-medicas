@@ -43,10 +43,11 @@ public class SecurityConfig {
                     //configurar los endpoints publicos
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/medico/listar").permitAll();
+                    http.requestMatchers(HttpMethod.GET,"/medico/listar/{specialty_id}").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/medico/registrar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/horarios/registrar").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/horarios/listar").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}/{date}").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
 
                     //configurar los endpoints privados
