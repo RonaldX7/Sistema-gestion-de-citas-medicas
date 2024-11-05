@@ -42,17 +42,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(http -> {
                     //configurar los endpoints publicos
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/medico/listar").permitAll();
-                    http.requestMatchers(HttpMethod.POST, "/medico/registrar").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
-                    http.requestMatchers(HttpMethod.POST, "/horarios/registrar").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/horarios/listar").permitAll();
-                    http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
 
                     //configurar los endpoints privados
                     //Endpoints del paciente
-                    http.requestMatchers(HttpMethod.GET, "/paciente/listar").hasAnyRole( "USER");
-                    http.requestMatchers(HttpMethod.POST, "/paciente/registrar").hasAnyRole("USER");
+                    http.requestMatchers(HttpMethod.GET, "/especialidades/listar").hasAnyRole("USER");
+                    http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").hasAnyRole("USER");
+                    http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}/{date}").hasAnyRole("USER");
+                    http.requestMatchers(HttpMethod.POST, "/cita/registrar").hasAnyRole("USER");
+                    http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").hasAnyRole( "USER");
                     http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").hasAnyRole("USER");
                     http.requestMatchers(HttpMethod.DELETE, "/paciente/eliminar/{id}").hasAnyRole("USER");
 
@@ -61,6 +58,8 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.DELETE, "/medico/eliminar/{id}").hasAnyRole("MEDICO");
 
                     //Endpoints del administrador
+                    http.requestMatchers(HttpMethod.POST, "/medico/registrar").hasAnyRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/horarios/registrar").hasAnyRole("ADMIN");
 
                     http.anyRequest().denyAll();
                 })
