@@ -10,6 +10,7 @@ import java.util.List;
 public interface PatientService {
 
     List<PatientList> ListAllPatients();
+    List<PatientList> ListPatientById(Long id);
     PatientEntity createPatient(PatientCreate patientCreate);
     PatientEntity updatePatient(Long id, PatientUpdate patientUpdate);
     void deletePatient(Long id);
