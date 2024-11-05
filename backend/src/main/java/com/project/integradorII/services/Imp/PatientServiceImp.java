@@ -1,6 +1,5 @@
 package com.project.integradorII.services.Imp;
 
-import com.project.integradorII.dto.authentication.AuthResponse;
 import com.project.integradorII.dto.authentication.UserRequest;
 import com.project.integradorII.dto.patient.PatientCreate;
 import com.project.integradorII.dto.patient.PatientList;
@@ -46,6 +45,28 @@ public class PatientServiceImp implements PatientService {
         }).collect(Collectors.toList());
         return patientLists;
     }
+
+    @Transactional
+    @Override
+    public List<PatientList> ListPatientById(Long id) {
+
+        //Buscar paciente por id
+        PatientEntity patientEntity = patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("El paciente no existe"));
+
+        //Mapeando lista de pacientes
+        List<PatientList> patientLists = List.of(new PatientList(
+                patientEntity.getId(),
+                patientEntity.getDni(),
+                patientEntity.getName(),
+                patientEntity.getLastName(),
+                patientEntity.getGender().getId(), //Aqui se obtiene el id del genero
+                patientEntity.getEmail()
+        ));
+
+        return patientLists;
+    }
+
 
     @Transactional
     @Override

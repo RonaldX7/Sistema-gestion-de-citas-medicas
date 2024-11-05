@@ -28,11 +28,16 @@ public class PatientController {
 
     private final UserRepository userRepository;
 
-
     //metodo para listar pacientes
     @GetMapping("/listar")
     public ResponseEntity<List<PatientList>>ListAllPatients(){
         return new ResponseEntity<>(this.patientService.ListAllPatients(), HttpStatus.OK);
+    }
+
+    //metodo para listar paciente por id
+    @GetMapping("/listar/{id}")
+    public ResponseEntity<List<PatientList>> ListPatientById(@PathVariable Long id){
+        return new ResponseEntity<>(this.patientService.ListPatientById(id),HttpStatus.OK);
     }
 
 
