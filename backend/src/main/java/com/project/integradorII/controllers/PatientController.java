@@ -34,10 +34,10 @@ public class PatientController {
         return new ResponseEntity<>(this.patientService.ListAllPatients(), HttpStatus.OK);
     }
 
-    //metodo para listar paciente por id
+    //metodo para listar paciente por user id
     @GetMapping("/listar/{id}")
     public ResponseEntity<List<PatientList>> ListPatientById(@PathVariable Long id){
-        return new ResponseEntity<>(this.patientService.ListPatientById(id),HttpStatus.OK);
+        return new ResponseEntity<>(this.patientService.ListPatientByUserId(id),HttpStatus.OK);
     }
 
 

@@ -48,11 +48,10 @@ public class PatientServiceImp implements PatientService {
 
     @Transactional
     @Override
-    public List<PatientList> ListPatientById(Long id) {
+    public List<PatientList> ListPatientByUserId(Long userId) {
 
         //Buscar paciente por id
-        PatientEntity patientEntity = patientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("El paciente no existe"));
+        PatientEntity patientEntity = patientRepository.findByUserId(userId);
 
         //Mapeando lista de pacientes
         List<PatientList> patientLists = List.of(new PatientList(

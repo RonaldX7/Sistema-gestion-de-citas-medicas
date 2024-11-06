@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(http -> {
                     //configurar los endpoints publicos
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").permitAll();
 
                     //configurar los endpoints privados
                     //Endpoints del paciente
@@ -49,7 +50,6 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").hasAnyRole("USER");
                     http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}/{date}").hasAnyRole("USER");
                     http.requestMatchers(HttpMethod.POST, "/cita/registrar").hasAnyRole("USER");
-                    http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").hasAnyRole( "USER");
                     http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").hasAnyRole("USER");
                     http.requestMatchers(HttpMethod.DELETE, "/paciente/eliminar/{id}").hasAnyRole("USER");
 

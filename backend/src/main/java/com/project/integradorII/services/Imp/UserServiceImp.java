@@ -56,15 +56,25 @@ public class UserServiceImp implements UserDetailsService {
 
     //Metodo para logearse
     public AuthResponse loginUser(LoginRequest loginRequest){
+
         String username  = loginRequest.username();
         String password = loginRequest.password();
+
+        //Obtener el usuario por el nombre de usuario
+        UserEntity userEntity = userRepository.findUserEntitiesByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("El usuario no existe"));
+
+        //Verificar si el usuario esta habilitado
+        if(!userEntity.isEnabled()){
+            throw new BadCredentialsException("Usuario deshabilitado");
+        }
 
         Authentication authentication = this.authenticate(username, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtUtils.createToken(authentication);
 
-        AuthResponse authResponse = new AuthResponse(username, "Usuario logeado correctamente", token, true);
+        AuthResponse authResponse = new AuthResponse( userEntity.getId(), username, "Usuario logeado correctamente", token, true);
         return authResponse;
     }
 
@@ -114,7 +124,7 @@ public class UserServiceImp implements UserDetailsService {
 
         String accessToken = jwtUtils.createToken(authentication);
 
-        AuthResponse authResponse = new AuthResponse(userCreated.getUsername(), "Usuario creado correctamente", accessToken, true);
+        AuthResponse authResponse = new AuthResponse(userCreated.getId(), userCreated.getUsername(), "Usuario creado correctamente", accessToken, true);
 
         return userCreated;
     }

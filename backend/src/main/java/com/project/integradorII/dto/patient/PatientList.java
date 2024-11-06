@@ -12,7 +12,7 @@ public record PatientList(
         String name,
         @NotBlank
         String lastName,
-        @NotBlank
+        @NotNull
         Long genderId,
         @NotBlank
         String email
