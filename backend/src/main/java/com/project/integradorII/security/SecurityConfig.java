@@ -43,15 +43,15 @@ public class SecurityConfig {
                     //configurar los endpoints publicos
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").permitAll();
-
+                    http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}/{date}").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
+                    http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.DELETE, "/paciente/eliminar/{id}").hasAnyRole("USER");
                     //configurar los endpoints privados
                     //Endpoints del paciente
-                    http.requestMatchers(HttpMethod.GET, "/especialidades/listar").hasAnyRole("USER");
-                    http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").hasAnyRole("USER");
-                    http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}/{date}").hasAnyRole("USER");
-                    http.requestMatchers(HttpMethod.POST, "/cita/registrar").hasAnyRole("USER");
-                    http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").hasAnyRole("USER");
-                    http.requestMatchers(HttpMethod.DELETE, "/paciente/eliminar/{id}").hasAnyRole("USER");
+
 
                     //Endpoints del medico
                     http.requestMatchers(HttpMethod.PUT, "/medico/actualizar/{id}").hasAnyRole("MEDICO");
