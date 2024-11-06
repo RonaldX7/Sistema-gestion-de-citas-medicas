@@ -45,6 +45,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/medico/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}/{date}").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
                     http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").permitAll();
