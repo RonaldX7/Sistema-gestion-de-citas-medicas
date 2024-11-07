@@ -10,12 +10,11 @@ export class AppointmentService {
 
   private REGISTER_APPOINTMENT_URL = 'http://localhost:8080/cita/registrar';
 
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(private httpClient: HttpClient,
+    private router: Router,
+  ) {}
 
   appointment(userData: any): Observable<any> {
     return this.httpClient.post<any>(this.REGISTER_APPOINTMENT_URL, userData);
   }
-
-
-
 }

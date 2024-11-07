@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 export interface Schedule {
+    id: number;
     doctorId: number;
     date: string;
     startHour: string;
@@ -15,12 +16,22 @@ export interface Schedule {
   providedIn: 'root'
 })
 export class ScheduleService {
-
+  private baseURL = 'http://localhost:8080/horarios/listar';
   constructor(private httpClient: HttpClient) {}
 
   getScheduleForDoctor(doctor_id:string,date:string): Observable<Schedule[]> {
-    const url = `http://localhost:8080/horarios/listar/${doctor_id}/${date}`;
+    const url = `${this.baseURL}/${doctor_id}/${date}`;
     return this.httpClient.get<Schedule[]>(url);
   }
 
+  // Nuevo método para obtener solo el ID del primer horario disponible
+  getScheduleId(doctor_id: string, date: string): Observable<number | null> {
+    const url = `${this.baseURL}/${doctor_id}/${date}`;
+    return this.httpClient.get<Schedule[]>(url).pipe(
+      map(schedules => {
+        const availableSchedule = schedules.find(schedule => schedule.isAvailable);
+        return availableSchedule ? availableSchedule.id : null;
+      })
+    );
+  }
 }

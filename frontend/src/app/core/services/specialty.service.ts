@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SpecialtyService {
-  private espUrl = 'http://localhost:8080/especialidades/listar'; // Cambia esta URL a tu endpoint real
+  private espUrl = 'http://localhost:8080/especialidades/listar';
   constructor(private http: HttpClient) {}
 
   getSpecialties(): Observable<any> {

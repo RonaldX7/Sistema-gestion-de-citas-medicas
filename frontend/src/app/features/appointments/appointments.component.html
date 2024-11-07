@@ -101,15 +101,19 @@
       <p><strong>Fecha de Cita:</strong> {{ selectedDate }}</p>
       <p><strong>Hora de Cita:</strong> {{ selectedSchedule }}</p>
     </div>
-    <div class="bg-white p-6 rounded-lg shadow-lg">
+    <div *ngIf="patient" class="bg-white p-6 rounded-lg shadow-lg">
       <h3 class="text-xl font-bold mb-4 text-center">Datos del Paciente</h3>
-      <p><strong>Nombre:</strong> {{ patientData.name }} {{ patientData.lastName }}</p>
-      <p><strong>Email:</strong> {{ patientData.email || 'N/A' }}</p>
-      <p><strong>DNI:</strong> {{ patientData.dni || 'N/A' }}</p>
+      <p><strong>Nombre:</strong> {{ patient.name }} {{ patient.lastName }}</p>
+      <p><strong>Email:</strong> {{ patient.email}}</p>
+      <p><strong>DNI:</strong> {{ patient.dni}}</p>
     </div>
   </div>
   <button   href="/appointments" class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="toAppointment()">Volver</button>
   <button class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="submitAppointment()">Confirmar</button>
     </ng-template>
   </div>
+
+  
+
+
 </div>
