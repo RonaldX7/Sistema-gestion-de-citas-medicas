@@ -23,9 +23,9 @@ public class ScheduleController {
 
 
     //metodo para listar el horario por doctor y fecha
-    @GetMapping("/listar/{doctorId}/{date}")
-    public ResponseEntity <List<ScheduleList>> scheduleByDoctorAndDate(@PathVariable Long doctorId, @PathVariable LocalDate date) {
-        return new ResponseEntity<>(this.scheduleService.getScheduleByDoctorAndDate(doctorId, date), HttpStatus.OK);
+    @GetMapping("/listar/{id}/{date}")
+    public ResponseEntity <List<ScheduleList>> scheduleByDoctorAndDate(@PathVariable Long id, @PathVariable LocalDate date) {
+        return new ResponseEntity<>(this.scheduleService.getScheduleByDoctorAndDate(id, date), HttpStatus.OK);
     }
 
 
