@@ -25,6 +25,10 @@ export const routes: Routes = [
         loadComponent:()=>import('./features/appointments/appointments.component').then(m=>m.AppointmentsComponent)
     },
     {
+        path:'appointments-list',
+        loadComponent:() => import('./features/appointments-list/appointments-list.component').then(m=>m.AppointmentsListComponent)
+    },
+    {
         path:'**',
         redirectTo:'login'
     }
