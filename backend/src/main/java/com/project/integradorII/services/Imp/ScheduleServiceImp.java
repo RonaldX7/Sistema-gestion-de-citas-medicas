@@ -6,8 +6,10 @@ import com.project.integradorII.entities.DoctorEntity;
 import com.project.integradorII.entities.DoctorSchedule;
 import com.project.integradorII.repositories.DoctorRepository;
 import com.project.integradorII.repositories.ScheduleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.integradorII.services.ScheduleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -15,16 +17,38 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
-public class ScheduleServiceImp {
+public class ScheduleServiceImp implements ScheduleService {
 
-    @Autowired
-    private ScheduleRepository scheduleRepository;
+    private final ScheduleRepository scheduleRepository;
 
-    @Autowired
-    private DoctorRepository doctorRepository;
+    private final DoctorRepository doctorRepository;
+
+    //Metodo para listar los horarios por medico
+    @Transactional
+    @Override
+    public List<ScheduleList> getAvaiableSchedulesByDoctor(Long doctorId) {
+
+        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndAvialableIs(doctorId, true);
+
+        //Mapear la lista de horarios
+        List<ScheduleList> scheduleLists = doctorSchedules.stream().map(doctorSchedule -> {
+            return new ScheduleList(
+                    doctorSchedule.getId(),
+                    doctorSchedule.getDate(),
+                    doctorSchedule.getHourStart(),
+                    doctorSchedule.getHourEnd(),
+                    doctorSchedule.isAvialable()
+            );
+        }).collect(Collectors.toList());
+
+        return scheduleLists;
+    }
 
     //Metodo para listar los horarios por medico y fecha
+    @Transactional
+    @Override
     public List<ScheduleList> getScheduleByDoctorAndDate(Long doctorId, LocalDate date) {
 
         List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndDate(doctorId, date);
@@ -44,6 +68,8 @@ public class ScheduleServiceImp {
     }
 
     //Metodo para registrar el horario de un medico
+    @Transactional
+    @Override
     public DoctorSchedule createSchedule(ScheduleRequest scheduleRequest) {
 
         //Validar si el medico existe
@@ -58,7 +84,7 @@ public class ScheduleServiceImp {
                 .date(scheduleRequest.date())
                 .hourStart(scheduleRequest.startHour())
                 .hourEnd(scheduleRequest.endHour())
-                .isAvialable(scheduleRequest.isAvailable())
+                .avialable(scheduleRequest.isAvailable())
                 .build();
 
         //Asignar el medico al horario
@@ -72,7 +98,9 @@ public class ScheduleServiceImp {
     }
 
     //Metodo para validar el horario
-    private void validateSchedule(ScheduleRequest scheduleRequest) {
+    @Transactional
+    @Override
+    public void validateSchedule(ScheduleRequest scheduleRequest) {
         Optional<DoctorSchedule> doctorSchedule = scheduleRepository
                 .findByDoctors_IdAndDateAndHourStartAndHourEnd
                         (scheduleRequest.doctorId(), scheduleRequest.date(), scheduleRequest.startHour(), scheduleRequest.endHour());
@@ -90,6 +118,8 @@ public class ScheduleServiceImp {
     }
 
     //Metodo para actualizar un horario
+    @Transactional
+    @Override
     public DoctorSchedule updateSchedule(Long id, ScheduleRequest scheduleRequest) {
         //Validar si el horario existe
         DoctorSchedule doctorSchedule = scheduleRepository.findById(id)
@@ -109,6 +139,8 @@ public class ScheduleServiceImp {
     }
 
     //Metodo para eliminar un horario
+    @Transactional
+    @Override
     public void deleteSchedule(Long id) {
         scheduleRepository.deleteById(id);
     }

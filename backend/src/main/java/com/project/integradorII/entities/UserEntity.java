@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
+@Table(name = "tb_users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,12 @@ public class UserEntity {
 
     @Column(name = "is_enable")
     private boolean isEnabled;
+
+    @Column(name = "account_No_Expired")
+    private boolean accountNoExpired;
+
+    @Column(name = "credentials_No_Expired")
+    private boolean credentialNoExpired;
 
     @Column(name = "account_No_Locked")
     private boolean accountNoLocked;

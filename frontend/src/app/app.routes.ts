@@ -33,6 +33,7 @@ export const routes: Routes = [
         path:'login',
         loadComponent:()=> import('./authentication/login/login.component').then(m=>m.LoginComponent)
     },
+    
     {
         path:'patient-home',
         loadComponent:()=> import('./features/patient-home/patient-home.component').then(m=>m.PatientHomeComponent)
@@ -46,10 +47,14 @@ export const routes: Routes = [
         loadComponent:()=>import('./features/doctor-home/doctor-home.component').then(m=>m.DoctorHomeComponent)
     },
     {
+        path: 'appointments',
+        loadComponent:()=>import('./features/appointments/appointments.component').then(m=>m.AppointmentsComponent)
+    },
+    {
         path:'**',
         redirectTo:'login'
     }
-
+    
 
 
 ];

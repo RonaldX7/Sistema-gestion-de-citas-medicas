@@ -1,5 +1,6 @@
 package com.project.integradorII.services.Imp;
 
+import com.project.integradorII.dto.authentication.UserRequest;
 import com.project.integradorII.dto.doctor.DoctorList;
 import com.project.integradorII.dto.doctor.DoctorRequest;
 import com.project.integradorII.dto.doctor.DoctorUpdate;
@@ -9,7 +10,6 @@ import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.repositories.SpecialtyRepository;
 import com.project.integradorII.services.DoctorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class DoctorServiceImp implements DoctorService {
+
+    private final UserServiceImp userServiceImp;
 
     private final DoctorRepository doctorRepository;
 
@@ -36,7 +38,8 @@ public class DoctorServiceImp implements DoctorService {
         List<DoctorEntity> doctors = doctorRepository.findAll();
 
         //Mapear la lista de doctores
-        List<DoctorList> doctorLists = doctors.stream().map(doctorEntity -> {
+        List<DoctorList> doctorLists = doctors.stream()
+                .map(doctorEntity -> {
             return new DoctorList(
                     doctorEntity.getId(),
                     doctorEntity.getName(),
@@ -51,15 +54,38 @@ public class DoctorServiceImp implements DoctorService {
         return doctorLists;
     }
 
+    //Metodo para listar los medicos por especialidad
+    @Transactional
+    @Override
+    public List<DoctorList> ListAllDoctorsBySpecialty(Long specialty_id){
+
+        List<DoctorEntity> doctors = doctorRepository.findDoctorEntitiesBySpecialties_Id(specialty_id);
+
+        //Mapear la lista de doctores
+        List<DoctorList> doctorLists = doctors.stream()
+                .map(doctorEntity -> {
+                    return new DoctorList(
+                            doctorEntity.getId(),
+                            doctorEntity.getName(),
+                            doctorEntity.getLastName(),
+                            doctorEntity.getPhone(),
+                            doctorEntity.getCmp(),
+                            doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName)
+                                    .collect(Collectors.toList())
+                    );
+                }).collect(Collectors.toList());
+
+        return doctorLists;
+    }
+
+
     //Metodo para crear un medico
     @Transactional
     @Override
     public DoctorEntity createDoctor(DoctorRequest doctorRequest) {
 
-        RoleEnum role = RoleEnum.valueOf(doctorRequest.roleName());
-
         //Asignar el rol al medico
-        RoleEntity roleEntity = rolRepository.findRoleEntitiesByRoleEnum(role)
+        RoleEntity roleEntity = rolRepository.findById(doctorRequest.roleId())
                 .orElseThrow(() -> new RuntimeException("El rol no existe"));
 
         if (roleEntity == null) {
@@ -82,6 +108,15 @@ public class DoctorServiceImp implements DoctorService {
                 findSpecialtyEntitiesByNameIn(doctorRequest.specialty().specialtyListName())
                 .stream().collect(Collectors.toSet());
 
+        //Crear el usuario
+        UserRequest userRequest = new UserRequest(
+                doctorRequest.username(),
+                doctorRequest.password(),
+                roleEntity.getId()
+        );
+
+        UserEntity userEntity = userServiceImp.createUser(userRequest);
+
         //Crear y persistir el Doctor
         DoctorEntity doctorEntity = DoctorEntity.builder()
                 .name(doctorRequest.name())
@@ -90,13 +125,7 @@ public class DoctorServiceImp implements DoctorService {
                 .email(doctorRequest.email())
                 .cmp(doctorRequest.cmp())
                 .specialties(specialties)
-                .user(UserEntity.builder()
-                        .username(doctorRequest.username())
-                        .password(doctorRequest.password())
-                        .isEnabled(true)
-                        .accountNoLocked(true)
-                        .role(roleEntity)
-                        .build())
+                .user(userEntity)
                 .build();
 
         //Guardar doctor

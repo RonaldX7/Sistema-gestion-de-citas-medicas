@@ -5,6 +5,7 @@ import com.project.integradorII.dto.doctorSchedule.ScheduleRequest;
 import com.project.integradorII.entities.DoctorSchedule;
 import com.project.integradorII.services.Imp.ScheduleServiceImp;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,18 +14,18 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/horarios")
 public class ScheduleController {
 
-    @Autowired
-    private ScheduleServiceImp scheduleService;
+    private final ScheduleServiceImp scheduleService;
 
 
     //metodo para listar el horario por doctor y fecha
-    @GetMapping("/listar/{doctorId}/{date}")
-    public ResponseEntity <List<ScheduleList>> scheduleByDoctorAndDate(@PathVariable Long doctorId, @PathVariable LocalDate date) {
-        return new ResponseEntity<>(this.scheduleService.getScheduleByDoctorAndDate(doctorId, date), HttpStatus.OK);
+    @GetMapping("/listar/{id}/{date}")
+    public ResponseEntity <List<ScheduleList>> scheduleByDoctorAndDate(@PathVariable Long id, @PathVariable LocalDate date) {
+        return new ResponseEntity<>(this.scheduleService.getScheduleByDoctorAndDate(id, date), HttpStatus.OK);
     }
 
 

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-home',
@@ -8,5 +10,10 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class PatientHomeComponent {
-
+  constructor(private authService:AuthService, private router:Router){
+    
+  }
+  toAppointment(){
+    this.router.navigate(['/appointments'])
+  }
 }
