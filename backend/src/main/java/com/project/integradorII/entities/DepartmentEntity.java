@@ -1,6 +1,9 @@
 package com.project.integradorII.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 
 @Getter
@@ -9,13 +12,11 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "tb_specialties")
-public class SpecialtyEntity {
+public class DepartmentEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "specialty_name")
     private String name;
-
 }

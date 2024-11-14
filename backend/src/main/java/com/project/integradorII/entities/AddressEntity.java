@@ -3,19 +3,22 @@ package com.project.integradorII.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 @Entity
-@Table(name = "tb_specialties")
-public class SpecialtyEntity {
+public class AddressEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "specialty_name")
-    private String name;
+    private String street;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "district_id")
+    private DistrictEntity district;
 
 }
