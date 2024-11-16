@@ -25,6 +25,14 @@ export const routes: Routes = [
         loadComponent:()=>import('./features/appointments/appointments.component').then(m=>m.AppointmentsComponent)
     },
     {
+        path: 'my-account',
+        loadComponent:()=>import('./features/my-account/my-account.component').then(m=>m.MyAccountComponent)
+    },
+    {
+        path: 'order',
+        loadComponent:()=>import('./features/order/order.component').then(m=>m.OrderComponent)
+    },
+    {
         path:'**',
         redirectTo:'login'
     }

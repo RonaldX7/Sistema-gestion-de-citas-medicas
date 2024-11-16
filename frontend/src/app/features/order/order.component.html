@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Cuenta</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+
+<!-- Sidebar -->
+<aside class="w-64 bg-aqua text-blue-900 p-6">
+  <div class="flex flex-col items-center">
+    <img src="logo-render.png" alt="Logo de VidaPlena" class="h-30 w-100 mb-6 brightness-90">
+
+  </div>
+  <nav class="space-y-4">
+    <button class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
+      Pide tu Cita
+    </button>
+    <button class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
+      Mis Citas
+    </button>
+    <button (click)="order()" class="block w-full text-left py-2 px-4 rounded">
+      Orden Médica
+    </button>
+    <button class="block w-full text-left py-2 px-4 rounded bg-deepBlue text-white hover:bg-blue-900 focus:outline-none">
+    </button>
+      <button (click)="MisCitas()" class="block w-full text-left py-2 px-4 rounded focus:outline-none">
+      Mis Citas
+    </button>
+   </nav>
+  <div class="mt-auto pt-6 border-t border-gray-300">
+    <button (click)="logout()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
+    <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
+  </div>
+  </aside>
+  </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<html lang="en"></html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Cuenta</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+
+
+<!-- Sidebar -->
+<aside class="w-64 bg-aqua text-blue-900 p-6">
+  <div class="flex flex-col items-center">
+    <img src="logo-render.png" alt="Logo de VidaPlena" class="h-30 w-100 mb-6 brightness-90">
+    
+  </div>
+  <nav class="space-y-4">
+    <a href="/appointments" class="block py-2 px-4 rounded hover:bg-blue-300">Pide tu cita</a>
+    <a href="/mis-citas" class="block py-2 px-4 rounded hover:bg-blue-300">Mis citas</a>
+    <a href="/orden-medica" class="block py-2 px-4 rounded hover:bg-blue-300">Orden Médica</a>
+    <a href="/mi-cuenta" class="block py-2 px-4 rounded-lg bg-deepBlue text-white hover:bg-blue-900">Mi cuenta</a>
+  </nav>
+  <div class="mt-auto pt-6 border-t border-gray-300">
+    <button (click)="logout()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
+    <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
+  </div>
+</aside>
+
+<!-- Formulario -->
+<div class="w-3/4 bg-white bg-opacity-90 p-8 rounded-lg shadow-lg m-auto">
+  <!-- Encabezado -->
+  <div class="bg-blue-900 text-white text-center py-4 rounded-md mb-8">
+    <h1 class="text-2xl font-bold">MI CUENTA</h1>
+  </div>
+
+  <form class="grid grid-cols-12 gap-y-4 gap-x-6">
+    <!-- Tipo de documento -->
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">Tipo de documento</label>
+      <input type="text" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value=" DNI">
+    </div>
+    <!-- Campo para DNI -->
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">N° DNI</label>
+      <input type="text" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value=" xxxxxxxx">
+    </div>
+    <!-- Sexo -->
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">  Sexo</label>
+      <select class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900">
+        <option>Masculino</option>
+        <option>Femenino</option>
+      </select>
+    </div>
+    <!-- Nombres -->
+    <div class="col-span-6">
+      <label class="block text-sm font-medium text-gray-600">Nombres</label>
+      <input type="text" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value=" xxxxxxxxx">
+    </div>
+    <!-- Apellidos -->
+    <div class="col-span-6">
+      <label class="block text-sm font-medium text-gray-600">Apellidos</label>
+      <input type="text" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value=" xxxxxxxxx">
+    </div>
+    <!-- Fecha de nacimiento -->
+    <div class="col-span-6">
+      <label class="block text-sm font-medium text-gray-600">Fecha de Nacimiento</label>
+      <input type="date" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value="  1998-04-27">
+    </div>
+    <!-- Email -->
+    <div class="col-span-6">
+      <label class="block text-sm font-medium text-gray-600">E-mail</label>
+      <input type="email" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value=" xxxxxxxxxxxxxxxx">
+    </div>
+    <!-- Distrito -->
+    <div class="col-span-6">
+      <label class="block text-sm font-medium text-gray-600">Distrito</label>
+      <select class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900">
+        <option>Ancón</option>
+      </select>
+    </div>
+    <!-- Provincia -->
+    <div class="col-span-6">
+      <label class="block text-sm font-medium text-gray-600">Provincia</label>
+      <select class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900">
+        <option>Lima Metropolitana</option>
+      </select>
+    </div>
+    <!-- Dirección -->
+    <div class="col-span-12">
+      <label class="block text-sm font-medium text-gray-600">Dirección</label>
+      <input type="text" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value=" xxxxxxxxxxxxxxxxxx">
+    </div>
+      <!-- Botones -->
+      <div class="col-span-12 flex justify-center mt-4">
+        <button type="button" class="bg-blue-900 text-white px-8 py-2 rounded-md shadow-md">Actualizar Datos</button>
+      </div>
+  
+    <!-- Contraseña actual -->
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">Contraseña actual</label>
+      <input type="password" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value=" xxxxxxxxxxx">
+    </div>
+    <!-- Contraseña nueva -->
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">Contraseña nueva</label>
+      <input type="password" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value=" xxxxxxxxxxx">
+    </div>
+    <!-- Confirmar contraseña nueva -->
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">Confirmar contraseña nueva</label>
+      <input type="password" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value=" xxxxxxxxxxx">
+    </div>
+    <!-- Botones -->
+    <div class="col-span-12 flex justify-center mt-4">
+      <button type="button" class="bg-blue-900 text-white px-8 py-2 rounded-md shadow-md">Actualizar Contraseña</button>
+    </div>
+  </form>
+</div>
+</div>
