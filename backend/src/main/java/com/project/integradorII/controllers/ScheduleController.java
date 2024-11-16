@@ -6,12 +6,10 @@ import com.project.integradorII.entities.DoctorSchedule;
 import com.project.integradorII.services.Imp.ScheduleServiceImp;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,10 +20,10 @@ public class ScheduleController {
     private final ScheduleServiceImp scheduleService;
 
 
-    //metodo para listar el horario por doctor y fecha
-    @GetMapping("/listar/{doctorId}/{date}")
-    public ResponseEntity <List<ScheduleList>> scheduleByDoctorAndDate(@PathVariable Long doctorId, @PathVariable LocalDate date) {
-        return new ResponseEntity<>(this.scheduleService.getScheduleByDoctorAndDate(doctorId, date), HttpStatus.OK);
+    //metodo para listar el horario por doctor
+    @GetMapping("/listar/{doctorId}")
+    public ResponseEntity <List<ScheduleList>> scheduleByDoctorAndDate(@PathVariable Long doctorId) {
+        return new ResponseEntity<>(this.scheduleService.getAvaiableSchedulesByDoctor(doctorId), HttpStatus.OK);
     }
 
 

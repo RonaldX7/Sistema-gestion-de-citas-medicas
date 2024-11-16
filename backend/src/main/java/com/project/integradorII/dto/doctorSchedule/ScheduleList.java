@@ -10,8 +10,6 @@ public record ScheduleList(
         @NotBlank
         Long doctorId,
         @NotNull
-        LocalDate date,
-        @NotNull
         LocalTime startHour,
         @NotNull
         LocalTime endHour,

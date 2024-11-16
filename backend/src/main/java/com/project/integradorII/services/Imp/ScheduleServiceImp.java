@@ -8,10 +8,10 @@ import com.project.integradorII.repositories.DoctorRepository;
 import com.project.integradorII.repositories.ScheduleRepository;
 import com.project.integradorII.services.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -30,13 +30,12 @@ public class ScheduleServiceImp implements ScheduleService {
     @Override
     public List<ScheduleList> getAvaiableSchedulesByDoctor(Long doctorId) {
 
-        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndAvialableIs(doctorId, true);
+        Page<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndAvailableIs(doctorId, true);
 
         //Mapear la lista de horarios
         List<ScheduleList> scheduleLists = doctorSchedules.stream().map(doctorSchedule -> {
             return new ScheduleList(
                     doctorSchedule.getId(),
-                    doctorSchedule.getDate(),
                     doctorSchedule.getHourStart(),
                     doctorSchedule.getHourEnd(),
                     doctorSchedule.isAvialable()
@@ -47,17 +46,16 @@ public class ScheduleServiceImp implements ScheduleService {
     }
 
     //Metodo para listar los horarios por medico y fecha
-    @Transactional
+    /*@Transactional
     @Override
     public List<ScheduleList> getScheduleByDoctorAndDate(Long doctorId, LocalDate date) {
 
-        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndDate(doctorId, date);
+        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_Id(doctorId);
 
         //Mapear la lista de horarios
         List<ScheduleList> scheduleLists = doctorSchedules.stream().map(doctorSchedule -> {
             return new ScheduleList(
                     doctorSchedule.getId(),
-                    doctorSchedule.getDate(),
                     doctorSchedule.getHourStart(),
                     doctorSchedule.getHourEnd(),
                     doctorSchedule.isAvialable()
@@ -65,7 +63,7 @@ public class ScheduleServiceImp implements ScheduleService {
         }).collect(Collectors.toList());
 
         return scheduleLists;
-    }
+    }*/
 
     //Metodo para registrar el horario de un medico
     @Transactional
@@ -81,7 +79,6 @@ public class ScheduleServiceImp implements ScheduleService {
 
         //crear un nuevo horario
         DoctorSchedule doctorSchedule = DoctorSchedule.builder()
-                .date(scheduleRequest.date())
                 .hourStart(scheduleRequest.startHour())
                 .hourEnd(scheduleRequest.endHour())
                 .avialable(scheduleRequest.isAvailable())
@@ -102,9 +99,9 @@ public class ScheduleServiceImp implements ScheduleService {
     @Override
     public void validateSchedule(ScheduleRequest scheduleRequest) {
         Optional<DoctorSchedule> doctorSchedule = scheduleRepository
-                .findByDoctors_IdAndDateAndHourStartAndHourEnd
-                        (scheduleRequest.doctorId(), scheduleRequest.date(), scheduleRequest.startHour(), scheduleRequest.endHour());
-        List<DoctorSchedule> schedules = scheduleRepository.findByDoctors_IdAndDate(scheduleRequest.doctorId(), scheduleRequest.date());
+                .findByDoctors_IdAndHourStartAndHourEnd
+                        (scheduleRequest.doctorId(), scheduleRequest.startHour(), scheduleRequest.endHour());
+        List<DoctorSchedule> schedules = scheduleRepository.findByDoctors_Id(scheduleRequest.doctorId());
 
         if (doctorSchedule.isPresent()) {
             throw new RuntimeException("El horario ya existe");
@@ -129,7 +126,6 @@ public class ScheduleServiceImp implements ScheduleService {
         validateSchedule(scheduleRequest);
 
         //Actualizar el horario
-        doctorSchedule.setDate(scheduleRequest.date());
         doctorSchedule.setHourStart(scheduleRequest.startHour());
         doctorSchedule.setHourEnd(scheduleRequest.endHour());
         doctorSchedule.setAvialable(scheduleRequest.isAvailable());

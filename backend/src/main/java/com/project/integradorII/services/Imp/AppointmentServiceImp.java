@@ -20,9 +20,51 @@ public class AppointmentServiceImp implements AppointmentService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
     private final ScheduleRepository scheduleRepository;
+    private final AppointmentStatusRepository appointmentStatusRepository;
+    private final AppointmentCostRepository appointmentCostRepository;
 
+    @Transactional
     @Override
     public List<AppointmentList> ListAllAppointments() {
+
+        List<MedicalAppointment> appointments = appointmentRepository.findAll();
+
+        List<AppointmentList> appointmentLists = appointments.stream()
+                .map(appointment -> {
+                    return new AppointmentList(
+                            appointment.getId(),
+                            appointment.getDate(),
+                            appointment.getPatient().getId(),
+                            appointment.getDoctor().getId(),
+                            appointment.getStartTime(),
+                            appointment.getEndTime(),
+                            appointment.getCost().getCost(),
+                            appointment.getStatus().getId()
+                    );
+                }).collect(java.util.stream.Collectors.toList());
+
+        return appointmentLists;
+
+    }
+
+    @Override
+    public List<AppointmentList> ListAppointmentBySpecialty(Long specialtyId) {
+        return List.of();
+    }
+
+    @Transactional
+    @Override
+    public List<AppointmentList> ListAppointmentByStatus(Long statusId) {
+        return List.of();
+    }
+
+    @Override
+    public List<AppointmentList> ListAppointmentByDoctor(Long doctorId) {
+        return List.of();
+    }
+
+    @Override
+    public List<AppointmentList> ListAppointmentByPatient(Long patientId) {
         return List.of();
     }
 
@@ -30,14 +72,17 @@ public class AppointmentServiceImp implements AppointmentService {
     @Override
     public MedicalAppointment createAppointment(AppointmentRequest appointmentRequest) {
 
+        //Estado de la cita
+        AppointmentStatus appointmentStatus = appointmentStatusRepository.findById(appointmentRequest.statusId())
+                .orElseThrow(() -> new IllegalArgumentException("El estado de la cita no existe"));
+
         //Validar si la especialidad existe
         SpecialtyEntity specialty = specialtyRepository.findById(appointmentRequest.specialtyId())
                 .orElseThrow(() -> new IllegalArgumentException("La especialidad no existe"));
 
         //Validar el costo de la especialidad
-        if (specialty.getCost() == null) {
-            throw new IllegalArgumentException("La especialidad no tiene costo");
-        }
+        AppointmentCosts appointmentCosts = appointmentCostRepository.findBySpecialtyId(appointmentRequest.specialtyId())
+                .orElseThrow(() -> new IllegalArgumentException("La especialidad no tiene costo"));
 
         //Validar si el paciente existe
         PatientEntity patient = patientRepository.findById(appointmentRequest.patientId())
@@ -55,13 +100,21 @@ public class AppointmentServiceImp implements AppointmentService {
             throw new IllegalArgumentException("El horario no esta disponible");
         }
 
+        //Verificar que no exista una cita en la misma fecha y horario
+        if (appointmentRepository
+                .existsByDateAndAndStartTimeAndAndEndTime(appointmentRequest.date(), schedule.getHourStart(), schedule.getHourEnd())) {
+            throw new IllegalArgumentException("Ya existe una cita en la misma fecha y hora");
+        }
+
         //Crear la cita medica
         MedicalAppointment appointment = MedicalAppointment.builder()
                 .patient(patient)
                 .doctor(doctor)
-                .date(schedule.getDate())
-                .time(schedule.getHourStart())
-                .cost(specialty.getCost())
+                .date(appointmentRequest.date())
+                .startTime(schedule.getHourStart())
+                .endTime(schedule.getHourEnd())
+                .cost(appointmentCosts)
+                .status(appointmentStatus)
                 .build();
 
         //Guardar la cita medica
