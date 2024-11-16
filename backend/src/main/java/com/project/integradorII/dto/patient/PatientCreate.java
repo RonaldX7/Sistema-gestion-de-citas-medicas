@@ -1,5 +1,6 @@
 package com.project.integradorII.dto.patient;
 
+import com.project.integradorII.entities.AddressEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,7 +16,7 @@ public record PatientCreate(
         @NotNull(message = "birthDate is required")
         LocalDate birthDate,
         @NotBlank
-        String direction,
+        AddressEntity address,
         @NotNull
         Long genderId,
         @NotBlank

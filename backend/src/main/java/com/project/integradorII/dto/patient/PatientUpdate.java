@@ -1,5 +1,6 @@
 package com.project.integradorII.dto.patient;
 
+import com.project.integradorII.entities.AddressEntity;
 import jakarta.validation.constraints.NotBlank;
 
 public record PatientUpdate(
@@ -8,7 +9,7 @@ public record PatientUpdate(
         @NotBlank
         String lastName,
         @NotBlank
-        String direction,
+        AddressEntity address,
         @NotBlank
         String phone,
         @NotBlank

@@ -105,7 +105,7 @@ public class PatientServiceImp implements PatientService {
                 .lastName(patientCreate.lastName())
                 .dni(patientCreate.dni())
                 .birthDate(patientCreate.birthDate())
-                .direction(patientCreate.direction())
+                .address(patientCreate.address())
                 .gender(genderEntity)
                 .phone(patientCreate.phone())
                 .email(patientCreate.email())
@@ -128,7 +128,7 @@ public class PatientServiceImp implements PatientService {
         //Actualizar los datos del paciente
         patientEntity.setName(patientUpdate.name());
         patientEntity.setLastName(patientUpdate.lastName());
-        patientEntity.setDirection(patientUpdate.direction());
+        patientEntity.setAddress(patientUpdate.address());
         patientEntity.setPhone(patientUpdate.phone());
         patientEntity.setEmail(patientUpdate.email());
 

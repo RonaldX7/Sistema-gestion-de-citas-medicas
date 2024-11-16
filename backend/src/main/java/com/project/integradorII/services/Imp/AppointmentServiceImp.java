@@ -6,10 +6,12 @@ import com.project.integradorII.entities.*;
 import com.project.integradorII.repositories.*;
 import com.project.integradorII.services.AppointmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -23,13 +25,8 @@ public class AppointmentServiceImp implements AppointmentService {
     private final AppointmentStatusRepository appointmentStatusRepository;
     private final AppointmentCostRepository appointmentCostRepository;
 
-    @Transactional
-    @Override
-    public List<AppointmentList> ListAllAppointments() {
-
-        List<MedicalAppointment> appointments = appointmentRepository.findAll();
-
-        List<AppointmentList> appointmentLists = appointments.stream()
+    private List<AppointmentList> getAppointmentLists(Stream<MedicalAppointment> stream, Page<MedicalAppointment> appointments) {
+        List<AppointmentList> appointmentLists = stream
                 .map(appointment -> {
                     return new AppointmentList(
                             appointment.getId(),
@@ -44,28 +41,48 @@ public class AppointmentServiceImp implements AppointmentService {
                 }).collect(java.util.stream.Collectors.toList());
 
         return appointmentLists;
+    }
+
+
+    @Transactional
+    @Override
+    public List<AppointmentList> ListAllAppointments() {
+
+        List<MedicalAppointment> appointments = appointmentRepository.findAll();
+
+        return getAppointmentLists(appointments.stream(), (Page<MedicalAppointment>) appointments);
 
     }
 
     @Override
     public List<AppointmentList> ListAppointmentBySpecialty(Long specialtyId) {
-        return List.of();
+        Page<MedicalAppointment> appointments = appointmentRepository.findBySpecialtyId(specialtyId);
+
+        return getAppointmentLists(appointments.stream(), appointments);
     }
 
     @Transactional
     @Override
     public List<AppointmentList> ListAppointmentByStatus(Long statusId) {
-        return List.of();
+
+        Page<MedicalAppointment> appointments = appointmentRepository.findByStatusId(statusId);
+
+        return getAppointmentLists(appointments.stream(), appointments);
     }
 
     @Override
     public List<AppointmentList> ListAppointmentByDoctor(Long doctorId) {
-        return List.of();
+
+        Page<MedicalAppointment> appointments = appointmentRepository.findByDoctorId(doctorId);
+
+        return getAppointmentLists(appointments.stream(), appointments);
     }
 
     @Override
     public List<AppointmentList> ListAppointmentByPatient(Long patientId) {
-        return List.of();
+        Page<MedicalAppointment> appointments = appointmentRepository.findByPatientId(patientId);
+
+        return getAppointmentLists(appointments.stream(), appointments);
     }
 
     @Transactional
