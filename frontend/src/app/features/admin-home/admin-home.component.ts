@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Asegúrate de importar CommonModule
 
 @Component({
@@ -8,4 +8,10 @@ import { CommonModule } from '@angular/common'; // Asegúrate de importar Common
   imports: [RouterOutlet, CommonModule], // Agrega CommonModule aquí
   templateUrl: './admin-home.component.html'
 })
-export class AdminHomeComponent {}
+export class AdminHomeComponent {
+constructor(private router: Router) {}
+
+  isActiveRoute(route: string): boolean {
+    return this.router.url.startsWith(route);
+  }
+}
