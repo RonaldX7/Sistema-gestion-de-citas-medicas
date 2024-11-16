@@ -1,0 +1,91 @@
+<div class="flex min-h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-aqua text-blue-900 p-6">
+    <div class="flex flex-col items-center">
+      <img src="logo-render.png" alt="Logo de VidaPlena" class="h-30 w-100 mb-6 brightness-90">
+
+    </div>
+    <nav class="space-y-4">
+      <button class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
+        Inicio
+      </button>
+      <button (click)="citas()" class="block w-full text-left py-2 px-4 rounded focus:outline-none">
+        Citas
+      </button>
+      <button (click)="agenda()" class="block w-full text-left py-2 px-4 rounded">
+        Agenda
+      </button>
+      <button class="block w-full text-left py-2 px-4 rounded focus:outline-none">
+        Orden médica
+      </button>
+      <button class="block w-full text-left py-2 px-4 rounded bg-deepBlue text-white hover:bg-blue-900 focus:outline-none">
+        Mi cuenta
+      </button>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-gray-300">
+      <button (click)="regreso()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
+      <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
+    </div>
+  </aside>
+
+  <!-- Contenido principal: Componente Account -->
+  <!-- Content -->
+  <main class="flex-1 p-10">
+    <header class="mb-8">
+      <h2 class="text-3xl font-bold text-[#005792]">Mi cuenta</h2>
+    </header>
+    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Tipo de documento -->
+      <div>
+        <label class="block font-semibold mb-2">Tipo de documento</label>
+        <input type="text" value="CMP" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
+      </div>
+      <!-- Nombres -->
+      <div>
+        <label class="block font-semibold mb-2">Nombres</label>
+        <input type="text" value="KATHERINE NOELIA" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
+      </div>
+      <!-- Apellidos -->
+      <div>
+        <label class="block font-semibold mb-2">Apellidos</label>
+        <input type="text" value="OBREGON CANDELA" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
+      </div>
+      <!-- Teléfono -->
+      <div>
+        <label class="block font-semibold mb-2">Teléfono</label>
+        <input type="text" value="987654321" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
+      </div>
+      <!-- Email -->
+      <div>
+        <label class="block font-semibold mb-2">E-mail</label>
+        <input type="email" value="Kath32_n@example.com" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
+      </div>
+      <!-- Especialidad -->
+      <div>
+        <label class="block font-semibold mb-2">Especialidad</label>
+        <input type="text" value="PSICOLOGÍA" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
+      </div>
+      <!-- Contraseña actual -->
+      <div>
+        <label class="block font-semibold mb-2">Contraseña actual</label>
+        <input type="password" placeholder="********" class="w-full p-3 border border-[#80DDDB] rounded">
+      </div>
+      <!-- Contraseña nueva -->
+      <div>
+        <label class="block font-semibold mb-2">Contraseña nueva</label>
+        <input type="password" placeholder="********" class="w-full p-3 border border-[#80DDDB] rounded">
+      </div>
+      <!-- Confirmar contraseña nueva -->
+      <div>
+        <label class="block font-semibold mb-2">Confirmar contraseña nueva</label>
+        <input type="password" placeholder="********" class="w-full p-3 border border-[#80DDDB] rounded">
+      </div>
+      <!-- Botón actualizar clave -->
+      <div class="md:col-span-2">
+        <button type="submit" class="w-full bg-[#005792] text-[#EDF9FC] py-3 rounded hover:bg-[#004171] font-semibold">
+          Actualizar clave
+        </button>
+      </div>
+    </form>
+  </main>
+  </div>
