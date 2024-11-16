@@ -29,8 +29,13 @@ export const routes: Routes = [
         loadComponent:() => import('./features/appointments-list/appointments-list.component').then(m=>m.AppointmentsListComponent)
     },
     {
+    path: 'admin-home',
+    loadChildren: () => import('./features/admin-home/admin-home.route').then(m => m.AdminHomeRoutingModule),
+  },
+    {
         path:'**',
-        redirectTo:'login'
+        redirectTo:'login',
+        pathMatch: 'full'
     }
     
 
