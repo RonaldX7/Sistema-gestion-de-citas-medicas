@@ -5,6 +5,7 @@ import com.project.integradorII.dto.patient.PatientCreate;
 import com.project.integradorII.dto.patient.PatientList;
 import com.project.integradorII.dto.patient.PatientUpdate;
 import com.project.integradorII.entities.*;
+import com.project.integradorII.repositories.DistrictRepository;
 import com.project.integradorII.repositories.GenderRepository;
 import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.RoleRepository;
@@ -24,6 +25,7 @@ public class PatientServiceImp implements PatientService {
     private final PatientRepository patientRepository;
     private final RoleRepository rolRepository;
     private final GenderRepository genderRepository;
+    private final DistrictRepository districtRepository;
 
     @Transactional
     @Override
@@ -66,7 +68,6 @@ public class PatientServiceImp implements PatientService {
         return patientLists;
     }
 
-
     @Transactional
     @Override
     public PatientEntity createPatient(PatientCreate patientCreate) {
@@ -90,6 +91,19 @@ public class PatientServiceImp implements PatientService {
         GenderEntity genderEntity = genderRepository.findById(patientCreate.genderId())
                 .orElseThrow(() -> new RuntimeException("El genero no existe"));
 
+        // Obtener el distrito y el departamento relacionado
+        DistrictEntity districtEntity = districtRepository.findById(patientCreate.districtId())
+                .orElseThrow(() -> new RuntimeException("El distrito no existe"));
+
+        // Obtener el departamento relacionado
+        DepartmentEntity departmentEntity = districtEntity.getDepartment();
+
+        //Crear la direccion
+        AddressEntity addressEntity = AddressEntity.builder()
+                .street(patientCreate.address())
+                .district(districtEntity)
+                .build();
+
         //Crear el usuario
         UserRequest userRequest = new UserRequest(
                 patientCreate.username(),
@@ -105,7 +119,7 @@ public class PatientServiceImp implements PatientService {
                 .lastName(patientCreate.lastName())
                 .dni(patientCreate.dni())
                 .birthDate(patientCreate.birthDate())
-                .address(patientCreate.address())
+                .address(addressEntity)
                 .gender(genderEntity)
                 .phone(patientCreate.phone())
                 .email(patientCreate.email())

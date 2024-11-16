@@ -16,7 +16,9 @@ public record PatientCreate(
         @NotNull(message = "birthDate is required")
         LocalDate birthDate,
         @NotBlank
-        AddressEntity address,
+        String address,
+        @NotNull
+        Long districtId,
         @NotNull
         Long genderId,
         @NotBlank

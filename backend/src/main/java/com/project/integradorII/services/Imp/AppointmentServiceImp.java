@@ -141,7 +141,6 @@ public class AppointmentServiceImp implements AppointmentService {
         schedule.setAvialable(false);
         scheduleRepository.save(schedule);
 
-
         return saveMedicalAppointment;
     }
 }
