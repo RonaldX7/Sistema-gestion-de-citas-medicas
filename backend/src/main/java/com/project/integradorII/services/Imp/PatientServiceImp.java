@@ -5,6 +5,7 @@ import com.project.integradorII.dto.patient.PatientCreate;
 import com.project.integradorII.dto.patient.PatientList;
 import com.project.integradorII.dto.patient.PatientUpdate;
 import com.project.integradorII.entities.*;
+import com.project.integradorII.repositories.DistrictRepository;
 import com.project.integradorII.repositories.GenderRepository;
 import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.RoleRepository;
@@ -24,6 +25,7 @@ public class PatientServiceImp implements PatientService {
     private final PatientRepository patientRepository;
     private final RoleRepository rolRepository;
     private final GenderRepository genderRepository;
+    private final DistrictRepository districtRepository;
 
     @Transactional
     @Override
@@ -48,11 +50,10 @@ public class PatientServiceImp implements PatientService {
 
     @Transactional
     @Override
-    public List<PatientList> ListPatientById(Long id) {
+    public List<PatientList> ListPatientByUserId(Long userId) {
 
         //Buscar paciente por id
-        PatientEntity patientEntity = patientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("El paciente no existe"));
+        PatientEntity patientEntity = patientRepository.findByUserId(userId);
 
         //Mapeando lista de pacientes
         List<PatientList> patientLists = List.of(new PatientList(
@@ -66,7 +67,6 @@ public class PatientServiceImp implements PatientService {
 
         return patientLists;
     }
-
 
     @Transactional
     @Override
@@ -91,6 +91,16 @@ public class PatientServiceImp implements PatientService {
         GenderEntity genderEntity = genderRepository.findById(patientCreate.genderId())
                 .orElseThrow(() -> new RuntimeException("El genero no existe"));
 
+        //Validar si el distrito existe
+        DistrictEntity districtEntity = districtRepository.findById(patientCreate.districtId())
+                .orElseThrow(() -> new RuntimeException("El distrito no existe"));
+
+        //Crear la direccion
+        AddressEntity addressEntity = AddressEntity.builder()
+                .street(patientCreate.address())
+                .district(districtEntity)
+                .build();
+
         //Crear el usuario
         UserRequest userRequest = new UserRequest(
                 patientCreate.username(),
@@ -106,7 +116,7 @@ public class PatientServiceImp implements PatientService {
                 .lastName(patientCreate.lastName())
                 .dni(patientCreate.dni())
                 .birthDate(patientCreate.birthDate())
-                .direction(patientCreate.direction())
+                .address(addressEntity)
                 .gender(genderEntity)
                 .phone(patientCreate.phone())
                 .email(patientCreate.email())
@@ -126,16 +136,29 @@ public class PatientServiceImp implements PatientService {
         PatientEntity patientEntity = patientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("El paciente no existe"));
 
+        //Validar si el distrito existe
+        DistrictEntity districtEntity = districtRepository.findById(patientUpdate.districtId())
+                .orElseThrow(() -> new RuntimeException("El distrito no existe"));
+
+        //Actualiza la direccion
+        AddressEntity addressEntity = patientUpdate.address() != null ? AddressEntity.builder()
+                .street(patientUpdate.address())
+                .district(districtEntity)
+                .build() : patientEntity.getAddress();
+
+
         //Actualizar los datos del paciente
         patientEntity.setName(patientUpdate.name());
         patientEntity.setLastName(patientUpdate.lastName());
-        patientEntity.setDirection(patientUpdate.direction());
+        patientEntity.setAddress(addressEntity);
         patientEntity.setPhone(patientUpdate.phone());
         patientEntity.setEmail(patientUpdate.email());
 
         //actualizar los datos del usuario
         UserEntity user = patientEntity.getUser();
-        user.setPassword(patientUpdate.password());
+        if (patientUpdate.password() != null && !patientUpdate.password().equals(user.getPassword())) {
+            user.setPassword(patientUpdate.password());
+        }
 
         return patientRepository.save(patientEntity);
     }

@@ -9,13 +9,16 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "tb_specialties")
-public class SpecialtyEntity {
+@Table(name = "tb_districts")
+public class DistrictEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "specialty_name")
     private String name;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "department_id")
+    private DepartmentEntity department;
 }

@@ -8,10 +8,10 @@ import com.project.integradorII.repositories.DoctorRepository;
 import com.project.integradorII.repositories.ScheduleRepository;
 import com.project.integradorII.services.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -30,16 +30,15 @@ public class ScheduleServiceImp implements ScheduleService {
     @Override
     public List<ScheduleList> getAvaiableSchedulesByDoctor(Long doctorId) {
 
-        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndAvialableIs(doctorId, true);
+        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndAvailableIs(doctorId, true);
 
         //Mapear la lista de horarios
         List<ScheduleList> scheduleLists = doctorSchedules.stream().map(doctorSchedule -> {
             return new ScheduleList(
                     doctorSchedule.getId(),
-                    doctorSchedule.getDate(),
                     doctorSchedule.getHourStart(),
                     doctorSchedule.getHourEnd(),
-                    doctorSchedule.isAvialable()
+                    doctorSchedule.isAvailable()
             );
         }).collect(Collectors.toList());
 
@@ -47,17 +46,16 @@ public class ScheduleServiceImp implements ScheduleService {
     }
 
     //Metodo para listar los horarios por medico y fecha
-    @Transactional
+    /*@Transactional
     @Override
     public List<ScheduleList> getScheduleByDoctorAndDate(Long doctorId, LocalDate date) {
 
-        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndDate(doctorId, date);
+        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_Id(doctorId);
 
         //Mapear la lista de horarios
         List<ScheduleList> scheduleLists = doctorSchedules.stream().map(doctorSchedule -> {
             return new ScheduleList(
                     doctorSchedule.getId(),
-                    doctorSchedule.getDate(),
                     doctorSchedule.getHourStart(),
                     doctorSchedule.getHourEnd(),
                     doctorSchedule.isAvialable()
@@ -65,7 +63,7 @@ public class ScheduleServiceImp implements ScheduleService {
         }).collect(Collectors.toList());
 
         return scheduleLists;
-    }
+    }*/
 
     //Metodo para registrar el horario de un medico
     @Transactional
@@ -81,10 +79,9 @@ public class ScheduleServiceImp implements ScheduleService {
 
         //crear un nuevo horario
         DoctorSchedule doctorSchedule = DoctorSchedule.builder()
-                .date(scheduleRequest.date())
                 .hourStart(scheduleRequest.startHour())
                 .hourEnd(scheduleRequest.endHour())
-                .avialable(scheduleRequest.isAvailable())
+                .available(scheduleRequest.isAvailable())
                 .build();
 
         //Asignar el medico al horario
@@ -101,19 +98,31 @@ public class ScheduleServiceImp implements ScheduleService {
     @Transactional
     @Override
     public void validateSchedule(ScheduleRequest scheduleRequest) {
+        // Verificar si el horario ya existe para el doctor
         Optional<DoctorSchedule> doctorSchedule = scheduleRepository
-                .findByDoctors_IdAndDateAndHourStartAndHourEnd
-                        (scheduleRequest.doctorId(), scheduleRequest.date(), scheduleRequest.startHour(), scheduleRequest.endHour());
-        List<DoctorSchedule> schedules = scheduleRepository.findByDoctors_IdAndDate(scheduleRequest.doctorId(), scheduleRequest.date());
+                .findByDoctors_IdAndHourStartAndHourEnd(
+                        scheduleRequest.doctorId(),
+                        scheduleRequest.startHour(),
+                        scheduleRequest.endHour());
 
         if (doctorSchedule.isPresent()) {
             throw new RuntimeException("El horario ya existe");
         }
+        // Verificar que la hora de inicio no sea mayor que la hora de fin
         if (scheduleRequest.startHour().isAfter(scheduleRequest.endHour())) {
             throw new RuntimeException("La hora de inicio no puede ser mayor a la hora de fin");
         }
-        if (schedules.stream().anyMatch(schedule -> schedule.getHourStart().isBefore(scheduleRequest.startHour()) && schedule.getHourEnd().isAfter(scheduleRequest.startHour()))) {
-            throw new RuntimeException("El horario se cruza con otro horario");
+
+        // Consultar los horarios del doctor en una sola consulta
+        List<DoctorSchedule> schedules = scheduleRepository.findByDoctors_Id(scheduleRequest.doctorId());
+
+        // Validar si el horario nuevo se cruza con los horarios existentes
+        for (DoctorSchedule schedule : schedules) {
+            // Comprobar que el nuevo horario no se cruza con ninguno existente
+            if (schedule.getHourStart().isBefore(scheduleRequest.endHour()) &&
+                    schedule.getHourEnd().isAfter(scheduleRequest.startHour())) {
+                throw new RuntimeException("El horario se cruza con otro horario");
+            }
         }
     }
 
@@ -129,10 +138,9 @@ public class ScheduleServiceImp implements ScheduleService {
         validateSchedule(scheduleRequest);
 
         //Actualizar el horario
-        doctorSchedule.setDate(scheduleRequest.date());
         doctorSchedule.setHourStart(scheduleRequest.startHour());
         doctorSchedule.setHourEnd(scheduleRequest.endHour());
-        doctorSchedule.setAvialable(scheduleRequest.isAvailable());
+        doctorSchedule.setAvailable(scheduleRequest.isAvailable());
 
         //Guardar el horario
         return scheduleRepository.save(doctorSchedule);
