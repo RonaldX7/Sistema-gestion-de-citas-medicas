@@ -14,10 +14,10 @@ export class AddDocComponent implements OnInit {
   specialties: string[] = ['Todos', 'Cardiología', 'Pediatría', 'Dermatología', 'Psicología'];
 
   doctors = [
-    { cmp: '45636', name: 'Katherine Noelia', phone: '987654321', email: 'kayh32@example.com', specialty: 'Psicología' },
-    { cmp: '53287', name: 'Juliana Carbajal', phone: '986321457', email: 'julicvasquez@example.com', specialty: 'Cardiología' },
-    { cmp: '46322', name: 'Fredy Arostegui', phone: '963287451', email: 'fredyaa98@example.com', specialty: 'Oftalmología' },
-    { cmp: '53688', name: 'Lourdes Medina', phone: '902146325', email: 'lourdesalas75@example.com', specialty: 'Pediatría' },
+    { cmp: '45636', name: 'Katherine Noelia', apellido: 'Franco Escamilla' , phone: '987654321', email: 'kayh32@example.com', specialty: 'Psicología' },
+    { cmp: '53287', name: 'Juliana Carbajal' , apellido: 'Meza Cruz', phone: '986321457', email: 'julicvasquez@example.com', specialty: 'Cardiología' },
+    { cmp: '46322', name: 'Fredy Arostegui' , apellido: 'Soloorzano Baarazorda', phone: '963287451', email: 'fredyaa98@example.com', specialty: 'Oftalmología' },
+    { cmp: '53688', name: 'Lourdes Medina' , apellido: 'Flores Nuñez', phone: '902146325', email: 'lourdesalas75@example.com', specialty: 'Pediatría' },
   ];
 
   filteredDoctors = [...this.doctors];
@@ -26,6 +26,7 @@ export class AddDocComponent implements OnInit {
   newDoctor = {
     cmp: '',
     name: '',
+    apellido: '',
     phone: '',
     email: '',
     specialty: '',
@@ -34,8 +35,10 @@ export class AddDocComponent implements OnInit {
   fieldErrors = {
     cmp: '',
     nombre: '',
+    apellido: '',
     phone: '',
-    email: ''
+    email: '',
+    specialty: '',
   };
 
   ngOnInit(): void {
@@ -54,7 +57,7 @@ export class AddDocComponent implements OnInit {
 
   validateFields(): boolean {
     let valid = true;
-    this.fieldErrors = { cmp: '',nombre: '' ,phone: '', email: '' };
+    this.fieldErrors = { cmp: '',nombre: '', apellido: '' ,phone: '', email: '', specialty: '' };
 
     if (!/^\d{1,5}$/.test(this.newDoctor.cmp)) {
       this.fieldErrors.cmp = 'El CMP debe ser numérico y no puede exceder 5 dígitos.';
@@ -67,7 +70,12 @@ export class AddDocComponent implements OnInit {
     }
 
     if (!/.+@.+\..+/.test(this.newDoctor.email)) {
-      this.fieldErrors.email = 'El email debe ser válido.';
+      this.fieldErrors.email = 'El email debe contener @.';
+      valid = false;
+    }
+
+    if (!this.newDoctor.specialty) {
+      this.fieldErrors.specialty = 'La especialidad es obligatoria.';
       valid = false;
     }
 
@@ -93,11 +101,12 @@ export class AddDocComponent implements OnInit {
     this.newDoctor = {
       cmp: '',
       name: '',
+      apellido: '',
       phone: '',
       email: '',
       specialty: '',
     };
-    this.fieldErrors = { cmp: '', nombre:'' ,phone: '', email: '' };
+    this.fieldErrors = { cmp: '', nombre:'', apellido:'' ,phone: '', email: '', specialty: '' };
   }
 
   addDoctor() {

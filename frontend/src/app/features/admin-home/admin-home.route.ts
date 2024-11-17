@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminHomeComponent } from './admin-home.component';
 import { AddDocComponent } from './views/add-doc/add-doc.component';
 import { ListCitasComponent } from './views/list-citas/list-citas.component';
-import { ListUsersComponent } from './views/list-users/list-users.component';
+import { RentabilidadComponent } from './views/rentabilidad/rentabilidad.component';
 
 const routes: Routes = [
   {
@@ -12,8 +12,8 @@ const routes: Routes = [
     children: [
       { path: 'add-doc', component: AddDocComponent },
       { path: 'list-citas', component: ListCitasComponent },
-      { path: 'list-users', component: ListUsersComponent },
-      { path: '', redirectTo: 'list-citas', pathMatch: 'full' },
+      { path: 'rentabilidad', component: RentabilidadComponent },
+      { path: '**', redirectTo: 'list-citas', pathMatch: 'full' },
     ],
   },
 ];

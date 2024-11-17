@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModDocComponent } from './mod-doc.component';
+import { RentabilidadComponent } from './rentabilidad.component';
 
-describe('ModDocComponent', () => {
-  let component: ModDocComponent;
-  let fixture: ComponentFixture<ModDocComponent>;
+describe('RentabilidadComponent', () => {
+  let component: RentabilidadComponent;
+  let fixture: ComponentFixture<RentabilidadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModDocComponent]
+      imports: [RentabilidadComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModDocComponent);
+    fixture = TestBed.createComponent(RentabilidadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

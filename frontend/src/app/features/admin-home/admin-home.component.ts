@@ -14,4 +14,9 @@ constructor(private router: Router) {}
   isActiveRoute(route: string): boolean {
     return this.router.url.startsWith(route);
   }
+  logout(): void {
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/login']);
+  }
+
 }
