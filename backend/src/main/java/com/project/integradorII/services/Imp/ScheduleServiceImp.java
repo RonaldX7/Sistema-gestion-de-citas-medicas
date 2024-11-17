@@ -98,19 +98,31 @@ public class ScheduleServiceImp implements ScheduleService {
     @Transactional
     @Override
     public void validateSchedule(ScheduleRequest scheduleRequest) {
+        // Verificar si el horario ya existe para el doctor
         Optional<DoctorSchedule> doctorSchedule = scheduleRepository
-                .findByDoctors_IdAndHourStartAndHourEnd
-                        (scheduleRequest.doctorId(), scheduleRequest.startHour(), scheduleRequest.endHour());
-        List<DoctorSchedule> schedules = scheduleRepository.findByDoctors_Id(scheduleRequest.doctorId());
+                .findByDoctors_IdAndHourStartAndHourEnd(
+                        scheduleRequest.doctorId(),
+                        scheduleRequest.startHour(),
+                        scheduleRequest.endHour());
 
         if (doctorSchedule.isPresent()) {
             throw new RuntimeException("El horario ya existe");
         }
+        // Verificar que la hora de inicio no sea mayor que la hora de fin
         if (scheduleRequest.startHour().isAfter(scheduleRequest.endHour())) {
             throw new RuntimeException("La hora de inicio no puede ser mayor a la hora de fin");
         }
-        if (schedules.stream().anyMatch(schedule -> schedule.getHourStart().isBefore(scheduleRequest.startHour()) && schedule.getHourEnd().isAfter(scheduleRequest.startHour()))) {
-            throw new RuntimeException("El horario se cruza con otro horario");
+
+        // Consultar los horarios del doctor en una sola consulta
+        List<DoctorSchedule> schedules = scheduleRepository.findByDoctors_Id(scheduleRequest.doctorId());
+
+        // Validar si el horario nuevo se cruza con los horarios existentes
+        for (DoctorSchedule schedule : schedules) {
+            // Comprobar que el nuevo horario no se cruza con ninguno existente
+            if (schedule.getHourStart().isBefore(scheduleRequest.endHour()) &&
+                    schedule.getHourEnd().isAfter(scheduleRequest.startHour())) {
+                throw new RuntimeException("El horario se cruza con otro horario");
+            }
         }
     }
 

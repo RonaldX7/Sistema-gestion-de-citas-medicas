@@ -129,10 +129,6 @@ public class AppointmentServiceImp implements AppointmentService {
         //Guardar la cita medica
         MedicalAppointment saveMedicalAppointment = appointmentRepository.save(appointment);
 
-        //Cambiar el estado del horario
-        schedule.setAvailable(false);
-        scheduleRepository.save(schedule);
-
         return saveMedicalAppointment;
     }
 }

@@ -136,16 +136,29 @@ public class PatientServiceImp implements PatientService {
         PatientEntity patientEntity = patientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("El paciente no existe"));
 
+        //Validar si el distrito existe
+        DistrictEntity districtEntity = districtRepository.findById(patientUpdate.districtId())
+                .orElseThrow(() -> new RuntimeException("El distrito no existe"));
+
+        //Actualiza la direccion
+        AddressEntity addressEntity = patientUpdate.address() != null ? AddressEntity.builder()
+                .street(patientUpdate.address())
+                .district(districtEntity)
+                .build() : patientEntity.getAddress();
+
+
         //Actualizar los datos del paciente
         patientEntity.setName(patientUpdate.name());
         patientEntity.setLastName(patientUpdate.lastName());
-        patientEntity.setAddress(patientUpdate.address());
+        patientEntity.setAddress(addressEntity);
         patientEntity.setPhone(patientUpdate.phone());
         patientEntity.setEmail(patientUpdate.email());
 
         //actualizar los datos del usuario
         UserEntity user = patientEntity.getUser();
-        user.setPassword(patientUpdate.password());
+        if (patientUpdate.password() != null && !patientUpdate.password().equals(user.getPassword())) {
+            user.setPassword(patientUpdate.password());
+        }
 
         return patientRepository.save(patientEntity);
     }
