@@ -17,6 +17,14 @@ export const routes: Routes = [
         loadComponent:()=>import('./authentication/register/register.component').then(m=>m.RegisterComponent)
     },
     {
+        path:'recover-password',
+        loadComponent:()=> import('./authentication/recover-password/recover-password.component').then(m=>m.RecoverPasswordComponent)
+    },
+    {
+        path:'new-password',
+        loadComponent:() => import('./authentication/new-password/new-password.component').then(m=>m.NewPasswordComponent)
+    },
+    {
         path:'doctor-home',
         loadComponent:()=>import('./features/doctor-home/doctor-home.component').then(m=>m.DoctorHomeComponent)
     },
