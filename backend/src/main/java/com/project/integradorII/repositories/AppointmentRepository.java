@@ -15,17 +15,17 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<MedicalAppointment, Long> {
 
     //buscar las citas por especialidad
-    @Query("SELECT a FROM MedicalAppointment a JOIN a.doctor d WHERE d.specialties = :specialty_id")
-    Page<MedicalAppointment> findBySpecialtyId(@Param("specialty_id") Long specialtyId);
+    //@Query("SELECT a FROM MedicalAppointment a JOIN a.doctor d WHERE d.specialties = :specialty_id")
+    //List<MedicalAppointment> findBySpecialtyId(@Param("specialty_id") Long specialtyId);
 
     //buscar las citas por estado
-    Page<MedicalAppointment> findByStatusId(Long statusId);
+    List<MedicalAppointment> findByStatusId(Long statusId);
 
     //Buscar las citas por el id del doctor
-    Page<MedicalAppointment> findByDoctorId(Long doctorId);
+    List<MedicalAppointment> findByDoctorId(Long doctorId);
 
     //Buscar las citas por el id del paciente
-    Page<MedicalAppointment> findByPatientId(Long patientId);
+    List<MedicalAppointment> findByPatientId(Long patientId);
 
     //Verificar si el paciente ya tiene una cita en la fecha y hora seleccionada
     boolean existsByDateAndAndStartTimeAndAndEndTime(LocalDate date, LocalTime startTime, LocalTime endTime);

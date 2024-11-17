@@ -18,9 +18,21 @@ public class AppointmentController {
 
     private final AppointmentServiceImp appointmentService;
 
+    //metodo para listar las citas por doctor
+
+
+    //metodo para listar las citas por paciente
+
+
+    //metodo para registrar una cita
     @PostMapping("/registrar")
     public ResponseEntity<MedicalAppointment> createAppointment(@RequestBody @Valid AppointmentRequest appointmentRequest){
         return new ResponseEntity<>(this.appointmentService.createAppointment(appointmentRequest), HttpStatus.CREATED);
     }
+
+    //metodo para actualizar una cita
+
+
+    //metodo para cancelar una cita
 
 }

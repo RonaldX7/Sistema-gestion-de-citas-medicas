@@ -9,6 +9,7 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
+@Table(name = "tb_address")
 public class AddressEntity {
 
     @Id

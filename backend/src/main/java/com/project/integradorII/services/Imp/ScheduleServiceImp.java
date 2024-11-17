@@ -30,7 +30,7 @@ public class ScheduleServiceImp implements ScheduleService {
     @Override
     public List<ScheduleList> getAvaiableSchedulesByDoctor(Long doctorId) {
 
-        Page<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndAvailableIs(doctorId, true);
+        List<DoctorSchedule> doctorSchedules = scheduleRepository.findByDoctors_IdAndAvailableIs(doctorId, true);
 
         //Mapear la lista de horarios
         List<ScheduleList> scheduleLists = doctorSchedules.stream().map(doctorSchedule -> {
@@ -38,7 +38,7 @@ public class ScheduleServiceImp implements ScheduleService {
                     doctorSchedule.getId(),
                     doctorSchedule.getHourStart(),
                     doctorSchedule.getHourEnd(),
-                    doctorSchedule.isAvialable()
+                    doctorSchedule.isAvailable()
             );
         }).collect(Collectors.toList());
 
@@ -81,7 +81,7 @@ public class ScheduleServiceImp implements ScheduleService {
         DoctorSchedule doctorSchedule = DoctorSchedule.builder()
                 .hourStart(scheduleRequest.startHour())
                 .hourEnd(scheduleRequest.endHour())
-                .avialable(scheduleRequest.isAvailable())
+                .available(scheduleRequest.isAvailable())
                 .build();
 
         //Asignar el medico al horario
@@ -128,7 +128,7 @@ public class ScheduleServiceImp implements ScheduleService {
         //Actualizar el horario
         doctorSchedule.setHourStart(scheduleRequest.startHour());
         doctorSchedule.setHourEnd(scheduleRequest.endHour());
-        doctorSchedule.setAvialable(scheduleRequest.isAvailable());
+        doctorSchedule.setAvailable(scheduleRequest.isAvailable());
 
         //Guardar el horario
         return scheduleRepository.save(doctorSchedule);

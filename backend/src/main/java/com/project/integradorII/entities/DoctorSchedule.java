@@ -31,7 +31,7 @@ public class DoctorSchedule {
     private LocalTime hourEnd;
 
     @Column(name = "is_available")
-    private boolean avialable;
+    private boolean available;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonIgnore

@@ -6,7 +6,6 @@ import com.project.integradorII.entities.*;
 import com.project.integradorII.repositories.*;
 import com.project.integradorII.services.AppointmentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +24,7 @@ public class AppointmentServiceImp implements AppointmentService {
     private final AppointmentStatusRepository appointmentStatusRepository;
     private final AppointmentCostRepository appointmentCostRepository;
 
-    private List<AppointmentList> getAppointmentLists(Stream<MedicalAppointment> stream, Page<MedicalAppointment> appointments) {
+    private List<AppointmentList> getAppointmentLists(Stream<MedicalAppointment> stream, List<MedicalAppointment> appointments) {
         List<AppointmentList> appointmentLists = stream
                 .map(appointment -> {
                     return new AppointmentList(
@@ -50,22 +49,15 @@ public class AppointmentServiceImp implements AppointmentService {
 
         List<MedicalAppointment> appointments = appointmentRepository.findAll();
 
-        return getAppointmentLists(appointments.stream(), (Page<MedicalAppointment>) appointments);
-
-    }
-
-    @Override
-    public List<AppointmentList> ListAppointmentBySpecialty(Long specialtyId) {
-        Page<MedicalAppointment> appointments = appointmentRepository.findBySpecialtyId(specialtyId);
-
         return getAppointmentLists(appointments.stream(), appointments);
+
     }
 
     @Transactional
     @Override
     public List<AppointmentList> ListAppointmentByStatus(Long statusId) {
 
-        Page<MedicalAppointment> appointments = appointmentRepository.findByStatusId(statusId);
+        List<MedicalAppointment> appointments = appointmentRepository.findByStatusId(statusId);
 
         return getAppointmentLists(appointments.stream(), appointments);
     }
@@ -73,14 +65,14 @@ public class AppointmentServiceImp implements AppointmentService {
     @Override
     public List<AppointmentList> ListAppointmentByDoctor(Long doctorId) {
 
-        Page<MedicalAppointment> appointments = appointmentRepository.findByDoctorId(doctorId);
+        List<MedicalAppointment> appointments = appointmentRepository.findByDoctorId(doctorId);
 
         return getAppointmentLists(appointments.stream(), appointments);
     }
 
     @Override
     public List<AppointmentList> ListAppointmentByPatient(Long patientId) {
-        Page<MedicalAppointment> appointments = appointmentRepository.findByPatientId(patientId);
+        List<MedicalAppointment> appointments = appointmentRepository.findByPatientId(patientId);
 
         return getAppointmentLists(appointments.stream(), appointments);
     }
@@ -113,7 +105,7 @@ public class AppointmentServiceImp implements AppointmentService {
         DoctorSchedule schedule = scheduleRepository.findById(appointmentRequest.scheduleId())
                 .orElseThrow(() -> new IllegalArgumentException("El horario no existe"));
 
-        if (!schedule.isAvialable()) {
+        if (!schedule.isAvailable()) {
             throw new IllegalArgumentException("El horario no esta disponible");
         }
 
@@ -138,7 +130,7 @@ public class AppointmentServiceImp implements AppointmentService {
         MedicalAppointment saveMedicalAppointment = appointmentRepository.save(appointment);
 
         //Cambiar el estado del horario
-        schedule.setAvialable(false);
+        schedule.setAvailable(false);
         scheduleRepository.save(schedule);
 
         return saveMedicalAppointment;
