@@ -91,12 +91,9 @@ public class PatientServiceImp implements PatientService {
         GenderEntity genderEntity = genderRepository.findById(patientCreate.genderId())
                 .orElseThrow(() -> new RuntimeException("El genero no existe"));
 
-        // Obtener el distrito y el departamento relacionado
+        //Validar si el distrito existe
         DistrictEntity districtEntity = districtRepository.findById(patientCreate.districtId())
                 .orElseThrow(() -> new RuntimeException("El distrito no existe"));
-
-        // Obtener el departamento relacionado
-        DepartmentEntity departmentEntity = districtEntity.getDepartment();
 
         //Crear la direccion
         AddressEntity addressEntity = AddressEntity.builder()
