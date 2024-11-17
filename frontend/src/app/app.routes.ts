@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './authentication/login/login.component';
+import { MyAccountComponent } from './features/my-account/my-account.component';
+import { OrderComponent } from './features/order/order.component';
+    
 
 export const routes: Routes = [
     //pacientes
@@ -36,7 +39,6 @@ export const routes: Routes = [
         path:'**',
         redirectTo:'login'
     }
-    
 
 
 ];

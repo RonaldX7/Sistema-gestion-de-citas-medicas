@@ -9,16 +9,12 @@ import { Router } from '@angular/router';
   styles: ``
 })
 export class OrderComponent {
-  constructor(private router:Router){}
-    logout(){
-      this.router.navigate(['/login']);
-    }
+  constructor(
+    private router: Router
+  ){}
 
-    MisCitas(){
-      this.router.navigate(['/doctor-home']);
-    }
-
-    order(){
-      this.router.navigate(['/citar-cita']);
-    }
+  logout(): void {
+    //localStorage.removeItem('authToken');
+    this.router.navigate(['/login']);
+  }
 }
