@@ -29,6 +29,10 @@ export const routes: Routes = [
         loadComponent:()=>import('./features/doctor-home/doctor-home.component').then(m=>m.DoctorHomeComponent)
     },
     {
+      path:'medical-history',
+      loadComponent:() => import('./features/medical-history/medical-history.component').then(m=>m.MedicalHistoryComponent)
+    },
+    {
         path: 'appointments',
         loadComponent:()=>import('./features/appointments/appointments.component').then(m=>m.AppointmentsComponent)
     },

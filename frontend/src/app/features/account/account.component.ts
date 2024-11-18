@@ -21,4 +21,12 @@ export class AccountComponent {
     citas(){
       this.router.navigate(['/citar-cita']);
     }
+
+    doctor_home(){
+      this.router.navigate(['/doctor-home']);
+    }
+
+    history(){
+      this.router.navigate(['/medical-history'])
+    }
 }

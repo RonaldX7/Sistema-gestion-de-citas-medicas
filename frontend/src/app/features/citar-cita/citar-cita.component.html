@@ -3,20 +3,16 @@
   <aside class="w-64 bg-aqua text-blue-900 p-6">
     <div class="flex flex-col items-center">
       <img src="logo-render.png" alt="Logo de VidaPlena" class="h-30 w-100 mb-6 brightness-90">
-
     </div>
     <nav class="space-y-4">
-      <button class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
+      <button (click)="doctor_home()" class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
         Inicio
       </button>
-      <button class="block w-full text-left py-2 px-4 rounded bg-deepBlue text-white hover:bg-blue-900 focus:outline-none">
+      <button class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-deepBlue focus:outline-none">
         Citas
       </button>
-      <button (click)="agenda()" class="block w-full text-left py-2 px-4 rounded">
-        Agenda
-      </button>
-      <button class="block w-full text-left py-2 px-4 rounded focus:outline-none">
-        Orden médica
+      <button (click)="history()" class="block w-full text-left py-2 px-4 rounded focus:outline-none">
+        Historial Clinico
       </button>
       <button (click)="cuenta()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-none">
         Mi cuenta
@@ -28,35 +24,18 @@
     </div>
   </aside>
 
-  <!-- Contenido principal: Componente Appointments -->
   <!-- Main Content -->
-  <!-- Contenido principal -->
   <main class="flex-1 p-8">
     <!-- Encabezado -->
     <header class="mb-8">
       <h2 class="text-3xl font-bold text-[#005792]">Citas</h2>
     </header>
 
-    <!-- Formulario de búsqueda -->
-    <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-      <form class="grid grid-cols-5 gap-4">
-        <input type="text" placeholder="DNI" class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#53CDE2]" />
-        <input type="text" placeholder="Paciente" class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#53CDE2]" />
-        <input type="date" class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#53CDE2]" />
-        <select class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#53CDE2]">
-          <option value="">Estado</option>
-          <option value="atendido">Atendido</option>
-          <option value="en espera">En Espera</option>
-        </select>
-        <button class="bg-[#005792] text-white rounded-lg px-4 py-2 hover:bg-[#53CDE2]">Buscar</button>
-      </form>
-    </div>
-
     <!-- Tabla de citas -->
     <div class="bg-white p-6 rounded-lg shadow-lg">
       <table class="w-full text-left border-collapse">
         <thead>
-          <tr class="bg-[#005792] text-white">
+          <tr class="bg-[#005792] text-white text-center">
             <th class="p-4">DNI</th>
             <th class="p-4">Nombre</th>
             <th class="p-4">Fecha</th>
@@ -67,24 +46,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="even:bg-[#EDF9FC] hover:bg-[#80DDDB]">
+          <tr class="even:bg-[#EDF9FC] hover:bg-[#80DDDB] text-center">
             <td class="p-4">080526987</td>
             <td class="p-4">Julio Cesar Medrano Ossco</td>
             <td class="p-4">20/09/24</td>
             <td class="p-4">Psicología</td>
             <td class="p-4">Atendido</td>
             <td class="p-4 text-center align-middle">
-              <button class="bg-[#005792] text-white px-6 py-2 rounded-lg text-base hover:bg-[#53CDE2]">
+              <button (click)="openModal('Julio Cesar Medrano Ossco')" class="bg-[#005792] text-white px-6 py-2 rounded-lg text-base hover:bg-[#53CDE2]">
                 Ver
               </button>
             </td>
             <td class="p-4 text-center align-middle">
               <button class="bg-[#005792] text-white px-6 py-2 rounded-lg text-base hover:bg-[#53CDE2]">
-                Ver
+                Agregar
               </button>
             </td>
           </tr>
-          <tr class="even:bg-[#EDF9FC] hover:bg-[#80DDDB]">
+          <tr class="even:bg-[#EDF9FC] hover:bg-[#80DDDB] text-center">
             <td class="p-4">080526987</td>
             <td class="p-4">Julio Cesar Medrano Ossco</td>
             <td class="p-4">30/09/24</td>
@@ -96,14 +75,41 @@
               </button>
             </td>
             <td class="p-4 text-center align-middle">
-              <button class="bg-[#005792] text-white px-6 py-2 rounded-lg text-base hover:bg-[#53CDE2]">
-                Ver
+              <button (click)="openModal('Julio Cesar Medrano Ossco')" class="bg-[#005792] text-white px-6 py-2 rounded-lg text-base hover:bg-[#53CDE2]">
+                Agregar
               </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-  </main>
-  </div>
 
+    <!-- Modal de aviso -->
+    <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div class="relative bg-white p-6 rounded-lg shadow-lg w-100 border-2">
+        <button (click)="closeModal()" class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 font-bold text-lg">X</button>
+        <h3 class="text-2xl font-semibold text-blue-500 mb-4 text-center">Información del Perfil Clínico</h3>
+        <b>MOTIVO CONSULTA</b><br>
+        Razon principal: Revision mensual por diabetes mellitus tipo 2<br>
+        Observacion: Control de niveles de glucosa en sangre y evaluacion<br>
+
+        <b>ANTECEDENTES MEDICOS</b><br>
+        Diabetes Mellitus Tipo 2 (diagnosticada hace 5 años).<br>
+        Hipertensión arterial (controlada).<br>
+        Alergias: Ninguna conocida.<br>
+        Cirugías: Apendicectomía a los 20 años.<br>
+
+        <b>TRIAJE</b><br>
+        Frecuencia cardíaca: 72 latidos/minuto.<br>
+        Presión arterial: 130/85 mmHg.<br>
+        Temperatura: 36.7°C.<br>
+        Frecuencia respiratoria: 16 respiraciones/minuto.<br>
+        Nivel de glucosa (auto-monitoreo): 150 mg/dL en ayunas
+
+        <p class="text-gray-700 mb-6">
+          Detalles del paciente: <strong>{{ selectedPatient }}</strong>
+        </p>
+      </div>
+    </div>
+  </main>
+</div>

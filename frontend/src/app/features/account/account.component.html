@@ -6,19 +6,16 @@
 
     </div>
     <nav class="space-y-4">
-      <button class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
+      <button (click)="doctor_home()" class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
         Inicio
       </button>
       <button (click)="citas()" class="block w-full text-left py-2 px-4 rounded focus:outline-none">
         Citas
       </button>
-      <button (click)="agenda()" class="block w-full text-left py-2 px-4 rounded">
-        Agenda
+      <button (click)="history()" class="block w-full text-left py-2 px-4 rounded focus:outline-none">
+        Historial Clinico
       </button>
-      <button class="block w-full text-left py-2 px-4 rounded focus:outline-none">
-        Orden médica
-      </button>
-      <button class="block w-full text-left py-2 px-4 rounded bg-deepBlue text-white hover:bg-blue-900 focus:outline-none">
+      <button class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-deepBlue focus:outline-none">
         Mi cuenta
       </button>
     </nav>
@@ -29,63 +26,63 @@
   </aside>
 
   <!-- Contenido principal: Componente Account -->
+
   <!-- Content -->
-  <main class="flex-1 p-10">
-    <header class="mb-8">
-      <h2 class="text-3xl font-bold text-[#005792]">Mi cuenta</h2>
-    </header>
-    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Tipo de documento -->
-      <div>
-        <label class="block font-semibold mb-2">Tipo de documento</label>
-        <input type="text" value="CMP" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
-      </div>
-      <!-- Nombres -->
-      <div>
-        <label class="block font-semibold mb-2">Nombres</label>
-        <input type="text" value="KATHERINE NOELIA" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
-      </div>
-      <!-- Apellidos -->
-      <div>
-        <label class="block font-semibold mb-2">Apellidos</label>
-        <input type="text" value="OBREGON CANDELA" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
-      </div>
-      <!-- Teléfono -->
-      <div>
-        <label class="block font-semibold mb-2">Teléfono</label>
-        <input type="text" value="987654321" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
-      </div>
-      <!-- Email -->
-      <div>
-        <label class="block font-semibold mb-2">E-mail</label>
-        <input type="email" value="Kath32_n@example.com" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
-      </div>
-      <!-- Especialidad -->
-      <div>
-        <label class="block font-semibold mb-2">Especialidad</label>
-        <input type="text" value="PSICOLOGÍA" readonly class="w-full p-3 border border-[#80DDDB] rounded bg-gray-100 text-gray-800">
-      </div>
-      <!-- Contraseña actual -->
-      <div>
-        <label class="block font-semibold mb-2">Contraseña actual</label>
-        <input type="password" placeholder="********" class="w-full p-3 border border-[#80DDDB] rounded">
-      </div>
-      <!-- Contraseña nueva -->
-      <div>
-        <label class="block font-semibold mb-2">Contraseña nueva</label>
-        <input type="password" placeholder="********" class="w-full p-3 border border-[#80DDDB] rounded">
-      </div>
-      <!-- Confirmar contraseña nueva -->
-      <div>
-        <label class="block font-semibold mb-2">Confirmar contraseña nueva</label>
-        <input type="password" placeholder="********" class="w-full p-3 border border-[#80DDDB] rounded">
-      </div>
-      <!-- Botón actualizar clave -->
-      <div class="md:col-span-2">
-        <button type="submit" class="w-full bg-[#005792] text-[#EDF9FC] py-3 rounded hover:bg-[#004171] font-semibold">
-          Actualizar clave
-        </button>
-      </div>
-    </form>
-  </main>
+
+ <!-- Formulario -->
+<div class="max-w-4xl mx-auto bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
+  <!-- Encabezado -->
+  <div class="bg-blue-900 text-white text-center py-4 rounded-md mb-8">
+    <h1 class="text-2xl font-bold">MI CUENTA</h1>
   </div>
+  <form class="grid grid-cols-12 gap-y-6 gap-x-6">
+    <!-- Tipo y numero de CMP -->
+    <div class="col-span-2">
+      <label class="block text-sm font-medium text-gray-600 ">Documento</label>
+      <input type="text" class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" CMP">
+      <br>
+      <input type="text" class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" 45636">
+    </div>
+    <!-- Nombres y Apellidos -->
+    <div class="col-span-10">
+      <label class="block text-sm font-medium text-gray-600">Nombres</label>
+      <input type="text" class="mt-2 mb-1 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" KATHERINE NOELINA">
+
+      <label class="block text-sm font-medium text-gray-600">Apellidos</label>
+      <input type="text" class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" OBREGON CANDELA">
+    </div>
+    <!-- Teléfono -->
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">Teléfono</label>
+      <input type="text" class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" 987654321">
+    </div>
+    <!-- Email -->
+    <div class="col-span-8">
+      <label class="block text-sm font-medium text-gray-600">E-mail</label>
+      <input type="email" class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" Kath32_n@example.com">
+    </div>
+    <!-- Especialidad -->
+    <div class="col-span-12">
+      <label class="block text-sm font-medium text-gray-600">Especialidad</label>
+      <input type="text" class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" PSICOLOGÍA">
+    </div>
+    <!-- Contraseñas -->
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">Contraseña actual</label>
+      <input type="password" class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" xxxxxxxxxx">
+    </div>
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">Contraseña nueva</label>
+      <input type="password" class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" xxxxxxxxxx">
+    </div>
+    <div class="col-span-4">
+      <label class="block text-sm font-medium text-gray-600">Confirmar contraseña nueva</label>
+      <input type="password" class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900" value=" xxxxxxxxxx">
+    </div>
+    <!-- Botón -->
+    <div class="col-span-12 flex justify-center mt-6">
+      <button type="submit" class="bg-blue-900 text-white px-10 py-3 rounded-full shadow-md hover:bg-teal-700 transition">ACTUALIZAR CLAVE</button>
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,125 @@
+<div class="flex min-h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-aqua text-blue-900 p-6">
+    <div class="flex flex-col items-center">
+      <img
+        src="logo-render.png"
+        alt="Logo de VidaPlena"
+        class="h-30 w-100 mb-6 brightness-90"
+      />
+    </div>
+    <nav class="space-y-4">
+      <button (click)="doctor_home()"
+        class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none"
+      >
+        Inicio
+      </button>
+      <button (click)="citas()"
+        class="block w-full text-left py-2 px-4 rounded  focus:outline-none"
+      >
+        Citas
+      </button>
+      <button
+        class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-deepBlue focus:outline-none"
+      >
+        Historial Clinico
+      </button>
+      <button
+        (click)="cuenta()"
+        class="block w-full text-left py-2 px-4 rounded focus:outline-none"
+      >
+        Mi cuenta
+      </button>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-gray-300">
+      <button
+        class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+      >
+        Logout
+      </button>
+      <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
+    </div>
+  </aside>
+  <!-- Main content -->
+  <main class="flex-1 p-8">
+    <div class="bg-white rounded-lg shadow p-6">
+      <!-- Encabezado -->
+      <h2 class="text-xl font-bold mb-6 text-blue-900">Antecedentes Médicos</h2>
+
+      <!-- Filtro por año -->
+      <div class="mb-6 flex items-center space-x-4">
+        <label for="year" class="text-blue-900 font-semibold">Año</label>
+        <input
+          type="text"
+          id="year"
+          class="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300 w-1/4"
+          placeholder="2024"
+        />
+        <button
+          class="px-4 py-2 bg-blue-900 text-white font-semibold rounded hover:bg-deepBlue focus:ring-2 focus:ring-blue-300"
+        >
+          Buscar
+        </button>
+      </div>
+      <!-- Tabla de Antecedentes -->
+      <div class="bg-white p-6 rounded-lg shadow-lg">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-[#005792] text-white text-center">
+              <th class="p-4">Fecha</th>
+              <th class="p-4">Hora</th>
+              <th class="p-4">Médico</th>
+              <th class="p-4">Receta</th>
+              <th class="p-4">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="bg-[var(--color-bg-light)] hover:bg-[#80DDDB] text-center"
+            >
+              <td class="px-4 py-2 border ">10-09-24</td>
+              <td class="px-4 py-2 border ">10:36 AM</td>
+              <td class="px-4 py-2 border ">
+                Juan Antonio Santos Madrid
+              </td>
+              <td
+                class="px-4 py-2 border text-blue-900 font-semibold cursor-pointer"
+              >
+                Ver 👁️
+              </td>
+              <td class="px-4 py-2 border ">Atendido</td>
+            </tr>
+            <tr class="hover:bg-[#80DDDB] text-center">
+              <td class="px-4 py-2 border ">12-09-24</td>
+              <td class="px-4 py-2 border ">11:00 AM</td>
+              <td class="px-4 py-2 border ">
+                Luis Alvarez Perez
+              </td>
+              <td
+                class="px-4 py-2 border text-blue-900 font-semibold cursor-pointer"
+              >
+                Ver 👁️
+              </td>
+              <td class="px-4 py-2 border">Atendido</td>
+            </tr>
+            <tr
+              class="bg-[var(--color-bg-light)] text-center hover:bg-[#80DDDB]"
+            >
+              <td class="px-4 py-2 border ">01-06-24</td>
+              <td class="px-4 py-2 border ">08:25 AM</td>
+              <td class="px-4 py-2 border ">
+                Luis Alvarez Perez
+              </td>
+              <td
+                class="px-4 py-2 border text-blue-900 font-semibold cursor-pointer"
+              >
+                Ver 👁️
+              </td>
+              <td class="px-4 py-2 border">Atendido</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>

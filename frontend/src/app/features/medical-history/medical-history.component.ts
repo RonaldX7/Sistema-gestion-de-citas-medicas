@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
 
 
 @Component({
-  selector: 'app-doctor-home',
+  selector: 'app-medical-history',
   standalone: true,
   imports: [],
-  templateUrl: './doctor-home.component.html',
+  templateUrl: './medical-history.component.html',
   styles: ``
 })
-export class DoctorHomeComponent {
+export class MedicalHistoryComponent {
   constructor(private router:Router){}
 
     citas(){
@@ -21,7 +20,7 @@ export class DoctorHomeComponent {
       this.router.navigate(['/account']);
     }
 
-    history(){
-      this.router.navigate(['/medical-history'])
+    doctor_home() {
+      this.router.navigate(['/doctor-home']);
     }
 }
