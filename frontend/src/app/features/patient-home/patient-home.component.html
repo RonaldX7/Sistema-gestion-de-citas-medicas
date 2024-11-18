@@ -1,0 +1,42 @@
+<div class="min-h-screen bg-cover bg-center p-8" style="background-image: url('/fondo-noazul.png');">
+    <!-- Logo y nombre de la clínica -->
+    <div class="flex items-center justify-center mb-8 bg-aqua  rounded-full">
+      <img src="/logo-ampliosf.png"  class="w-1/4 brightness-90">
+    </div>
+  
+    <!-- Contenedor de las tarjetas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Tarjeta Pide tu cita -->
+      <div class="bg-deepBlue text-white rounded-lg shadow-md p-6 flex flex-col items-center">
+        <img src="/pide-cita.png"  class="w-20">
+        <h3 class="text-xl font-semibold mb-2">PIDE TU CITA</h3>
+        <p class="text-center mb-4">Pide tu cita en 3 pasos, elige a tu médico, la fecha y hora de atención que más te acomode.</p>
+        <button (click)="toAppointment()"  class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+      </div>
+  
+      <!-- Tarjeta Mis citas -->
+      <div class="bg-deepBlue text-white rounded-lg shadow-md p-6 flex flex-col items-center">
+        <img src="/lista-cita.png"  class="w-20">
+        <h3 class="text-xl font-semibold mb-2">MIS CITAS</h3>
+        <p class="text-center mb-4">Podrás ver tus citas pasadas y las próximas a las que debes asistir.</p>
+        <button class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+      </div>
+  
+      <!-- Tarjeta Mi cuenta -->
+      <div class="bg-deepBlue text-white rounded-lg shadow-md p-6 flex flex-col items-center">
+        <img src="/mi-cuenta.png"  class="w-20">
+        <h3 class="text-xl font-semibold mb-2">MI CUENTA</h3>
+        <p class="text-center mb-4">Ingresa tus datos para que puedas reservar las citas.</p>
+        <button class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+      </div>
+  
+      <!-- Tarjeta Orden médica -->
+      <div class="bg-deepBlue text-white rounded-lg shadow-md p-6 flex flex-col items-center">
+        <img src="/orden-medica.png"  class="w-20">
+        <h3 class="text-xl font-semibold mb-2">ORDEN MÉDICA</h3>
+        <p class="text-center mb-4">Recibirás un diagnóstico mediante una receta médica, por parte de un especialista.</p>
+        <button class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+      </div>
+    </div>
+  </div>
+  

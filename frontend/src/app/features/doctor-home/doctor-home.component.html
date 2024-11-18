@@ -1,0 +1,97 @@
+<div class="flex min-h-screen bg-gray-100">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-aqua text-blue-900 p-6">
+      <div class="flex flex-col items-center">
+        <img src="logo-render.png" alt="Logo de VidaPlena" class="h-30 w-100 mb-6 brightness-90">
+  
+      </div>
+      <nav class="space-y-4">
+        <button class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
+          Inicio
+        </button>
+        <button (click)="citas()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-none">
+          Citas
+        </button>
+        <button class="block w-full text-left py-2 px-4 rounded bg-deepBlue text-white hover:bg-blue-900 focus:outline-none">
+          Agenda
+        </button>
+        <button class="block w-full text-left py-2 px-4 rounded focus:outline-none">
+          Orden médica
+        </button>
+        <button (click)="cuenta()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-none">
+          Mi cuenta
+        </button>
+      </nav>
+      <div class="mt-auto pt-6 border-t border-gray-300">
+        <button (click)="regreso()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
+        <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
+      </div>
+    </aside>
+  
+    <!-- Contenido principal: Componente Appointments -->
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <!-- Header -->
+      <div class="mb-4">
+        <h2 class="text-3xl font-bold text-[#005792] mb-4">Agenda</h2>
+        <!-- Contenedor de selectores -->
+        <div class="flex items-center space-x-4 mb-4">
+          <select class="border border-gray-300 rounded p-2">
+            <option value="2024">2024</option>
+            <!-- Agregar otros años si es necesario -->
+          </select>
+          <select class="border border-gray-300 rounded p-2">
+            <option value="todo">Todo</option>
+            <option value="todo">Atendido</option>
+            <option value="todo">Rechazado</option>
+            <option value="todo">Reprogramado</option>
+          </select>
+        </div>
+      </div>
+  
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg">
+          <thead class="bg-blue-900 text-white">
+            <tr>
+              <th class="px-6 py-3 text-left">DNI</th>
+              <th class="px-6 py-3 text-left">NOMBRE</th>
+              <th class="px-6 py-3 text-left">FECHA</th>
+              <th class="px-6 py-3 text-left">ESPECIALIDAD</th>
+              <th class="px-6 py-3 text-left">ESTADO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200">
+              <td class="px-6 py-4">42716213</td>
+              <td class="px-6 py-4">CASSANDRA LUISA RAMOS TORRES</td>
+              <td class="px-6 py-4">20/09/24</td>
+              <td class="px-6 py-4">PSICOLOGÍA</td>
+              <td class="px-6 py-4">ATENDIDO</td>
+            </tr>
+            <tr class="border-b border-gray-200 bg-[var(--color-light-blue)]">
+              <td class="px-6 py-4">08052697</td>
+              <td class="px-6 py-4">JULIO CESAR MEDRANO OSSCO</td>
+              <td class="px-6 py-4">30/09/24</td>
+              <td class="px-6 py-4">PSICOLOGÍA</td>
+              <td class="px-6 py-4">CANCELADO</td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="px-6 py-4">75685321</td>
+              <td class="px-6 py-4">YUDITH MENDOZA ARIAS</td>
+              <td class="px-6 py-4">19/10/24</td>
+              <td class="px-6 py-4">PSICOLOGÍA</td>
+              <td class="px-6 py-4">ATENDIDO</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4">08052697</td>
+              <td class="px-6 py-4">JULIO CESAR MEDRANO OSSCO</td>
+              <td class="px-6 py-4">29/10/24</td>
+              <td class="px-6 py-4">PSICOLOGÍA</td>
+              <td class="px-6 py-4">EN ESPERA</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+    </div>
