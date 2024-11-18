@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './authentication/login/login.component';
 
 export const routes: Routes = [
+
     //pacientes
     {
         path:'login',
@@ -17,18 +18,22 @@ export const routes: Routes = [
         loadComponent:()=>import('./authentication/register/register.component').then(m=>m.RegisterComponent)
     },
     {
+        path: 'appointments',
+        loadComponent:()=>import('./features/appointments/appointments.component').then(m=>m.AppointmentsComponent)
+    },
+    //doctor
+    {
         path:'doctor-home',
         loadComponent:()=>import('./features/doctor-home/doctor-home.component').then(m=>m.DoctorHomeComponent)
     },
     {
-        path: 'appointments',
-        loadComponent:()=>import('./features/appointments/appointments.component').then(m=>m.AppointmentsComponent)
+        path:'citar-cita',
+        loadComponent:()=>import('./features/citar-cita/citar-cita.component').then(m=>m.CitarCitaComponent)
     },
     {
         path:'**',
         redirectTo:'login'
     }
-    
-
+ 
 
 ];

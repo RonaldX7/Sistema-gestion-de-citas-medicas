@@ -1,26 +1,24 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
-
 
 @Component({
-  selector: 'app-doctor-home',
+  selector: 'app-citar-cita',
   standalone: true,
   imports: [],
-  templateUrl: './doctor-home.component.html',
+  templateUrl: './citar-cita.component.html',
   styles: ``
 })
-export class DoctorHomeComponent {
+export class CitarCitaComponent {
   constructor(private router:Router){}
     regreso(){
       this.router.navigate(['/login']);
     }
 
-    citas(){
-      this.router.navigate(['/citar-cita']);
+    agenda(){
+      this.router.navigate(['/doctor-home']);
     }
 
     cuenta(){
-      this.router.navigate(['/account']);
+      this.router.navigate(['/account'])
     }
 }
