@@ -3,7 +3,11 @@
   <aside class="w-64 bg-aqua text-blue-900 p-6">
     <div class="flex flex-col items-center">
       <img src="logo-render.png" alt="Logo de VidaPlena" class="h-30 w-100 mb-6 brightness-90">
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> origin/josue
     </div>
     <nav class="space-y-4">
       <a href="/appointments" class="block py-2 px-4 rounded-lg bg-deepBlue text-white hover:bg-blue-900">Pide tu cita</a>
@@ -27,21 +31,36 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div class="relative mb-4">
             <label for="fecha" class="block text-sm font-semibold text-deepBlue mb-2">Fecha:</label>
+<<<<<<< HEAD
             <input 
               type="date" 
               id="fecha" 
               [(ngModel)]="selectedDate" 
+=======
+            <input
+              type="date"
+              id="fecha"
+              [(ngModel)]="selectedDate"
+>>>>>>> origin/josue
               (change)="onDateChange()"
               name="fecha"
               class="pl-10 pr-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
           </div>
           <div class="relative mb-4">
             <label for="especialidad" class="block text-sm font-semibold text-deepBlue mb-2">Especialidad:</label>
+<<<<<<< HEAD
             <select 
               id="especialidad"
               name="especialidad" 
               [(ngModel)]="selectedSpecialty" 
               (change)="onSpecialtyChange($event)" 
+=======
+            <select
+              id="especialidad"
+              name="especialidad"
+              [(ngModel)]="selectedSpecialty"
+              (change)="onSpecialtyChange($event)"
+>>>>>>> origin/josue
               class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue text-gray-700">
               <option value="todas" class="text-gray-700">Todas</option>
               <option *ngFor="let specialty of specialties" [value]="specialty.id">{{ specialty.name }}</option>
@@ -63,8 +82,13 @@
                 <td class="py-3 px-4">{{ doctor.lastName + " " + doctor.name }}</td>
                 <td class="py-3 px-4">
                   <div *ngIf="doctor.schedule && doctor.schedule.length > 0; else noSchedule">
+<<<<<<< HEAD
                     <button 
                     *ngFor="let time of doctor.schedule" 
+=======
+                    <button
+                    *ngFor="let time of doctor.schedule"
+>>>>>>> origin/josue
                     (click)="onScheduleSelect(time, doctor)"
                     [ngClass]="{'bg-skyBlue text-white': selectedSchedule === time && selectedDoctor === doctor, 'bg-deepBlue text-white': selectedSchedule !== time || selectedDoctor !== doctor}"
                     class="inline-block px-3 py-1 rounded-lg bg-deepBlue text-white font-medium m-1 hover:bg-skyBlue transition">
@@ -112,8 +136,11 @@
   <button class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="submitAppointment()">Confirmar</button>
     </ng-template>
   </div>
+<<<<<<< HEAD
 
   
 
 
+=======
+>>>>>>> origin/josue
 </div>

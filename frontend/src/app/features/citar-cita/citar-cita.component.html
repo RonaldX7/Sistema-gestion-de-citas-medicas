@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <div class="flex min-h-screen bg-gray-100">
     <!-- Sidebar -->
@@ -108,3 +109,226 @@
     </main>
     </div>
   
+=======
+<div class="flex flex-col md:flex-row min-h-screen"  style="background-image: url('/fondo-noazul.png');">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-aqua text-blue-900 p-6">
+    <div class="flex flex-col items-center">
+      <img
+        src="logo-render.png"
+        alt="Logo de VidaPlena"
+        class="h-30 w-100 mb-6 brightness-90"
+      />
+    </div>
+    <nav class="space-y-4">
+      <button
+        (click)="doctor_home()"
+        class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none"
+      >
+        Inicio
+      </button>
+      <button
+        class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-deepBlue focus:outline-none"
+      >
+        Citas
+      </button>
+      <button
+        (click)="history()"
+        class="block w-full text-left py-2 px-4 rounded focus:outline-none"
+      >
+        Historial Clinico
+      </button>
+      <button
+        (click)="cuenta()"
+        class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-none"
+      >
+        Mi cuenta
+      </button>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-gray-300">
+      <button
+        (click)="regreso()"
+        class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+      >
+        Logout
+      </button>
+      <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8">
+    <!-- Encabezado -->
+    <div class="bg-blue-900 text-white p-4 rounded-lg shadow-md mb-5">
+      <h2 class="text-2xl font-bold text-center uppercase">
+        Citas
+      </h2>
+    </div>
+
+    <!-- Tabla de citas -->
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-[#005792] text-white text-center">
+            <th class="p-4">DNI</th>
+            <th class="p-4">Nombres</th>
+            <th class="p-4">Apellidos</th>
+            <th class="p-4">Fecha</th>
+            <th class="p-4">Especialidad</th>
+            <th class="p-4">Estado</th>
+            <th class="p-4">Perfil Clínico</th>
+            <th class="p-4">Receta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="even:bg-[#EDF9FC] hover:bg-[#80DDDB] text-center">
+            <td class="p-4">080526987</td>
+            <td class="p-4">Julio Cesar</td>
+            <td class="p-4">Medrano Ossco</td>
+            <td class="p-4">20/09/24</td>
+            <td class="p-4">Psicología</td>
+            <td class="p-4">Atendido</td>
+            <td class="p-4 text-center align-middle">
+              <button
+                (click)="openProfileModal('Julio Cesar Medrano Ossco')"
+                class="bg-blue-900 text-white hover:bg-deepBlue px-6 py-2 rounded-lg text-base"
+              >
+                Ver
+              </button>
+            </td>
+            <td class="p-4 text-center align-middle">
+              <button
+                (click)="openRecipeModal('Julio Cesar Medrano Ossco')"
+                class="bg-blue-900 text-white hover:bg-deepBlue px-6 py-2 rounded-lg text-base"
+              >
+                Agregar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal de perfil clínico -->
+    <div
+      *ngIf="showProfileModal"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <div class="relative bg-white p-6 rounded-lg shadow-lg w-100 border-2">
+        <button
+          (click)="closeProfileModal()"
+          class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 font-bold text-lg"
+        >
+          X
+        </button>
+        <h3 class="text-2xl font-semibold text-blue-900 mb-4 text-center">
+          Información del Perfil Clínico
+        </h3>
+        <b>MOTIVO CONSULTA</b><br />
+        Razon principal: Revision mensual por diabetes mellitus tipo 2<br />
+        Observacion: Control de niveles de glucosa en sangre y evaluacion<br />
+
+        <b>ANTECEDENTES MEDICOS</b><br />
+        Diabetes Mellitus Tipo 2 (diagnosticada hace 5 años).<br />
+        Hipertensión arterial (controlada).<br />
+        Alergias: Ninguna conocida.<br />
+        Cirugías: Apendicectomía a los 20 años.<br />
+
+        <b>TRIAJE</b><br />
+        Frecuencia cardíaca: 72 latidos/minuto.<br />
+        Presión arterial: 130/85 mmHg.<br />
+        Temperatura: 36.7°C.<br />
+        Frecuencia respiratoria: 16 respiraciones/minuto.<br />
+        Nivel de glucosa (auto-monitoreo): 150 mg/dL en ayunas<br />
+
+        <b>EXAMENES PREVIOS</b><br />
+        Último nivel de HbA1c: 7.5% (hace 3 meses).<br />
+        Función renal: Dentro de límites normales (último examen hace 6
+        meses).<br />
+        Perfil de lípidos: Colesterol total 190 mg/dL, HDL 45 mg/dL, LDL 120 mdL
+        (último examen hace 6 meses).<br />
+
+        <b>TRATAMINETOS ACTUALES</b><br />
+        Metformina 850 mg: 1 tableta dos veces al día.<br />
+        Losartán 50 mg: 1 tableta diaria.<br />
+        Insulina glargina: 10 unidades diarias en la noche
+        <!-- Setencia para seleccion del registro del paciente -->
+        <!--<p class="text-gray-700 mb-6">
+          Detalles del paciente: <strong>{{ selectedPatient }}</strong>
+        </p>-->
+      </div>
+    </div>
+
+    <!-- Modal de receta -->
+    <div
+      *ngIf="showRecipeModal"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <div
+        class="relative bg-white p-6 rounded-lg shadow-lg w-4/5 h-4/5 max-w-5xl max-h-4/5 border-2 flex flex-col"
+      >
+        <button
+          (click)="closeRecipeModal()"
+          class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 font-bold text-lg"
+        >
+          X
+        </button>
+        <form class="flex-1 flex space-x-6 mb-4">
+          <div class="flex-1 mb-4">
+            <label
+              for="prescription"
+              class="block font-medium text-center text-blue-900 text-xl"
+            >
+              Receta
+            </label>
+            <br />
+            <textarea
+              id="prescription"
+              rows="13"
+              class="block w-full border-2 border-blue-900 rounded-lg p-2 text-left"
+              placeholder="Psicología derivado a Psiquiatra - CMP: 123456
+Sertralina 50 mg
+  - Tomar 1 comprimido al día por la mañana, con o sin alimentos.
+  - Incrementar la dosis a 100 mg al cabo de 2 semanas, si lo indica el médico, dependiendo de la respuesta al tratamiento.
+Alprazolam 0.25 mg
+  - Tomar 1 comprimido dos veces al día en caso de ansiedad aguda.
+  - Solo para uso a corto plazo (máximo 2 semanas) para evitar dependencia. No exceder la dosis recomendada."
+            ></textarea>
+          </div>
+          <div class="flex-1 mb-4">
+            <label
+              for="notes"
+              class="block font-medium text-center text-blue-900 text-xl"
+            >
+              Nota Adicional
+            </label>
+            <br />
+            <textarea
+              id="notes"
+              rows="13"
+              class="block w-full border-2 border-blue-900 rounded-lg p-2 text-left"
+              placeholder="DESCRIPCIÓN
+Instrucciones de uso:
+- Tomar según indicaciones médicas o según la etiqueta.
+Precauciones:
+- No tomar más de lo indicado para evitar daños en el hígado.
+- Evitar si hay alergia al paracetamol. Consultar con un médico si se tiene una enfermedad hepática o se está embarazada.
+Efectos secundarios:
+Generalmente bien tolerado, pero pueden ocurrir reacciones alérgicas, erupciones cutáneas, o problemas hepáticos si se toma en exceso."
+            ></textarea>
+          </div>
+        </form>
+        <div class="flex justify-center mt-auto">
+          <button
+            type="button"
+            class="bg-blue-900 text-white hover:bg-deepBlue px-4 py-2 rounded-lg"
+            (click)="saveRecipe()"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+>>>>>>> origin/josue

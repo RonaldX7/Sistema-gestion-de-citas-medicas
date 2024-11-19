@@ -17,6 +17,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "tb_schedules")
+@Table(name = "tb_schedules")
 public class DoctorSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,7 @@ public class DoctorSchedule {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonIgnore
     @JoinTable(
+            name="tb_doctor_schedule",
             name="tb_doctor_schedule",
             joinColumns = @JoinColumn(name="schedule_id"),
             inverseJoinColumns = @JoinColumn(name="doctor_id")

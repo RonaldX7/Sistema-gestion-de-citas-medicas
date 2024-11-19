@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Citas - Vida Plena</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-[#EDF9FC] font-sans">
+
+  <!-- Sidebar -->
+  <div class="flex">
+    <div class="bg-[#53CDE2] text-white w-64 p-6">
+      <h1 class="text-2xl font-bold mb-10">VIDA <span class="text-[#005792]">PLENA</span></h1>
+      <nav class="space-y-4">
+        <a href="#" class="block text-lg font-semibold">Consultas</a>
+        <ul class="pl-4 space-y-2">
+          <li><a href="#" class="text-sm">Agenda</a></li>
+          <li><a href="#" class="text-sm">Citas</a></li>
+          <li><a href="#" class="text-sm">Otros</a></li>
+        </ul>
+        <a href="#" class="block text-lg font-semibold mt-6">Roles y Permisos</a>
+      </nav>
+      <div class="mt-10 text-sm">
+        <a href="#" class="flex items-center text-[#005792]"><img src="logout-icon.png" class="w-4 h-4 mr-2"> Logout</a>
+        <p class="mt-6">Centro Médico 2024</p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-10">
+      <h2 class="text-2xl font-bold mb-6 text-[#005792]">Lista de Citas</h2>
+
+      <!-- Search Bar -->
+      <div class="flex items-center mb-4">
+        <input type="text" placeholder="Buscar..." class="border border-gray-300 rounded-l-md p-2 w-80">
+        <button class="bg-[#005792] text-white p-2 rounded-r-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M12.9 14.32a8 8 0 111.42-1.42l4.37 4.38a1 1 0 11-1.42 1.42l-4.37-4.38zM8 14a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+          <thead>
+            <tr class="bg-[#80DDDB] text-left">
+              <th class="p-3 text-sm font-semibold text-gray-700">DNI</th>
+              <th class="p-3 text-sm font-semibold text-gray-700">NOMBRES</th>
+              <th class="p-3 text-sm font-semibold text-gray-700">FECHA</th>
+              <th class="p-3 text-sm font-semibold text-gray-700">ESTADO</th>
+              <th class="p-3 text-sm font-semibold text-gray-700">ESPECIALIDAD</th>
+              <th class="p-3 text-sm font-semibold text-gray-700">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sample Row -->
+            <tr class="border-t">
+              <td class="p-3 text-sm text-gray-700">08052697</td>
+              <td class="p-3 text-sm text-gray-700">JULIO CESAR</td>
+              <td class="p-3 text-sm text-gray-700">12-08-24</td>
+              <td class="p-3 text-sm font-semibold text-[#005792]">EN ESPERA</td>
+              <td class="p-3 text-sm text-gray-700">PSICOLOGIA</td>
+              <td class="p-3 text-sm">
+                <button class="bg-[#53CDE2] text-white px-3 py-1 rounded mr-2">Ver</button>
+                <button class="bg-[#005792] text-white px-3 py-1 rounded mr-2">Aceptar</button>
+                <button class="bg-gray-400 text-white px-3 py-1 rounded">Rechazar</button>
+              </td>
+            </tr>
+            <!-- More Rows Here -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center mt-6 space-x-2">
+        <button class="px-4 py-2 text-sm border border-gray-300 rounded">1</button>
+        <button class="px-4 py-2 text-sm border border-gray-300 rounded bg-[#80DDDB]">2</button>
+        <button class="px-4 py-2 text-sm border border-gray-300 rounded">3</button>
+        <button class="px-4 py-2 text-sm border border-gray-300 rounded">4</button>
+        <button class="px-4 py-2 text-sm border border-gray-300 rounded">5</button>
+        <button class="px-4 py-2 text-sm border border-gray-300 rounded">6</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
