@@ -13,6 +13,11 @@ export class NewPasswordComponent {
   newPassword: string = '';
   confirmPassword: string = '';
   passwordError: string = '';
+  
+  verificationCode: string = '';
+  verificationError: boolean = false;
+  showVerificationForm: boolean = false;
+
 
   constructor(private router: Router) {}
 
@@ -32,5 +37,11 @@ export class NewPasswordComponent {
   validatePassword(password: string): boolean {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
     return passwordRegex.test(password);
+  }
+  closeModal() {
+    this.verificationError = false;
+    this.verificationCode = '';
+    this.showVerificationForm= false; // Asegúrate de que esta propiedad controla el modal
+    this.router.navigate(['/login']); // Redirige al login
   }
 }
