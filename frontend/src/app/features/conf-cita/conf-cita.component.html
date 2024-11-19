@@ -1,0 +1,94 @@
+
+
+<div class="bg-gray-100 h-screen">
+  <div class="flex flex-col md:flex-row min-h-screen" style="background-image: url('/fondo-noazul.png');">
+
+    <!-- Sidebar -->
+    <aside class="w-64 min-h-screen bg-aqua text-blue-900 p-6 flex flex-col justify-between h-full">
+      <div class="flex flex-col items-center">
+        <img src="logo-render.png" alt="Logo VidaPlena" class="h-30 w-100 mb-6 brightness-90">
+      </div>
+      <nav class="space-y-4">
+        <button (click)="PatientHome()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-nonee">
+          Inicio
+        </button>
+        <button (click)="PidetuCita()" class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
+          Pide tu Cita
+        </button>
+        <button class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-deepBlue focus:outline-none">
+          Mis Citas
+        </button>
+        <button (click)="MiCuenta()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-none">
+        Mi cuenta
+        </button>
+      </nav>
+      <div class="mt-auto pt-6 border-t border-gray-300">
+        <button class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
+        <p class="text-center mt-3 text-sm text-gray-600">Centro Médico 2024</p>
+      </div>
+    </aside>
+    
+
+    <!-- Contenido principal -->
+    <main class="flex-1 p-4 lg:p-12">
+      <!-- Encabezado -->
+      <div class="bg-blue-900 text-white p-4 rounded-lg shadow-md mb-4">
+        <h2 class="text-2xl font-bold text-center uppercase">Pide tu cita</h2>
+      </div>
+
+      <!-- Título -->
+      <h3 class="text-center text-blue-900 text-xl font-bold mb-6 uppercase">Confirmar Cita</h3>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- Datos de la cita -->
+        <div class="bg-white shadow-md rounded-lg">
+          <div class="bg-blue-900 text-white text-center p-3 rounded-t-lg font-bold">Datos de la Cita</div>
+          <div class="p-4">
+            <p class="mb-2"><strong>Médico:</strong> Obregón Candela, Katherine Noelia</p>
+            <p class="mb-2"><strong>Especialidad:</strong> Psicología</p>
+            <p class="mb-2"><strong>Fecha de Cita:</strong> 15:00 - 29/10/2024</p>
+          </div>
+        </div>
+
+        <!-- Datos del paciente -->
+        <div class="bg-white shadow-md rounded-lg">
+          <div class="bg-blue-900 text-white text-center p-3 rounded-t-lg font-bold">Datos del Paciente</div>
+          <div class="p-4 space-y-2">
+            <div class="flex items-center">
+              <label class="w-1/3 text-sm font-bold">Nombre:</label>
+              <input type="text" class="w-2/3 rounded-lg border-2 border-blue-900 bg-gray-300 p-2" value="Julio César">
+            </div>
+            <div class="flex items-center">
+              <label class="w-1/3 text-sm font-bold">Apellidos:</label>
+              <input type="text" class="w-2/3 rounded-lg border-2 border-blue-900 bg-gray-300 p-2" value="Medrano Ossco">
+            </div>
+            <div class="flex items-center">
+              <label class="w-1/3 text-sm font-bold">Género:</label>
+              <select class="w-2/3 rounded-lg border-2 border-blue-900 bg-gray-300 p-2">
+                <option>Masculino</option>
+                <option>Femenino</option>
+              </select>
+            </div>
+            <div class="flex items-center">
+              <label class="w-1/3 text-sm font-bold">DNI:</label>
+              <input type="text" class="w-2/3 rounded-lg border-2 border-blue-900 bg-gray-300 p-2" value="75082954">
+            </div>
+            <div class="flex items-center">
+              <label class="w-1/3 text-sm font-bold">Celular:</label>
+              <input type="text" class="w-2/3 rounded-lg border-2 border-blue-900 bg-gray-300 p-2" value="987654321">
+            </div>
+            <div class="flex items-center">
+              <label class="w-1/3 text-sm font-bold">E-mail:</label>
+              <input type="email" class="w-2/3 rounded-lg border-2 border-blue-900 bg-gray-300 p-2" value="xxxxxxxxxx">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón Confirmar -->
+      <div class="flex justify-center mt-6">
+        <button class="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-900 font-bold">Confirmar</button>
+      </div>
+    </main>
+  </div>
+</div>

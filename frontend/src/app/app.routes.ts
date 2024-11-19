@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './authentication/login/login.component';
 import { MyAccountComponent } from './features/my-account/my-account.component';
-import { OrderComponent } from './features/order/order.component';
     
 
 export const routes: Routes = [
@@ -32,8 +31,12 @@ export const routes: Routes = [
         loadComponent:()=>import('./features/my-account/my-account.component').then(m=>m.MyAccountComponent)
     },
     {
-        path: 'order',
-        loadComponent:()=>import('./features/order/order.component').then(m=>m.OrderComponent)
+        path: 'conf-cita',
+        loadComponent:()=>import('./features/conf-cita/conf-cita.component').then(m=>m.ConfCitaComponent)
+    },
+    {
+        path: 'mis-citas',
+        loadComponent:()=>import('./features/mis-citas/mis-citas.component').then(m=>m.MisCitasComponent)
     },
     {
         path:'**',

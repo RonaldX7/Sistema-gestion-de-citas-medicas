@@ -1,0 +1,192 @@
+
+<div class="bg-gray-100 h-screen">
+  <div class="flex flex-col md:flex-row min-h-screen" style="background-image: url('/fondo-noazul.png');">
+     <!-- Sidebar -->
+<aside class="w-64 min-h-screen bg-aqua text-blue-900 p-6 flex flex-col justify-between h-full">
+  <div class="flex flex-col items-center">
+    <img src="logo-render.png" alt="Logo VidaPlena" class="h-30 w-100 mb-6 brightness-90">
+  </div>
+  <nav class="space-y-4">
+    <button (click)="PatientHome()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-nonee">
+      Inicio
+    </button>
+    <button (click)="PidetuCita()" class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
+      Pide tu Cita
+    </button>
+    <button (click)="MisCitas()"class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-deepBlue focus:outline-none">
+      Mis Citas
+    </button>
+    <button (click)="MiCuenta()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-none">
+      Mi cuenta
+    </button>
+  </nav>
+  <div class="mt-auto pt-6 border-t border-gray-300">
+    <button class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
+    <p class="text-center mt-3 text-sm text-gray-600">Centro Médico 2024</p>
+  </div>
+</aside>
+
+
+    <!-- Contenido principal -->
+    <div class="flex-1 p-4">
+      <!-- Encabezado -->
+      <div class="bg-blue-900 text-white p-4 rounded-lg shadow-md mb-5">
+        <h2 class="text-2xl font-bold text-center uppercase">Mis Citas</h2>
+      </div>
+
+      <!-- Botones para alternar secciones -->
+      <div class="flex justify-center mb-4 space-x-4">
+        <button (click)="showProgramadas()" class="toggle-button w-1/2 bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900" data-section="citasProgramadas">
+          Mis Citas Programadas
+        </button>
+        <button (click)="toMyHistorial()" class="toggle-button w-1/2 bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900" data-section="historialCitas">
+          Mi Historial de Citas
+        </button>
+      </div>
+
+      <ng-container *ngIf="showMisCitas; else historialView">
+      <!-- Sección: Mis Citas Programadas -->
+      <div id="citasProgramadas" class="section">
+        <div class="bg-white shadow-md rounded-lg p-6 border border-blue-900 mb-3">
+          <div class="mb-4">
+            <p class="text-lg font-bold text-blue-900">OBREGON CANDELA, KATHERINE NOELIA</p>
+            <p class="text-gray-600">15:00 29/10/2024</p>
+            <p class="text-gray-600">PSICOLOGÍA</p>
+          </div>
+          <div class="flex justify-between items-center border-t pt-4">
+            <div>
+              <p class="text-blue-900 text-sm font-bold mb-4">ESTADO:</p>
+              <span class="inline-block bg-gray-200 text-blue-900 font-semibold px-3 py-1 rounded-lg border border-blue-900">EN ESPERA</span>
+            </div>
+            <div class="flex space-x-6">
+              <button class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">REPROGRAMAR</button>
+              <button class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">ANULAR</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-6 border border-blue-900">
+          <div class="mb-4">
+            <p class="text-lg font-bold text-blue-900">CARBAJAL VASQUEZ, JULIANA DEL CARMEN</p>
+            <p class="text-gray-600">14:25 03/11/2024</p>
+            <p class="text-gray-600">CARDIOLOGÍA</p>
+          </div>
+          <div class="flex justify-between items-center border-t pt-4">
+            <div>
+              <p class="text-blue-900 text-sm font-bold mb-4">ESTADO:</p>
+              <span class="inline-block bg-gray-200 text-blue-900 font-semibold px-3 py-1 rounded-lg border border-blue-900">EN ESPERA</span>
+            </div>
+            <div class="flex space-x-6">
+              <button class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">REPROGRAMAR</button>
+              <button class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">ANULAR</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  
+<!-- Sección: Mi Historial de Citas -->
+<ng-template #historialView>
+  <div id="historialCitas">
+    <div class="bg-white shadow-md rounded-lg p-6 border border-blue-900 rounded-xl">
+      <h3 class="text-lg font-bold mb-4">Historial de Citas</h3>
+      <table class="w-full border-collapse border border-gray-300 rounded-lg overflow-hidden">
+        <thead>
+          <tr class="bg-blue-900 text-white">
+            <th class="py-2 px-4 border">Fecha</th>
+            <th class="py-2 px-4 border">Hora</th>
+            <th class="py-2 px-4 border">Médico</th>
+            <th class="py-2 px-4 border">Estado</th>
+            <th class="py-2 px-4 border">Orden Médica</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="py-2 px-4 border">10-09-24</td>
+            <td class="py-2 px-4 border">10:36 AM</td>
+            <td class="py-2 px-4 border">Juan Antonio Santos</td>
+            <td class="py-2 px-4 border">Atendido</td>
+            <td class="py-2 px-4 border text-center">
+              <button (click)="openModal()" class="bg-blue-900 text-white px-4 py-1 rounded hover:bg-blue-400 flex items-center justify-center mx-auto">
+                Diagnóstico
+                <img src="/lupa.png" alt="Lupa" class="w-5 ml-2" />
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2 px-4 border">15-09-24</td>
+            <td class="py-2 px-4 border">02:45 PM</td>
+            <td class="py-2 px-4 border">Ana María López</td>
+            <td class="py-2 px-4 border">Cancelado</td>
+            <td class="py-2 px-4 border text-center">
+              <button (click)="openModal()" class="bg-blue-900 text-white px-4 py-1 rounded hover:bg-blue-400 flex items-center justify-center mx-auto">
+                Diagnóstico
+                <img src="/lupa.png" alt="Lupa" class="w-5 ml-2" />
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2 px-4 border">20-10-24</td>
+            <td class="py-2 px-4 border">11:15 AM</td>
+            <td class="py-2 px-4 border">Carlos Ramírez</td>
+            <td class="py-2 px-4 border">Pendiente</td>
+            <td class="py-2 px-4 border text-center">
+              <button (click)="openModal()" class="bg-blue-900 text-white px-4 py-1 rounded hover:bg-blue-400 flex items-center justify-center mx-auto">
+                Diagnóstico
+                <img src="/lupa.png" alt="Lupa" class="w-5 ml-2" />
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2 px-4 border">05-11-24</td>
+            <td class="py-2 px-4 border">08:30 AM</td>
+            <td class="py-2 px-4 border">Katherine Obregón</td>
+            <td class="py-2 px-4 border">Atendido</td>
+            <td class="py-2 px-4 border text-center">
+              <button (click)="openModal()" class="bg-blue-900 text-white px-4 py-1 rounded hover:bg-blue-400 flex items-center justify-center mx-auto">
+                Diagnóstico
+                <img src="/lupa.png" alt="Lupa" class="w-5 ml-2" />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal -->
+<div *ngIf="showModal" class="fixed inset-0 bg-gray-400 bg-opacity-75 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-1/2">
+    <div class="border text-c bg-blue-900 rounded-lg p-4 mb-4"> <!-- Cuadro azul para el título -->
+      <h3 class="text-lg font-bold text-white">Detalles de la Orden</h3>
+    </div>
+    <div class="flex justify-between gap-6"> <!-- Añadido gap para mayor separación -->
+      <div class="w-1/2 p-4 border border-blue-900 rounded-lg"> <!-- Borde azul añadido -->
+        <h4 class="font-bold text-center text-blue-900">RECETA</h4>
+        <p><strong>Diagnóstico:</strong> Trastorno de Ansiedad Avanzado</p>
+        <p><strong>Sertralina 50 mg</strong></p>
+        <ul>
+          <li>Tomar 1 comprimido al día por la mañana.</li>
+          <li>Incrementar la dosis a 100 mg al cabo de 2 semanas.</li>
+        </ul>
+        <p><strong>Alprazolam 0.25 mg</strong></p>
+        <ul>
+          <li>Tomar 1 comprimido dos veces al día.</li>
+          <li class="text-red-500">No exceder la dosis recomendada.</li>
+        </ul>
+        <p>Dra. Katherine N. Obregón C.</p>
+      </div>
+      <div class="w-1/2 p-4 border border-blue-900 rounded-lg"> <!-- Borde azul añadido -->
+        <h4 class="font-bold text-center text-blue-900">NOTA</h4>
+        <p><strong>Descripción:</strong></p>
+        <p>Instrucciones de uso: Tomar según indicaciones médicas.</p>
+        <p class="text-red-500">Precauciones: No exceder la dosis para evitar daños hepáticos.</p>
+        <p>Puede causar reacciones alérgicas en casos raros.</p>
+      </div>
+    </div>
+    <div class="mt-4 text-right">
+      <button (click)="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">Cerrar</button>
+    </div>
+  </div>
+</div>

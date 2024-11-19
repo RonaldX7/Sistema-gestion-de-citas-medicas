@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-my-account',
+  selector: 'app-conf-cita',
   standalone: true,
   imports: [],
-  templateUrl: './my-account.component.html',
+  templateUrl: './conf-cita.component.html',
   styles: ``
 })
-export class MyAccountComponent {
+export class ConfCitaComponent {
   constructor(
     private router: Router
   ){}
@@ -23,7 +23,7 @@ export class MyAccountComponent {
   }
 
   PidetuCita() {
-    this.router.navigate(['/appointments']); // Cambiar ruta según configuración
+    this.router.navigate(['/appointments']); 
   }
 
   MisCitas() {

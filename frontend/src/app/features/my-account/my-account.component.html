@@ -1,30 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Cuenta</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 h-screen">
-  <div class="flex h-screen">
-    
-<!-- Sidebar -->
-<aside class="w-64 bg-aqua text-blue-900 p-6 flex flex-col justify-between">
+
+<div class="bg-gray-100 h-screen">
+  <div class="flex flex-col md:flex-row min-h-screen" style="background-image: url('/fondo-noazul.png');">
+     <!-- Sidebar -->
+ <aside class="w-64 min-h-screen bg-aqua text-blue-900 p-6 flex flex-col justify-between h-full">
   <div class="flex flex-col items-center">
-    <img src="logo-render.png" alt="Logo de VidaPlena" class="h-30 w-100 mb-6 brightness-90">
+    <img src="logo-render.png" alt="Logo VidaPlena" class="h-30 w-100 mb-6 brightness-90">
   </div>
   <nav class="space-y-4">
-    <a href="/appointments" class="block py-2 px-4 rounded hover:bg-blue-300">Pide tu cita</a>
-    <a href="/mis-citas" class="block py-2 px-4 rounded hover:bg-blue-300">Mis citas</a>
-    <a href="/orden-medica" class="block py-2 px-4 rounded hover:bg-blue-300">Orden Médica</a>
-    <a href="/mi-cuenta" class="block py-2 px-4 rounded-lg bg-deepBlue text-white hover:bg-blue-900">Mi cuenta</a>
+    <button (click)="PatientHome()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-nonee">
+      Inicio
+    </button>
+    <button (click)="PidetuCita()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-nonee">
+      Pide tu Cita
+    </button>
+    <button (click)="MisCitas()"class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-nonee">
+      Mis Citas
+    </button>
+    <button (click)="MiCuenta()"class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-deepBlue focus:outline-none">
+      Mi cuenta
+    </button>
   </nav>
   <div class="mt-auto pt-6 border-t border-gray-300">
     <button class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
-    <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
+    <p class="text-center mt-3 text-sm text-gray-600">Centro Médico 2024</p>
   </div>
-</aside>
+  </aside>
 
 <!-- Contenido Principal -->
 <main class="flex-1 p-5">
@@ -98,21 +98,17 @@
   </div>
 
   <!-- Contraseñas -->
-  <div class="col-span-4">
-    <label class="block text-sm font-medium text-gray-600">Contraseña actual</label>
-    <input type="password" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900">
-  </div>
-  <div class="col-span-4">
+  <div class="col-span-6">
     <label class="block text-sm font-medium text-gray-600">Contraseña nueva</label>
-    <input type="password" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900">
+    <input type="text" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value="xxxxxxxxx">
   </div>
-  <div class="col-span-4">
+  <div class="col-span-6">
     <label class="block text-sm font-medium text-gray-600">Confirmar contraseña nueva</label>
-    <input type="password" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900">
+    <input type="text" class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900" value="xxxxxxxxx">
   </div>
   <!-- Botón para contraseñas -->
   <div class="col-span-12 flex justify-center mt-2">
     <button type="button" class="bg-blue-900 text-white px-8 py-2 rounded-md shadow-md">Actualizar Contraseña</button>
   </div>
 </form>
-        
+</div>

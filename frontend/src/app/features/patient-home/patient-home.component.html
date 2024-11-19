@@ -11,7 +11,7 @@
         <img src="/pide-cita.png"  class="w-20">
         <h3 class="text-xl font-semibold mb-2">PIDE TU CITA</h3>
         <p class="text-center mb-4">Pide tu cita en 3 pasos, elige a tu médico, la fecha y hora de atención que más te acomode.</p>
-        <button (click)="toAppointment()"  class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+        <button (click)="PidetuCita()"  class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
       </div>
   
       <!-- Tarjeta Mis citas -->
@@ -19,7 +19,7 @@
         <img src="/lista-cita.png"  class="w-20">
         <h3 class="text-xl font-semibold mb-2">MIS CITAS</h3>
         <p class="text-center mb-4">Podrás ver tus citas pasadas y las próximas a las que debes asistir.</p>
-        <button class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+        <button (click)="MisCitas()" class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
       </div>
   
       <!-- Tarjeta Mi cuenta -->
@@ -27,16 +27,14 @@
         <img src="/mi-cuenta.png"  class="w-20">
         <h3 class="text-xl font-semibold mb-2">MI CUENTA</h3>
         <p class="text-center mb-4">Ingresa tus datos para que puedas reservar las citas.</p>
-        <button class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+        <button (click)="MiCuenta()"  class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
       </div>
   
-      <!-- Tarjeta Orden médica -->
-      <div class="bg-deepBlue text-white rounded-lg shadow-md p-6 flex flex-col items-center">
-        <img src="/orden-medica.png"  class="w-20">
-        <h3 class="text-xl font-semibold mb-2">ORDEN MÉDICA</h3>
-        <p class="text-center mb-4">Recibirás un diagnóstico mediante una receta médica, por parte de un especialista.</p>
-        <button class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
-      </div>
-    </div>
-  </div>
+ <!-- Botón Logout centrado al final -->
+ <div class="col-span-4 flex justify-center items-center mt-12">
+  <button (click)="logout()" class="bg-yellow-500 text-white font-semibold px-8 py-3 rounded hover:bg-yellow-600">
+    Logout
+  </button>
+</div>
+</div>
   

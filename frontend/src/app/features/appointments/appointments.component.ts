@@ -8,6 +8,7 @@ import { ScheduleService, Schedule } from '../../core/services/schedule.service'
 import { PatientService } from '../../core/services/patient.service';
 import { AuthService } from '../../core/services/auth.service';
 import { AppointmentService } from '../../core/services/appointment.service';
+
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
@@ -15,24 +16,26 @@ import { AppointmentService } from '../../core/services/appointment.service';
   imports: [CommonModule, FormsModule]
 })
 export class AppointmentsComponent implements OnInit {
-  showModal = true;
+  showModal = false; // Controla la visibilidad del modal
+  errorMessage = ''; // Mensaje de error dinámico
   showConfirmation = false;
+
   doctors: { id: string; name: string; lastName: string; specialty: string; specialtyId: string; schedule?: string[] }[] = [];
-  patient: { id: string; dni: string; name: string; lastName: string; genderId:string; email: string;  } = {id:'',dni: '',name: '',lastName: '',genderId:'',email: ''};
+  patient: { id: string; dni: string; name: string; lastName: string; genderId: string; email: string } = {
+    id: '', dni: '', name: '', lastName: '', genderId: '', email: ''
+  };
+
   specialties: any[] = []; // Arreglo para almacenar las especialidades
-  selectedSpecialty: string = 'todas'; // con esto guardo la especialidad seleccionada
-  selectedDate: string = '2024-11-05'; // fecha por defecto
+  selectedSpecialty: string = 'todas'; // Especialidad seleccionada
+  selectedDate: string = '2024-11-05'; // Fecha por defecto
   selectedDoctor: { id: string; name: string; lastName: string; specialty: string; specialtyId: string; schedule?: string[] } | null = null;
   selectedSchedule: string | null = null; // Almacena el horario seleccionado
   selectedSpecialtyName: string | null = null; // Almacena la especialidad seleccionada
 
-
-   // Variables para almacenar los datos e IDs necesarios
- userId: string | null = null;
- specialtyId: string = ''; // ID de la especialidad seleccionada
- doctorId: string = ''; // ID del doctor seleccionado
- scheduleId: number | null = null; // ID del horario seleccionado
-
+  userId: string | null = null;
+  specialtyId: string = ''; // ID de la especialidad seleccionada
+  doctorId: string = ''; // ID del doctor seleccionado
+  scheduleId: number | null = null; // ID del horario seleccionado
 
   constructor(
     private router: Router,
@@ -44,16 +47,13 @@ export class AppointmentsComponent implements OnInit {
     private appointmentService: AppointmentService
   ) {}
 
-
   ngOnInit(): void {
     this.loadSpecialties();
     this.loadDoctors(); // Cargar doctores desde el backend
     this.userId = this.authService.getUserId();
     this.loadPatientData();
     console.log('User ID en AppointmentsComponent:', this.userId);
-    
   }
-
 
   loadSpecialties(): void {
     this.specialtyService.getSpecialties().subscribe(
@@ -70,7 +70,6 @@ export class AppointmentsComponent implements OnInit {
     this.doctorService.getDoctors().subscribe(
       (data) => {
         this.doctors = data;
-        //console.log("Doctores cargados:", this.doctors); // Verifica aquí si specialty está presente
         this.loadSchedulesForDoctors(); // Cargar horarios después de cargar todos los doctores
       },
       (error) => {
@@ -91,7 +90,6 @@ export class AppointmentsComponent implements OnInit {
     });
   }
 
-  // Método para cargar doctores basados en la especialidad seleccionada
   loadDoctorsBySpecialty(specialtyId: string): void {
     this.doctorService.getDoctorsforSpecialty(specialtyId).subscribe(
       (data) => {
@@ -104,16 +102,14 @@ export class AppointmentsComponent implements OnInit {
     );
   }
 
-
-  // Método que se ejecutará cuando cambie la especialidad seleccionada
   onSpecialtyChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedSpecialty = selectElement.value;
     if (this.selectedSpecialty === 'todas') {
       this.loadSchedulesForDoctors();
-      this.loadDoctors(); // cargo a todos los docs
+      this.loadDoctors(); // Cargo todos los doctores
     } else {
-      this.loadDoctorsBySpecialty(this.selectedSpecialty); // Llama al método para cargar los doctores filtrados
+      this.loadDoctorsBySpecialty(this.selectedSpecialty);
     }
   }
 
@@ -122,7 +118,6 @@ export class AppointmentsComponent implements OnInit {
       const formattedDate = new Date(this.selectedDate).toISOString().split('T')[0];
       this.scheduleService.getScheduleForDoctor(doctor.id, formattedDate).subscribe(
         (schedules: Schedule[]) => {
-          console.log(`Horarios para el doctor ${doctor.id}:`, schedules); // Verifica aquí la respuesta de la API
           const availableSchedules = schedules
             .filter(schedule => schedule.isAvailable)
             .map(schedule => `${schedule.startHour} - ${schedule.endHour}`);
@@ -135,93 +130,73 @@ export class AppointmentsComponent implements OnInit {
     });
   }
 
-  // Escuchar cambios en la fecha y cargar horarios
   onDateChange(): void {
     this.loadSchedulesForDoctors();
     this.selectedSchedule = null;
   }
 
-  // Seleccionar horario
   onScheduleSelect(time: string, doctor: any): void {
     this.selectedSchedule = time;
     this.selectedDoctor = doctor;
   }
 
-  // Método para confirmar la cita antes de enviarla
-confirmAppointment(): void {
-  if (this.selectedDoctor && this.selectedSchedule) {
-    console.log("Doctor seleccionado:", this.selectedDoctor);
-    console.log("Horario seleccionado:", this.selectedSchedule);
-    console.log("Especialidad seleccionada:", this.selectedSpecialty);
-    console.log("Paciente seleccionado:", this.patient);
-
-    // Si la especialidad seleccionada es "todas", asigna el nombre de la especialidad del doctor
-    if (this.selectedSpecialty === 'todas') {
-      this.selectedSpecialtyName = this.selectedDoctor.specialty || "N/A";
+  confirmAppointment(): void {
+    if (this.selectedDoctor && this.selectedSchedule) {
+      if (this.selectedSpecialty === 'todas') {
+        this.selectedSpecialtyName = this.selectedDoctor.specialty || "N/A";
+      } else {
+        const specialty = this.specialties.find(s => s.id.toString() === this.selectedSpecialty.toString());
+        this.selectedSpecialtyName = specialty ? specialty.name : "N/A";
+      }
+      this.showConfirmation = true;
     } else {
-      const specialty = this.specialties.find(s => s.id.toString() === this.selectedSpecialty.toString());
-      this.selectedSpecialtyName = specialty ? specialty.name : "N/A";
+      this.showError("Por favor, selecciona un doctor y un horario.");
     }
-
-    this.showConfirmation = true; // Mostrar vista de confirmación
-  } else {
-    alert("Por favor, selecciona un doctor y un horario.");
   }
-}
 
-  // Método para confirmar la cita
   submitAppointment(): void {
     if (!this.selectedDoctor || !this.selectedDate) {
-      console.error("Doctor o fecha no seleccionados.");
-      alert("Por favor, selecciona un doctor y una fecha.");
+      this.showError("Por favor, selecciona un doctor y una fecha.");
       return;
     }
-  
-    // Llama a fetchScheduleId para obtener el scheduleId
+
     this.fetchScheduleId(this.selectedDoctor.id, this.selectedDate).then(() => {
       if (!this.scheduleId) {
-        console.error("No se ha obtenido un scheduleId válido.");
-        alert("Error al obtener el ID del horario. Intenta de nuevo.");
+        this.showError("Error al obtener el ID del horario. Intenta de nuevo.");
         return;
       }
-  
-      // Construir el objeto con los datos necesarios para la cita
+
       const userData = {
-        patientId: this.patient.id, // ID del paciente
-        specialtyId: this.selectedSpecialty, // ID de la especialidad seleccionada
-        doctorId: this.selectedDoctor?.id, // ID del doctor seleccionado
-        scheduleId: this.scheduleId // ID del horario obtenido
+        patientId: this.patient.id,
+        specialtyId: this.selectedSpecialty,
+        doctorId: this.selectedDoctor?.id,
+        scheduleId: this.scheduleId
       };
-  
-      console.log('Datos de la cita a enviar:', userData);
-  
-      // Llamar al servicio para registrar la cita
+
       this.appointmentService.appointment(userData).subscribe({
         next: (response) => {
           console.log('Cita registrada exitosamente:', response);
           alert('Cita registrada con éxito');
-          this.showConfirmation = false; // Regresar a la pantalla principal
+          this.showConfirmation = false;
         },
         error: (err) => {
           console.error('Error al registrar la cita:', err);
-          alert('Error al registrar la cita');
+          this.showError('Error al registrar la cita. Intenta nuevamente.');
         }
       });
     });
   }
-  
-  // Modifica fetchScheduleId para que retorne una Promesa
+
   fetchScheduleId(doctorId: string, date: string): Promise<void> {
     return new Promise((resolve) => {
       this.scheduleService.getScheduleId(doctorId, date).subscribe({
         next: (id) => {
           this.scheduleId = id;
-          console.log('Schedule ID obtenido:', this.scheduleId);
           resolve();
         },
         error: (err) => {
           console.error('Error al obtener el Schedule ID:', err);
-          resolve(); // Resolver la promesa incluso en caso de error
+          resolve();
         }
       });
     });
@@ -232,14 +207,33 @@ confirmAppointment(): void {
     this.router.navigate(['/login']);
   }
 
-  toAppointment(){
+  toAppointment(): void {
     this.showConfirmation = false;
+  }
+
+  showError(message: string): void {
+    this.errorMessage = message;
+    this.showModal = true;
   }
 
   closeModal(): void {
     this.showModal = false;
   }
 
-  
-  
+  PatientHome() {
+    this.router.navigate(['/patient-home']);
+  }
+
+  PidetuCita() {
+    this.router.navigate(['/appointments']); 
+  }
+
+  MisCitas() {
+    this.router.navigate(['/mis-citas']);
+  }
+
+  MiCuenta() {
+    this.router.navigate(['/my-account']);
+  }
 }
+
