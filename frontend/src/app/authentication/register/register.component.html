@@ -1,155 +1,177 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro</title>
-  <style>
-    /* Aquí se pueden agregar estilos personalizados si es necesario */
-  </style>
-</head>
-<body>
-  <div class="flex h-screen bg-cover bg-center" style="background-image: url('/fondo.png');">
-    <div class="flex h-full w-full">
-      
-      <!-- Sección del logo y texto -->
-      <div class="w-1/2 flex flex-col items-center justify-center">
-        <img src="/logo-render.png" alt="IPS VidaPlena Logo" class="w-100 mb-4">
-        <p class="text-deepBlue text-lg font-semibold text-center">NACIMOS PARA CUIDARTE DE<br> MODO INTEGRAL</p>
-      </div>
+<div class="flex h-screen bg-cover bg-center" style="background-image: url('/fondo.png');">
+  <div class="flex h-full w-full">
+    <!-- Sección del logo y texto -->
+    <div class="w-1/2 flex flex-col items-center justify-center">
+      <img src="/logo-render.png" alt="IPS VidaPlena Logo" class="w-100 mb-4">
+      <p class="text-deepBlue text-lg font-semibold text-center">NACIMOS PARA CUIDARTE DE<br> MODO INTEGRAL</p>
+    </div>
 
-      <!-- Sección de formulario de registro -->
-      <div class="w-1/2 flex items-center justify-center">
-        <div class="bg-white p-10 rounded-lg shadow-md w-100">
-          <h2 class="text-deepBlue text-4xl font-bold mb-6">Registro</h2>
-          <form (submit)="onRegister()">
-            <!-- Campo de DNI y Fecha de Nacimiento en una sola fila -->
-            <div class="mb-4 flex">
-              <div class="w-1/2 mr-2 relative">
-                <input type="text" placeholder="DNI" [(ngModel)]="user.dni" name="dni" class="pl-10 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <i class="fas fa-id-card text-gray-500"></i>
-                </span>
-              </div>
-              <div class="w-1/2 ml-2 relative">
-                <input type="date" placeholder="día/mes/año" [(ngModel)]="user.birthDate" name="birthDate" class="Spl-10 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-                <span class="absolute inset-y-0 right-0 flex items-center pr-3">
-                  <i class="fas fa-calendar-alt text-gray-500"></i>
-                </span>
-              </div>
+    <!-- Sección de formulario de registro -->
+    <div class="w-1/2 flex items-center justify-center">
+      <div class="bg-white p-10 rounded-lg shadow-md w-100">
+        <h2 class="text-deepBlue text-4xl font-bold mb-6">Registro</h2>
+        <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+          
+          <!-- DNI y Fecha de Nacimiento -->
+          <div class="mb-4 flex">
+            <div class="w-1/2 mr-2 relative">
+              <input
+                type="text"
+                placeholder="DNI"
+                [(ngModel)]="user.dni"
+                name="dni"
+                #dni="ngModel"
+                required
+                minlength="8"
+                maxlength="8"
+                pattern="^[0-9]*$"
+                class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+              <span *ngIf="dni.invalid && dni.touched" class="text-red-500 text-sm">DNI inválido (8 dígitos).</span>
             </div>
+            <div class="w-1/2 ml-2 relative">
+              <input
+                type="date"
+                [(ngModel)]="user.birthDate"
+                name="birthDate"
+                #birthDate="ngModel"
+                required
+                class="block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+              <span *ngIf="birthDate.invalid && birthDate.touched" class="text-red-500 text-sm">Fecha inválida.</span>
+            </div>
+          </div>      
 
-            <!-- Campos de Nombres y Apellidos -->
-            <div class="relative mb-4">
-              <input type="text" placeholder="Nombres" [(ngModel)]="user.name" name="name" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <i class="fas fa-user text-gray-500"></i>
-              </span>
-            </div>
-            <div class="relative mb-4">
-              <input type="text" placeholder="Apellidos" [(ngModel)]="user.lastName" name="lastName" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <i class="fas fa-user text-gray-500"></i>
-              </span>
-            </div>
+          <!-- Nombres y Apellidos -->
+          <div class="relative mb-4">
+            <input
+              type="text"
+              placeholder="Nombres"
+              [(ngModel)]="user.name"
+              name="name"
+              #name="ngModel"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+            <span *ngIf="name.invalid && name.touched" class="text-red-500 text-sm">Campo obligatorio.</span>
+          </div>
 
-            <!-- Campo de Dirección -->
-            <div class="relative mb-4">
-              <input type="text" placeholder="Dirección" [(ngModel)]="user.direction" name="direction" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <i class="fas fa-map-marker-alt text-gray-500"></i>
-              </span>
-            </div>
+          <div class="relative mb-4">
+            <input
+              type="text"
+              placeholder="Apellidos"
+              [(ngModel)]="user.lastName"
+              name="lastName"
+              #lastName="ngModel"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+            <span *ngIf="lastName.invalid && lastName.touched" class="text-red-500 text-sm">Campo obligatorio.</span>
+          </div>
 
-            <!-- Campo de Teléfono y Género en una sola fila -->
-            <div class="mb-4 flex">
-              <div class="w-1/2 mr-2 relative">
-                <input type="text" placeholder="Teléfono" [(ngModel)]="user.phone" name="phone" class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <i class="fas fa-phone text-gray-500"></i>
-                </span>
-              </div>
-              <div class="w-1/2 ml-2 relative">
-                <select [(ngModel)]="user.genderId" name="genderId" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue text-gray-400">
-                  <option value="" disabled selected class="text-gray-400">Género</option>
-                  <option value="1" class="text-gray-700">Masculino</option>
-                  <option value="2" class="text-gray-700">Femenino</option>
-                  <option value="3" class="text-gray-700">Otros</option>
-                </select>
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <i class="fas fa-venus-mars text-gray-500"></i>
-                </span>
-              </div>
+          <!-- Dirección -->
+          <div class="relative mb-4">
+            <input
+              type="text"
+              placeholder="Dirección"
+              [(ngModel)]="user.direction"
+              name="direction"
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+          </div>
+
+          <!-- Teléfono y Género -->
+          <div class="mb-4 flex">
+            <div class="w-1/2 mr-2 relative">
+              <input
+                type="text"
+                placeholder="Teléfono"
+                [(ngModel)]="user.phone"
+                name="phone"
+                #phone="ngModel"
+                pattern="^[0-9]{9}$"
+                required
+                class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+              />
+              <span *ngIf="phone.invalid && phone.touched" class="text-red-500 text-sm">Teléfono inválido (9 dígitos).</span>
             </div>
-            
-            <!-- Campo de Usuario -->
-            <div class="relative mb-4">
-              <input type="text" placeholder="Username" [(ngModel)]="user.username" name="username" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <i class="fas fa-user text-gray-500"></i>
-              </span>
+            <div class="w-1/2 ml-2 relative">
+              <select
+                [(ngModel)]="user.genderId"
+                name="genderId"
+                #genderId="ngModel"
+                required
+                class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue text-gray-500"
+              >
+                <option value="" disabled selected>Género</option>
+                <option value="1">Masculino</option>
+                <option value="2">Femenino</option>
+                <option value="3">Otros</option>
+              </select>
+              <span *ngIf="genderId.invalid && genderId.touched" class="text-red-500 text-sm">Seleccione un género.</span>
             </div>
-            
-            <!-- Campo de Email -->
-            <div class="relative mb-4">
-              <input type="email" placeholder="E-mail" [(ngModel)]="user.email" name="email" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <i class="fas fa-envelope text-gray-500"></i>
-              </span>
-            </div>
-            
-            <!-- Campo de Contraseña -->
-            <div class="relative mb-4">
-              <input type="password" placeholder="Contraseña" [(ngModel)]="user.password" name="password" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <i class="fas fa-lock text-gray-500"></i>
-              </span>
-            </div>
-            
-            <!-- Campo de Confirmar Contraseña -->
-            <div class="relative mb-6">
-              <input type="password" placeholder="Confirmar Contraseña" class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <i class="fas fa-lock text-gray-500"></i>
-              </span>
-            </div>
-            
-            <!-- Botón de Registrar -->
-            <button type="submit" class="w-full py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300">
-              Registrar
-            </button>
-            
-            <!-- Link de Iniciar Sesión -->
-            <a (click)="backToLogin()" class="text-sm text-gray-600 hover:underline block text-center mt-4 cursor-pointer">¿Ya tienes una cuenta? Inicia sesión</a>
-          </form>
-        </div>
+          </div>
+
+          <!-- Usuario -->
+          <div class="relative mb-4">
+            <input
+              type="text"
+              placeholder="Username"
+              [(ngModel)]="user.username"
+              name="username"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="relative mb-4">
+            <input
+              type="email"
+              placeholder="E-mail"
+              [(ngModel)]="user.email"
+              name="email"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+          </div>
+
+          <!-- Contraseña -->
+          <div class="relative mb-4">
+            <input
+              type="password"
+              placeholder="Contraseña"
+              [(ngModel)]="user.password"
+              name="password"
+              required
+              minlength="8"
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+          </div>
+
+          <!-- Confirmar Contraseña -->
+          <div class="relative mb-6">
+            <input
+              type="password"
+              placeholder="Confirmar Contraseña"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+            <span *ngIf="confirmPassword !== user.password && registerForm.submitted" class="text-red-500 text-sm">Las contraseñas no coinciden.</span>
+          </div>
+
+          <!-- Botón -->
+          <button
+            type="submit"
+            [disabled]="registerForm.invalid"
+            class="w-full py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300"
+          >
+            Registrar
+          </button>
+        </form>
       </div>
     </div>
   </div>
-  <!-- Modal de aviso de registro aceptado -->
-  <div *ngIf="showSuccessModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div class="relative bg-white p-6 rounded-lg shadow-lg w-100 text-center border-2">
-      <button (click)="closeSuccessModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 font-bold text-lg">X</button>
-      <div class="flex justify-center mb-4">
-        <img src="/icono-advertencia.png" alt="Icono de advertencia" class="w-20 h-20">
-      </div>
-      <h3 class="text-2xl font-semibold text-red-500 mb-4">Se registro correctamente</h3>
-      <p class="text-gray-700 mb-6">El usuario ha sido registrado correctamente.</p>
-      <button (click)="closeSuccessModal()" class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg">Cerrar</button>
-    </div>
-  </div>
-
-  <!-- Modal de aviso de registro errado -->
-  <div *ngIf="showErrorModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div class="relative bg-white p-6 rounded-lg shadow-lg w-100 text-center border-2">
-      <button (click)="closeErrorModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 font-bold text-lg">X</button>
-      <div class="flex justify-center mb-4">
-        <img src="/icono-advertencia.png" alt="Icono de advertencia" class="w-20 h-20">
-      </div>
-      <h3 class="text-2xl font-semibold text-red-500 mb-4">Ocurrio un error en el registro</h3>
-      <p class="text-gray-700 mb-6">Vuelva a intentarlo.</p>
-      <button (click)="closeErrorModal()" class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg">Cerrar</button>
-    </div>
-  </div>
-</body>
-</html>
+</div>
