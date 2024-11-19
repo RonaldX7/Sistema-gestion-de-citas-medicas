@@ -58,7 +58,6 @@ export class AppointmentsComponent implements OnInit {
   const year = todayDate.getFullYear();
   const month = String(todayDate.getMonth() + 1).padStart(2, '0'); // Mes en formato 2 dígitos
   const day = String(todayDate.getDate()).padStart(2, '0'); // Día en formato 2 dígitos
-
   this.selectedDate = `${year}-${month}-${day}`;
     
   }
