@@ -15,6 +15,9 @@ export class MisCitasComponent {
   showMisCitas: boolean = true;
   showMiHistorial: boolean = false;
   showModal: boolean = false;
+  showReprogramModal: boolean = false; // Modal de confirmación para reprogramar
+  showAnularModal: boolean = false; // Modal de anulación
+  showAnuladaSuccessModal: boolean = false; // Modal de éxito tras anulación
 
 
   constructor(
@@ -59,5 +62,43 @@ export class MisCitasComponent {
   closeModal() {
     this.showModal = false;
   }
+  // Modal de confirmación para reprogramar
+  openReprogramModal() {
+    this.showReprogramModal = true; // Abre el modal de confirmación
+  }
+
+  closeReprogramModal() {
+    this.showReprogramModal = false; // Cierra el modal de confirmación
+  }
+
+  // Confirmar reprogramación
+  confirmReprogram() {
+    console.log('Reprogramación confirmada.');
+    this.closeReprogramModal(); // Cierra el modal después de confirmar
+    this.router.navigate(['/appointments']); // Redirige a la página de citas
+  }
+
+  // Reprogramar directamente (función original)
+  Reprogramar() {
+    this.router.navigate(['/appointments']);
+  }
+  // Modal de Anulación
+  openAnularModal() {
+    this.showAnularModal = true;
+  }
+
+  closeAnularModal() {
+    this.showAnularModal = false;
+  }
+  confirmAnular() {
+    console.log('Cita anulada.');
+    this.closeAnularModal(); // Cierra el modal de confirmación
+    this.showAnuladaSuccessModal = true; // Abre el modal de éxito
+  }
+
+// Modal de Éxito al Anular
+closeAnuladaSuccessModal() {
+  this.showAnuladaSuccessModal = false;
+}
   
 }

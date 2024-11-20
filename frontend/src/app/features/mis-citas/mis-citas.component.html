@@ -2,33 +2,33 @@
 <div class="bg-gray-100 h-screen">
   <div class="flex flex-col md:flex-row min-h-screen" style="background-image: url('/fondo-noazul.png');">
      <!-- Sidebar -->
-<aside class="w-64 min-h-screen bg-aqua text-blue-900 p-6 flex flex-col justify-between h-full">
-  <div class="flex flex-col items-center">
-    <img src="logo-render.png" alt="Logo VidaPlena" class="h-30 w-100 mb-6 brightness-90">
-  </div>
-  <nav class="space-y-4">
-    <button (click)="PatientHome()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-nonee">
-      Inicio
-    </button>
-    <button (click)="PidetuCita()" class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
-      Pide tu Cita
-    </button>
-    <button (click)="MisCitas()"class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-deepBlue focus:outline-none">
-      Mis Citas
-    </button>
-    <button (click)="MiCuenta()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-none">
-      Mi cuenta
-    </button>
-  </nav>
-  <div class="mt-auto pt-6 border-t border-gray-300">
-    <button class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
-    <p class="text-center mt-3 text-sm text-gray-600">Centro Médico 2024</p>
-  </div>
-</aside>
+      <aside class="w-64 min-h-screen bg-aqua text-blue-900 p-6 flex flex-col justify-between h-full">
+        <div class="flex flex-col items-center">
+          <img src="logo-render.png" alt="Logo VidaPlena" class="h-30 w-100 mb-6 brightness-90">
+        </div>
+        <nav class="space-y-4">
+          <button (click)="PatientHome()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-nonee">
+            Inicio
+          </button>
+          <button (click)="PidetuCita()" class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none">
+            Pide tu Cita
+          </button>
+          <button (click)="MisCitas()"class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-deepBlue focus:outline-none">
+            Mis Citas
+          </button>
+          <button (click)="MiCuenta()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-300 focus:outline-none">
+            Mi cuenta
+          </button>
+        </nav>
+        <div class="mt-auto pt-6 border-t border-gray-300">
+          <button (click)="logout()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
+          <p class="text-center mt-3 text-sm text-gray-600">Centro Médico 2024</p>
+        </div>
+      </aside>
 
 
-    <!-- Contenido principal -->
-    <div class="flex-1 p-4">
+      <!-- Contenido principal -->
+      <div class="flex-1 p-4">
       <!-- Encabezado -->
       <div class="bg-blue-900 text-white p-4 rounded-lg shadow-md mb-5">
         <h2 class="text-2xl font-bold text-center uppercase">Mis Citas</h2>
@@ -45,8 +45,8 @@
       </div>
 
       <ng-container *ngIf="showMisCitas; else historialView">
-      <!-- Sección: Mis Citas Programadas -->
-      <div id="citasProgramadas" class="section">
+        <!-- Sección: Mis Citas Programadas -->
+        <!-- Atención 1 -->
         <div class="bg-white shadow-md rounded-lg p-6 border border-blue-900 mb-3">
           <div class="mb-4">
             <p class="text-lg font-bold text-blue-900">OBREGON CANDELA, KATHERINE NOELIA</p>
@@ -59,31 +59,95 @@
               <span class="inline-block bg-gray-200 text-blue-900 font-semibold px-3 py-1 rounded-lg border border-blue-900">EN ESPERA</span>
             </div>
             <div class="flex space-x-6">
-              <button class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">REPROGRAMAR</button>
-              <button class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">ANULAR</button>
+              <button (click)="openReprogramModal()" class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                REPROGRAMAR
+              </button>
+              <button (click)="openAnularModal()" class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                ANULAR
+              </button>
             </div>
           </div>
         </div>
 
-        <div class="bg-white shadow-md rounded-lg p-6 border border-blue-900">
+        <!-- Atención 2 (Nueva Atención) -->
+        <div class="bg-white shadow-md rounded-lg p-6 border border-blue-900 mb-3">
           <div class="mb-4">
-            <p class="text-lg font-bold text-blue-900">CARBAJAL VASQUEZ, JULIANA DEL CARMEN</p>
-            <p class="text-gray-600">14:25 03/11/2024</p>
-            <p class="text-gray-600">CARDIOLOGÍA</p>
+            <p class="text-lg font-bold text-blue-900">SÁNCHEZ GUTIÉRREZ, MARÍA ELENA</p>
+            <p class="text-gray-600">10:00 05/11/2024</p>
+            <p class="text-gray-600">DERMATOLOGÍA</p>
           </div>
           <div class="flex justify-between items-center border-t pt-4">
             <div>
               <p class="text-blue-900 text-sm font-bold mb-4">ESTADO:</p>
-              <span class="inline-block bg-gray-200 text-blue-900 font-semibold px-3 py-1 rounded-lg border border-blue-900">EN ESPERA</span>
+              <span class="inline-block bg-gray-200 text-blue-900 font-semibold px-3 py-1 rounded-lg border border-blue-900">CONFIRMADA</span>
             </div>
             <div class="flex space-x-6">
-              <button class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">REPROGRAMAR</button>
-              <button class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">ANULAR</button>
+              <button (click)="openReprogramModal()" class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                REPROGRAMAR
+              </button>
+              <button (click)="openAnularModal()" class="bg-blue-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                ANULAR
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+        <!-- Modal de Confirmación para Reprogramar -->
+<div *ngIf="showReprogramModal && showMisCitas" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-3xl shadow-lg p-6 w-1/3 text-center"> <!-- Cambiado a rounded-3xl -->
+    <h3 class="text-lg font-bold text-blue-900 mb-4">¿Está seguro que desea reprogramar?</h3>
+    <div class="flex justify-center space-x-4">
+      <button 
+        (click)="confirmReprogram()" 
+        class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 focus:outline-none"> <!-- Cambiado a rounded-full -->
+        Sí
+      </button>
+      <button 
+        (click)="closeReprogramModal()" 
+        class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 focus:outline-none"> <!-- Cambiado a rounded-full -->
+        No
+      </button>
+    </div>
+  </div>
+</div>
+
+     <!-- Modal de Confirmación para Anular -->
+<div *ngIf="showAnularModal && showMisCitas" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-3xl shadow-lg p-6 w-1/3 text-center"> <!-- Cambiado a rounded-3xl -->
+    <h3 class="text-lg font-bold text-blue-900 mb-4">¿Está seguro que desea anular la cita?</h3>
+    <div class="flex justify-center space-x-4">
+      <button 
+        (click)="confirmAnular()" 
+        class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 focus:outline-none"> <!-- Cambiado a rounded-full -->
+        Sí
+      </button>
+      <button 
+        (click)="closeAnularModal()" 
+        class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 focus:outline-none"> <!-- Cambiado a rounded-full -->
+        No
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Cita Anulada Exitosamente -->
+<div *ngIf="showAnuladaSuccessModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-3xl shadow-lg p-6 w-1/3 text-center"> <!-- Cambiado a rounded-3xl -->
+    <!-- Imagen de éxito -->
+    <div class="mb-4">
+      <img src="/check.png" alt="Confirmación" class="w-16 h-16 mx-auto">
+    </div>
+    <p class="text-gray-700 mb-4">La cita ha sido anulada exitosamente.</p>
+    <button 
+      (click)="closeAnuladaSuccessModal()" 
+      class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 focus:outline-none"> <!-- Cambiado a rounded-full -->
+      Aceptar
+    </button>
+  </div>
+</div>
+
+  </ng-container>
+    
+    
   
 <!-- Sección: Mi Historial de Citas -->
 <ng-template #historialView>
@@ -186,7 +250,8 @@
       </div>
     </div>
     <div class="mt-4 text-right">
-      <button (click)="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">Cerrar</button>
+      <button (click)="closeModal()" class="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 focus:outline-none">Cerrar</button>
     </div>
+  </div>
   </div>
 </div>

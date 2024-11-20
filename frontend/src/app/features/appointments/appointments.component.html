@@ -23,7 +23,7 @@
       </button>
     </nav>
     <div class="mt-auto pt-6 border-t border-gray-300">
-      <button class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
+      <button (click)="logout()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
       <p class="text-center mt-3 text-sm text-gray-600">Centro Médico 2024</p>
     </div>
   </aside>
@@ -126,18 +126,20 @@
   <button class="mt-6 w-1/2 py-3 px-3 bg-blue-900 text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="submitAppointment()">Confirmar</button>
     </ng-template>
   </div>
-  <!-- Modal de Error -->
+ <!-- Modal de Error -->
 <div *ngIf="showModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg shadow-lg p-6 w-96 text-center">
+  <div class="bg-white rounded-3xl shadow-lg p-6 w-96 text-center"> <!-- Bordes más redondeados en el modal -->
     <!-- Imagen de error -->
     <div class="mb-4">
       <img src="/error.png" alt="Error" class="w-16 h-16 mx-auto">
     </div>
-    
-    <h3 class="text-xl font-bold text-red-600 mb-4">Error</h3>
+    <h3 class="text-lg font-bold text-red-600 mb-4">Error</h3>
     <p class="text-gray-700 mb-6">{{ errorMessage }}</p>
-    <div class="flex justify-end">
-      <button (click)="closeModal()" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 focus:outline-none">
+    <div class="flex justify-center">
+      <button 
+        (click)="closeModal()" 
+        class="bg-blue-900 text-white font-semibold px-6 py-2 rounded-full hover:bg-blue-700 focus:outline-none">
+        <!-- Cambiado a rounded-full -->
         Aceptar
       </button>
     </div>
