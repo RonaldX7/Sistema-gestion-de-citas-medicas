@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-<<<<<<< HEAD
-=======
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
->>>>>>> origin/josue
 
 @Component({
   selector: 'app-doctor-home',
@@ -14,9 +11,6 @@ import { AuthService } from '../../core/services/auth.service';
   styles: ``
 })
 export class DoctorHomeComponent {
-<<<<<<< HEAD
-
-=======
   constructor(private router:Router){}
 
     citas(){
@@ -30,5 +24,4 @@ export class DoctorHomeComponent {
     history(){
       this.router.navigate(['/medical-history'])
     }
->>>>>>> origin/josue
 }

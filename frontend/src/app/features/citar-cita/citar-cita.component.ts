@@ -1,33 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-<<<<<<< HEAD
-=======
 import { CommonModule } from '@angular/common'; // Importa CommonModule
->>>>>>> origin/josue
 
 @Component({
   selector: 'app-citar-cita',
   standalone: true,
-<<<<<<< HEAD
-  imports: [],
-  templateUrl: './citar-cita.component.html',
-  styles: ``
-})
-export class CitarCitaComponent {
-  constructor(private router:Router){}
-    regreso(){
-      this.router.navigate(['/login']);
-    }
-
-    agenda(){
-      this.router.navigate(['/doctor-home']);
-    }
-
-    cuenta(){
-      this.router.navigate(['/account'])
-    }
-}
-=======
   imports: [CommonModule], // Asegúrate de incluir CommonModule aquí
   templateUrl: './citar-cita.component.html',
   styles: []
@@ -85,4 +62,3 @@ export class CitarCitaComponent {
     this.closeRecipeModal(); // Cierra el modal después de guardar
   }
 }
->>>>>>> origin/josue
