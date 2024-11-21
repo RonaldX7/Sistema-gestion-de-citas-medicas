@@ -1,26 +1,25 @@
 package com.project.integradorII.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 @Entity
-@Table(name = "tb_appointment_costs")
-public class AppointmentCosts {
+@Table(name = "tb_address")
+public class AddressEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "specialties_cost")
-    private double cost;
+    private String street;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "specialty_id")
-    private SpecialtyEntity specialty;
+    @JoinColumn(name = "district_id")
+    private DistrictEntity district;
+
 }

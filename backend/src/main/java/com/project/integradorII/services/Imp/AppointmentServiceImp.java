@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -20,24 +21,77 @@ public class AppointmentServiceImp implements AppointmentService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
     private final ScheduleRepository scheduleRepository;
+    private final AppointmentStatusRepository appointmentStatusRepository;
+    private final AppointmentCostRepository appointmentCostRepository;
 
+    private List<AppointmentList> getAppointmentLists(Stream<MedicalAppointment> stream, List<MedicalAppointment> appointments) {
+        List<AppointmentList> appointmentLists = stream
+                .map(appointment -> {
+                    return new AppointmentList(
+                            appointment.getId(),
+                            appointment.getDate(),
+                            appointment.getPatient().getId(),
+                            appointment.getDoctor().getId(),
+                            appointment.getStartTime(),
+                            appointment.getEndTime(),
+                            appointment.getCost().getCost(),
+                            appointment.getStatus().getId()
+                    );
+                }).collect(java.util.stream.Collectors.toList());
+
+        return appointmentLists;
+    }
+
+
+    @Transactional
     @Override
     public List<AppointmentList> ListAllAppointments() {
-        return List.of();
+
+        List<MedicalAppointment> appointments = appointmentRepository.findAll();
+
+        return getAppointmentLists(appointments.stream(), appointments);
+
+    }
+
+    @Transactional
+    @Override
+    public List<AppointmentList> ListAppointmentByStatus(Long statusId) {
+
+        List<MedicalAppointment> appointments = appointmentRepository.findByStatusId(statusId);
+
+        return getAppointmentLists(appointments.stream(), appointments);
+    }
+
+    @Override
+    public List<AppointmentList> ListAppointmentByDoctor(Long doctorId) {
+
+        List<MedicalAppointment> appointments = appointmentRepository.findByDoctorId(doctorId);
+
+        return getAppointmentLists(appointments.stream(), appointments);
+    }
+
+    @Override
+    public List<AppointmentList> ListAppointmentByPatient(Long patientId) {
+        List<MedicalAppointment> appointments = appointmentRepository.findByPatientId(patientId);
+
+        return getAppointmentLists(appointments.stream(), appointments);
     }
 
     @Transactional
     @Override
     public MedicalAppointment createAppointment(AppointmentRequest appointmentRequest) {
 
+        //Estado de la cita
+        AppointmentStatus appointmentStatus = appointmentStatusRepository.findById(appointmentRequest.statusId())
+                .orElseThrow(() -> new IllegalArgumentException("El estado de la cita no existe"));
+
         //Validar si la especialidad existe
         SpecialtyEntity specialty = specialtyRepository.findById(appointmentRequest.specialtyId())
                 .orElseThrow(() -> new IllegalArgumentException("La especialidad no existe"));
 
         //Validar el costo de la especialidad
-        if (specialty.getCost() == null) {
-            throw new IllegalArgumentException("La especialidad no tiene costo");
-        }
+        AppointmentCosts appointmentCosts = appointmentCostRepository.findBySpecialtyId(appointmentRequest.specialtyId())
+                .orElseThrow(() -> new IllegalArgumentException("La especialidad no tiene costo"));
 
         //Validar si el paciente existe
         PatientEntity patient = patientRepository.findById(appointmentRequest.patientId())
@@ -51,26 +105,29 @@ public class AppointmentServiceImp implements AppointmentService {
         DoctorSchedule schedule = scheduleRepository.findById(appointmentRequest.scheduleId())
                 .orElseThrow(() -> new IllegalArgumentException("El horario no existe"));
 
-        if (!schedule.isAvialable()) {
+        if (!schedule.isAvailable()) {
             throw new IllegalArgumentException("El horario no esta disponible");
+        }
+
+        //Verificar que no exista una cita en la misma fecha y horario
+        if (appointmentRepository
+                .existsByDateAndAndStartTimeAndAndEndTime(appointmentRequest.date(), schedule.getHourStart(), schedule.getHourEnd())) {
+            throw new IllegalArgumentException("Ya existe una cita en la misma fecha y hora");
         }
 
         //Crear la cita medica
         MedicalAppointment appointment = MedicalAppointment.builder()
                 .patient(patient)
                 .doctor(doctor)
-                .date(schedule.getDate())
-                .time(schedule.getHourStart())
-                .cost(specialty.getCost())
+                .date(appointmentRequest.date())
+                .startTime(schedule.getHourStart())
+                .endTime(schedule.getHourEnd())
+                .cost(appointmentCosts)
+                .status(appointmentStatus)
                 .build();
 
         //Guardar la cita medica
         MedicalAppointment saveMedicalAppointment = appointmentRepository.save(appointment);
-
-        //Cambiar el estado del horario
-        schedule.setAvialable(false);
-        scheduleRepository.save(schedule);
-
 
         return saveMedicalAppointment;
     }

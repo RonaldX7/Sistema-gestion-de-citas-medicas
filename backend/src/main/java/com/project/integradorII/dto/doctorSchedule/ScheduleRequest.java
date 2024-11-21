@@ -9,8 +9,6 @@ public record ScheduleRequest(
         @NotNull
         Long doctorId,
         @NotNull
-        LocalDate date,
-        @NotNull
         LocalTime startHour,
         @NotNull
         LocalTime endHour,
