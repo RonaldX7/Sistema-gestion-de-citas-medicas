@@ -9,139 +9,220 @@
       />
     </div>
     <nav class="space-y-4">
-      <button (click)="PatientHome()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-400 focus:outline-none">
+      <button
+        (click)="PatientHome()"
+        class="block w-full text-left py-2 px-4 rounded hover:bg-blue-400 focus:outline-none"
+      >
         Inicio
       </button>
-      <button class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-blue-900 focus:outline-none">
+      <button
+        class="block w-full text-left py-2 px-4 rounded bg-blue-900 text-white hover:bg-blue-900 focus:outline-none"
+      >
         Pide tu Cita
       </button>
-      <button (click)="MisCitas()" class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-400 focus:outline-none">
+      <button
+        (click)="MisCitas()"
+        class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-400 focus:outline-none"
+      >
         Mis Citas
       </button>
-      <button (click)="MiCuenta()" class="block w-full text-left py-2 px-4 rounded hover:bg-blue-400 focus:outline-none">
+      <button
+        (click)="MiCuenta()"
+        class="block w-full text-left py-2 px-4 rounded hover:bg-blue-400 focus:outline-none"
+      >
         Mi cuenta
       </button>
     </nav>
     <div class="mt-auto pt-6 border-t border-gray-300">
-      <button (click)="logout()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
+      <button
+        (click)="logout()"
+        class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+      >
+        Logout
+      </button>
       <p class="text-center mt-3 text-sm text-gray-600">Centro Médico 2024</p>
     </div>
   </aside>
-  <div class="flex-1 p-2  flex-col items-center justify-start" style="background-image: url('fondo-noazul.png'); background-size: cover; background-position: center;">
-
-  <!-- Contenido principal: Componente Appointments -->
-  <div class="flex-1 p-6 lg:p-12">
-    <ng-container *ngIf="!showConfirmation; else confirmationView">
-      <div class="bg-blue-900 text-white p-4 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold text-center uppercase">Pide tu cita</h2>
-      </div>
-
-      <!-- Formulario de selección de cita -->
-      <form class="space-y-6 w-90 mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div class="relative mb-4">
-            <label for="fecha" class="block text-sm font-semibold text-blue-900 mb-2">Fecha:</label>
-            <input
-              type="date"
-              id="fecha"
-              [(ngModel)]="selectedDate"
-              (change)="onDateChange()"
-              name="fecha"
-              class="pl-10 pr-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-blue-900">
-          </div>
-          <div class="relative mb-4">
-            <label for="especialidad" class="block text-sm font-semibold text-blue-900 mb-2">Especialidad:</label>
-            <select
-              id="especialidad"
-              name="especialidad"
-              [(ngModel)]="selectedSpecialty"
-              (change)="onSpecialtyChange($event)"
-              class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-blue-900 text-gray-700">
-              <option value="todas" class="text-gray-700">Todas</option>
-              <option *ngFor="let specialty of specialties" [value]="specialty.id">{{ specialty.name }}</option>
-            </select>
-          </div>
+  <div
+    class="flex-1 p-2 flex-col items-center justify-start"
+    style="
+      background-image: url('fondo-noazul.png');
+      background-size: cover;
+      background-position: center;
+    "
+  >
+    <!-- Contenido principal: Componente Appointments -->
+    <div class="flex-1 p-6 lg:p-12">
+      <ng-container *ngIf="!showConfirmation; else confirmationView">
+        <div class="bg-blue-900 text-white p-4 rounded-lg shadow-md">
+          <h2 class="text-2xl font-bold text-center uppercase">Pide tu cita</h2>
         </div>
 
-         <!-- Tabla de doctores y horarios -->
-         <div class="overflow-x-auto bg-white rounded-lg shadow-lg mt-6">
-          <table class="min-w-full bg-white">
-            <thead>
-              <tr class="w-full bg-blue-900 text-white text-center">
-                <th class="py-3 px-4 font-semibold text-sm">Médico</th>
-                <th class="py-3 px-4 font-semibold text-sm">Horario</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let doctor of doctors" class="border-b text-center">
-                <td class="py-3 px-4">{{ doctor.lastName + " " + doctor.name }}</td>
-                <td class="py-3 px-4">
-                  <div *ngIf="doctor.schedule && doctor.schedule.length > 0; else noSchedule">
-                    <button
-                    *ngFor="let time of doctor.schedule"
-                    (click)="onScheduleSelect(time, doctor)"
-                    [ngClass]="{'bg-skyBlue text-white': selectedSchedule === time && selectedDoctor === doctor, 'bg-blue-900 text-white': selectedSchedule !== time || selectedDoctor !== doctor}"
-                    class="inline-block px-3 py-1 rounded-lg bg-blue-900 text-white font-medium m-1 hover:bg-skyBlue transition">
-                      {{ time }}
-                    </button>
-                  </div>
-                  <ng-template #noSchedule>
-                    <span class="px-3 py-1 rounded-lg bg-gray-300 text-sm font-medium">Sin horario disponible</span>
-                  </ng-template>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <!-- Formulario de selección de cita -->
+        <form class="space-y-6 w-90 mx-auto bg-white p-8 rounded-lg shadow-lg">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="relative mb-4">
+              <label
+                for="fecha"
+                class="block text-sm font-semibold text-blue-900 mb-2"
+                >Fecha:</label
+              >
+              <input
+                type="date"
+                id="fecha"
+                [(ngModel)]="selectedDate"
+                (change)="onDateChange()"
+                name="fecha"
+                class="pl-10 pr-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-blue-900"
+              />
+            </div>
+            <div class="relative mb-4">
+              <label
+                for="especialidad"
+                class="block text-sm font-semibold text-blue-900 mb-2"
+                >Especialidad:</label
+              >
+              <select
+                id="especialidad"
+                name="especialidad"
+                [(ngModel)]="selectedSpecialty"
+                (change)="onSpecialtyChange($event)"
+                class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-blue-900 text-gray-700"
+              >
+                <option value="todas" class="text-gray-700">Todas</option>
+                <option
+                  *ngFor="let specialty of specialties"
+                  [value]="specialty.id"
+                >
+                  {{ specialty.name }}
+                </option>
+              </select>
+            </div>
+          </div>
 
-        <!-- Botón de Agendar Cita -->
+          <!-- Tabla de doctores y horarios -->
+          <div class="overflow-x-auto bg-white rounded-lg shadow-lg mt-6">
+            <table class="min-w-full bg-white">
+              <thead>
+                <tr class="w-full bg-blue-900 text-white text-center">
+                  <th class="py-3 px-4 font-semibold text-sm">Médico</th>
+                  <th class="py-3 px-4 font-semibold text-sm">Horario</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let doctor of doctors" class="border-b text-center">
+                  <td class="py-3 px-4">
+                    {{ doctor.lastName + " " + doctor.name }}
+                  </td>
+                  <td class="py-3 px-4">
+                    <div
+                      *ngIf="
+                        doctor.schedule && doctor.schedule.length > 0;
+                        else noSchedule
+                      "
+                    >
+                      <button
+                        *ngFor="let time of doctor.schedule"
+                        (click)="onScheduleSelect(time, doctor)"
+                        [ngClass]="{
+                          'bg-skyBlue text-white':
+                            selectedSchedule === time &&
+                            selectedDoctor === doctor,
+                          'bg-blue-900 text-white':
+                            selectedSchedule !== time ||
+                            selectedDoctor !== doctor
+                        }"
+                        class="inline-block px-3 py-1 rounded-lg bg-blue-900 text-white font-medium m-1 hover:bg-skyBlue transition"
+                      >
+                        {{ time }}
+                      </button>
+                    </div>
+                    <ng-template #noSchedule>
+                      <span
+                        class="px-3 py-1 rounded-lg bg-gray-300 text-sm font-medium"
+                        >Sin horario disponible</span
+                      >
+                    </ng-template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Botón de Agendar Cita -->
+          <button
+            (click)="confirmAppointment()"
+            type="button"
+            class="w-full py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold items-center"
+          >
+            Agendar Cita
+          </button>
+        </form>
+      </ng-container>
+
+      <!-- Vista de Confirmación -->
+      <ng-template #confirmationView>
+        <h2 class="text-blue-900 text-3xl font-bold mb-6">Confirmar Cita</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-bold mb-4 text-center">Datos de la Cita</h3>
+            <p>
+              <strong>Médico:</strong>
+              {{ selectedDoctor?.lastName + " " + selectedDoctor?.name }}
+            </p>
+            <p><strong>Especialidad:</strong> {{ selectedSpecialtyName }}</p>
+            <p><strong>Fecha de Cita:</strong> {{ selectedDate }}</p>
+            <p><strong>Hora de Cita:</strong> {{ selectedSchedule }}</p>
+          </div>
+          <div *ngIf="patient" class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-bold mb-4 text-center">
+              Datos del Paciente
+            </h3>
+            <p>
+              <strong>Nombre:</strong> {{ patient.name }} {{ patient.lastName }}
+            </p>
+            <p><strong>Email:</strong> {{ patient.email }}</p>
+            <p><strong>DNI:</strong> {{ patient.dni }}</p>
+          </div>
+        </div>
         <button
-          (click)="confirmAppointment()"
-          type="button"
-          class="w-full py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold items-center">
-          Agendar Cita
+          href="/appointments"
+          class="mt-6 w-1/2 py-3 px-3 bg-blue-900 text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold"
+          (click)="toAppointment()"
+        >
+          Volver
         </button>
-      </form>
-    </ng-container>
-
-    <!-- Vista de Confirmación -->
-    <ng-template #confirmationView>
-      <h2 class="text-blue-900 text-3xl font-bold mb-6">Confirmar Cita</h2>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <div class="bg-white p-6 rounded-lg shadow-lg">
-      <h3 class="text-xl font-bold mb-4 text-center">Datos de la Cita</h3>
-      <p><strong>Médico:</strong> {{ selectedDoctor?.lastName + " " + selectedDoctor?.name }}</p>
-      <p><strong>Especialidad:</strong> {{ selectedSpecialtyName }}</p>
-      <p><strong>Fecha de Cita:</strong> {{ selectedDate }}</p>
-      <p><strong>Hora de Cita:</strong> {{ selectedSchedule }}</p>
+        <button
+          class="mt-6 w-1/2 py-3 px-3 bg-blue-900 text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold"
+          (click)="submitAppointment()"
+        >
+          Confirmar
+        </button>
+      </ng-template>
     </div>
-    <div *ngIf="patient" class="bg-white p-6 rounded-lg shadow-lg">
-      <h3 class="text-xl font-bold mb-4 text-center">Datos del Paciente</h3>
-      <p><strong>Nombre:</strong> {{ patient.name }} {{ patient.lastName }}</p>
-      <p><strong>Email:</strong> {{ patient.email}}</p>
-      <p><strong>DNI:</strong> {{ patient.dni}}</p>
-    </div>
-  </div>
-  <button   href="/appointments" class="mt-6 w-1/2 py-3 px-3 bg-blue-900 text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="toAppointment()">Volver</button>
-  <button class="mt-6 w-1/2 py-3 px-3 bg-blue-900 text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="submitAppointment()">Confirmar</button>
-    </ng-template>
-  </div>
- <!-- Modal de Error -->
-<div *ngIf="showModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-3xl shadow-lg p-6 w-96 text-center"> <!-- Bordes más redondeados en el modal -->
-    <!-- Imagen de error -->
-    <div class="mb-4">
-      <img src="/error.png" alt="Error" class="w-16 h-16 mx-auto">
-    </div>
-    <h3 class="text-lg font-bold text-red-600 mb-4">Error</h3>
-    <p class="text-gray-700 mb-6">{{ errorMessage }}</p>
-    <div class="flex justify-center">
-      <button 
-        (click)="closeModal()" 
-        class="bg-blue-900 text-white font-semibold px-6 py-2 rounded-full hover:bg-blue-700 focus:outline-none">
-        <!-- Cambiado a rounded-full -->
-        Aceptar
-      </button>
+    <!-- Modal de Error -->
+    <div
+      *ngIf="showModal"
+      class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-3xl shadow-lg p-6 w-96 text-center">
+        <!-- Bordes más redondeados en el modal -->
+        <!-- Imagen de error -->
+        <div class="mb-4">
+          <img src="/error.png" alt="Error" class="w-16 h-16 mx-auto" />
+        </div>
+        <h3 class="text-lg font-bold text-red-600 mb-4">Error</h3>
+        <p class="text-gray-700 mb-6">{{ errorMessage }}</p>
+        <div class="flex justify-center">
+          <button
+            (click)="closeModal()"
+            class="bg-blue-900 text-white font-semibold px-6 py-2 rounded-full hover:bg-blue-700 focus:outline-none"
+          >
+            <!-- Cambiado a rounded-full -->
+            Aceptar
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

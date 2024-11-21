@@ -1,36 +1,52 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
 
 @Component({
   selector: 'app-my-account',
   standalone: true,
-  imports: [],
+  imports: [CommonModule], // Incluir CommonModule aquí
   templateUrl: './my-account.component.html',
-  styles: ``
+  styles: ``,
 })
 export class MyAccountComponent {
-  constructor(
-    private router: Router
-  ){}
+  showUpdateModalFlag = false; // Controla el modal de "Actualizar Datos"
+  showPasswordModalFlag = false; // Controla el modal de "Actualizar Contraseña"
 
+  constructor(private router: Router) {}
+
+  // Navegación entre rutas
   logout(): void {
-    //localStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }
 
-  PatientHome() {
-    this.router.navigate(['/patient-home']); // Cambiar ruta según configuración
+  PatientHome(): void {
+    this.router.navigate(['/patient-home']);
   }
 
-  PidetuCita() {
-    this.router.navigate(['/appointments']); // Cambiar ruta según configuración
+  PidetuCita(): void {
+    this.router.navigate(['/appointments']);
   }
 
-  MisCitas() {
+  MisCitas(): void {
     this.router.navigate(['/mis-citas']);
   }
 
-  MiCuenta() {
+  MiCuenta(): void {
     this.router.navigate(['/my-account']);
+  }
+
+  // Métodos para controlar los modales
+  showUpdateModal(): void {
+    this.showUpdateModalFlag = true;
+  }
+
+  showPasswordModal(): void {
+    this.showPasswordModalFlag = true;
+  }
+
+  closeModal(): void {
+    this.showUpdateModalFlag = false;
+    this.showPasswordModalFlag = false;
   }
 }

@@ -225,7 +225,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   PidetuCita() {
-    this.router.navigate(['/appointments']); 
+    this.router.navigate(['/appointments']);
   }
 
   MisCitas() {
