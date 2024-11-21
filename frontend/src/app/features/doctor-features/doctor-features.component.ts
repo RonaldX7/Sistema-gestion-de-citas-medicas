@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Asegúrate de importar CommonModule
+import { RouterOutlet,Router } from '@angular/router';
+import { SidebarComponent } from "../sidebar/sidebar.component";
 
 @Component({
-  selector: 'app-admin-home',
+  selector: 'app-doctor-features',
   standalone: true,
-  imports: [RouterOutlet, CommonModule], // Agrega CommonModule aquí
-  templateUrl: './admin-home.component.html'
+  imports: [RouterOutlet, CommonModule, SidebarComponent],
+  templateUrl: './doctor-features.component.html',
+  styles: ``
 })
-export class AdminHomeComponent {
+export class DoctorFeaturesComponent {
   constructor(private router: Router) {}
   isActiveRoute(route: string): boolean {
     return this.router.url.startsWith(route);
@@ -17,5 +19,4 @@ export class AdminHomeComponent {
     localStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }
-
 }

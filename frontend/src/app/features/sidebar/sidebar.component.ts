@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SidebarOption } from './sidebar.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,7 +9,12 @@ import { Router } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styles: ``
 })
+
+
 export class SidebarComponent {
+  
+  
+
   constructor(private router:Router){}
   logout(): void {
     // Lógica de cierre de sesión
