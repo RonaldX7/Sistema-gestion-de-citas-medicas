@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // Importa FormsModule
+import { CommonModule } from '@angular/common'; // Importa CommonModule
 
 @Component({
   selector: 'app-account',
-  standalone: true,
-  imports: [FormsModule], // Agrega FormsModule aquí
+  standalone: true, // Mantén esto como está
+  imports: [FormsModule, CommonModule], // Agrega FormsModule y CommonModule aquí
   templateUrl: './account.component.html',
   styles: ``,
 })
