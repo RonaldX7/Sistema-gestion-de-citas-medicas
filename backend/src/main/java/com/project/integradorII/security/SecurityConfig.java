@@ -21,8 +21,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import java.util.List;
 
-import java.util.List;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -31,14 +29,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationProvider authenticationProvider, JwtUtils jwtUtils) throws Exception {
         return httpSecurity
-                .cors(corsConfigurer -> corsConfigurer.configurationSource(request -> {
-                    var cors = new org.springframework.web.cors.CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:4200"));
-                    cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-                    cors.setAllowedHeaders(List.of("*"));
-                    cors.setAllowCredentials(true);
-                    return cors;
-                }))
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(request -> {
                     var cors = new org.springframework.web.cors.CorsConfiguration();
                     cors.setAllowedOrigins(List.of("http://localhost:4200"));
@@ -69,8 +59,6 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.DELETE, "/medico/eliminar/{id}").hasAnyRole("MEDICO");
 
                     //Endpoints del administrador
-                    http.requestMatchers(HttpMethod.POST, "/medico/registrar").hasAnyRole("ADMIN");
-                    http.requestMatchers(HttpMethod.POST, "/horarios/registrar").hasAnyRole("ADMIN");
 
                     http.anyRequest().denyAll();
                 })

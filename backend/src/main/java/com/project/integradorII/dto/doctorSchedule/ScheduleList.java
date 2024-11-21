@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 public record ScheduleList(
         @NotBlank
-        Long id,
+        Long doctorId,
         @NotNull
         LocalTime startHour,
         @NotNull

@@ -13,12 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/horarios")
 public class ScheduleController {
 
-    private final ScheduleServiceImp scheduleService;
     private final ScheduleServiceImp scheduleService;
 
 
