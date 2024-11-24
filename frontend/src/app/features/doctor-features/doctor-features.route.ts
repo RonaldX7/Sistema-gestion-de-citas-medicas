@@ -17,7 +17,7 @@ const routes: Routes = [
       { path: 'citar-cita', component: CitarCitaComponent },
       { path: 'vistamedic', component: VistamedicComponent },
       { path: 'medical-history', component: MedicalHistoryComponent},
-      { path: '**', redirectTo: '/doctor-home', pathMatch: 'full' },
+      { path: '**', redirectTo: 'doctor-home', pathMatch: 'full' },
     ],
   },
 ];

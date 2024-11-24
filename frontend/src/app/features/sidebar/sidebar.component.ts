@@ -1,20 +1,21 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { SidebarOption } from './sidebar.model';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [],
+  imports: [RouterModule, NgFor],
   templateUrl: './sidebar.component.html',
   styles: ``
 })
 
 
-export class SidebarComponent {
+export class SidebarComponent  {
+  @Input() options: SidebarOption[] = []; // Opciones del menú dinámico
+  @Input() userType!: string; // Tipo de usuario: admin, doctor, paciente
   
-  
-
   constructor(private router:Router){}
   logout(): void {
     // Lógica de cierre de sesión

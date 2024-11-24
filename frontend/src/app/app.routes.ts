@@ -6,10 +6,6 @@ export const routes: Routes = [
         loadComponent:()=> import('./authentication/login/login.component').then(m=>m.LoginComponent)
     },
     {
-        path:'patient-home',
-        loadComponent:()=> import('./features/patient-home/patient-home.component').then(m=>m.PatientHomeComponent)
-    },
-    {
         path:'register',
         loadComponent:()=>import('./authentication/register/register.component').then(m=>m.RegisterComponent)
     },
@@ -22,12 +18,9 @@ export const routes: Routes = [
         loadComponent:() => import('./authentication/new-password/new-password.component').then(m=>m.NewPasswordComponent)
     },
     {
-        path: 'appointments',
-        loadComponent:()=>import('./features/appointments/appointments.component').then(m=>m.AppointmentsComponent)
-    },
-    {
-        path:'appointments-list',
-        loadComponent:() => import('./features/appointments-list/appointments-list.component').then(m=>m.AppointmentsListComponent)
+        path: 'patient-features',
+        loadChildren: () => import('./features/patient-features/patient-features.route').then(m => m.PatientFeaturesRoutingModule),
+
     },
     {
         path: 'admin-home',

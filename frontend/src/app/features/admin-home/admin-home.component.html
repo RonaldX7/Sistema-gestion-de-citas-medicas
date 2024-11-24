@@ -1,12 +1,11 @@
 <div class="flex flex-col md:flex-row min-h-screen"  style="background-image: url('/fondo-noazul.png');">
   
   <!-- Sidebar -->
-  <aside class="w-full md:w-64 bg-aqua text-blue-900 p-6">
+  <!-- <aside class="w-full md:w-64 bg-aqua text-blue-900 p-6">
     <div class="flex flex-col items-center">
       <img src="logo-render.png" alt="Logo" class="h-20 w-auto mb-4">
     </div>
     <nav class="space-y-4">
-      <!-- Doctores -->
       <a
         routerLink="add-doc"
         [ngClass]="{ 'bg-deepBlue text-white': isActiveRoute('/admin-home/add-doc') }"
@@ -14,30 +13,27 @@
       >
         Doctores
       </a>
-    
-      <!-- Lista de Citas -->
       <a
         routerLink="list-citas"
         [ngClass]="{ 'bg-deepBlue text-white': isActiveRoute('/admin-home/list-citas') }"
         class="block py-2 px-4 rounded-lg hover:bg-deepBlue hover:text-white transition"
       >
-        Lista de Citas
       </a>
     
-      <!-- Lista de Usuarios -->
       <a
         routerLink="rentabilidad"
         [ngClass]="{ 'bg-deepBlue text-white': isActiveRoute('/admin-home/rentabilidad') }"
         class="block py-2 px-4 rounded-lg hover:bg-deepBlue hover:text-white transition"
       >
-        Lista de Usuarios
       </a>
     </nav>
    <div class="mt-auto pt-6 border-t border-gray-300">
     <button (click)="logout()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
     <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
   </div>
-</aside>
+</aside> -->
+
+<app-sidebar [options]="menuOptions" [userType]="userType"></app-sidebar>
 
   <!-- Contenido Principal -->
   <main class="flex-grow p-6">

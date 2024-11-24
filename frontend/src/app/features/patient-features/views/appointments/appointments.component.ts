@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SpecialtyService } from '../../core/services/specialty.service';
+import { SpecialtyService } from '../../../../core/services/specialty.service';
 import { CommonModule } from '@angular/common';
-import { DoctorService } from '../../core/services/doctor.service';
+import { DoctorService } from '../../../../core/services/doctor.service';
 import { FormsModule } from '@angular/forms';
-import { ScheduleService, Schedule } from '../../core/services/schedule.service';
-import { PatientService } from '../../core/services/patient.service';
-import { AuthService } from '../../core/services/auth.service';
-import { AppointmentService } from '../../core/services/appointment.service';
+import { ScheduleService, Schedule } from '../../../../core/services/schedule.service';
+import { PatientService } from '../../../../core/services/patient.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { AppointmentService } from '../../../../core/services/appointment.service';
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
