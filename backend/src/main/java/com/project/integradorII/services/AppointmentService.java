@@ -9,6 +9,8 @@ import java.util.List;
 public interface AppointmentService {
 
     List<AppointmentList> ListAllAppointments();
-
+    List<AppointmentList> ListAppointmentByStatus(Long statusId);
+    List<AppointmentList> ListAppointmentByDoctor(Long doctorId);
+    List<AppointmentList> ListAppointmentByPatient(Long patientId);
     MedicalAppointment createAppointment(AppointmentRequest appointmentRequest);
 }

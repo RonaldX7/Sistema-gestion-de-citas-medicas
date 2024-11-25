@@ -1,0 +1,177 @@
+<div class="container mx-auto px-4 py-6"
+
+>
+<!-- flex flex-col md:flex-row min-h-screen -->
+
+  <!-- Contenido principal: Componente Account -->
+
+  <!-- Content -->
+  <div
+    class="max-w-4xl mx-auto bg-white bg-opacity-90 p-8 rounded-lg shadow-lg"
+  >
+    <!-- Encabezado -->
+    <div class="bg-blue-900 text-white text-center py-4 rounded-md mb-8">
+      <h1 class="text-2xl font-bold">MI CUENTA</h1>
+    </div>
+    <!-- Formulario -->
+    <form
+      class="grid grid-cols-12 gap-y-6 gap-x-6"
+      (ngSubmit)="updateAccount()"
+      #form="ngForm"
+    >
+      <!-- Tipo y número de CMP -->
+      <div class="col-span-2">
+        <label class="block text-sm font-medium text-gray-600">Documento</label>
+        <input
+          type="text"
+          class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+          [(ngModel)]="accountData.documentType"
+          name="documentType"
+          readonly
+        />
+        <br />
+        <input
+          type="text"
+          class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+          [(ngModel)]="accountData.documentNumber"
+          name="documentNumber"
+          readonly
+        />
+      </div>
+
+      <!-- Nombres y Apellidos -->
+      <div class="col-span-10">
+        <label class="block text-sm font-medium text-gray-600">Nombres</label>
+        <input
+          type="text"
+          class="mt-2 mb-1 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+          [(ngModel)]="accountData.firstName"
+          name="firstName"
+        />
+
+        <label class="block text-sm font-medium text-gray-600">Apellidos</label>
+        <input
+          type="text"
+          class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+          [(ngModel)]="accountData.lastName"
+          name="lastName"
+        />
+      </div>
+
+      <!-- Teléfono -->
+      <div class="col-span-4">
+        <label class="block text-sm font-medium text-gray-600">Teléfono</label>
+        <input
+          type="text"
+          class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+          [(ngModel)]="accountData.phone"
+          name="phone"
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="col-span-8">
+        <label class="block text-sm font-medium text-gray-600">E-mail</label>
+        <input
+          type="email"
+          class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+          [(ngModel)]="accountData.email"
+          name="email"
+        />
+      </div>
+
+      <!-- Especialidad -->
+      <div class="col-span-12">
+        <label class="block text-sm font-medium text-gray-600"
+          >Especialidad</label
+        >
+        <input
+          type="text"
+          class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+          [(ngModel)]="accountData.specialty"
+          name="specialty"
+          readonly
+        />
+      </div>
+
+      <!-- Campos de contraseña -->
+      <!-- Contraseña actual -->
+      <div class="col-span-4">
+        <label class="block text-sm font-medium text-gray-600"
+          >Contraseña actual</label
+        >
+        <div class="relative">
+          <input
+            [type]="showCurrentPassword ? 'text' : 'password'"
+            class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+            [(ngModel)]="accountData.currentPassword"
+            name="currentPassword"
+          />
+          <button
+            type="button"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+            (click)="togglePasswordVisibility('currentPassword')"
+          >
+            <!-- {{ showCurrentPassword ? "🙈" : "👁️" }} -->
+          </button>
+        </div>
+      </div>
+
+      <!-- Contraseña nueva -->
+      <div class="col-span-4">
+        <label class="block text-sm font-medium text-gray-600"
+          >Contraseña nueva</label
+        >
+        <div class="relative">
+          <input
+            [type]="showNewPassword ? 'text' : 'password'"
+            class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+            [(ngModel)]="accountData.newPassword"
+            name="newPassword"
+          />
+          <button
+            type="button"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+            (click)="togglePasswordVisibility('newPassword')"
+          >
+            <!-- {{ showNewPassword ? "🙈" : "👁️" }} -->
+
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirmar contraseña nueva -->
+      <div class="col-span-4">
+        <label class="block text-sm font-medium text-gray-600"
+          >Confirmar contraseña nueva</label
+        >
+        <div class="relative">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            class="mt-2 block w-full rounded-full border-2 border-blue-900 bg-gray-100 text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 pl-4"
+            [(ngModel)]="accountData.confirmPassword"
+            name="confirmPassword"
+          />
+          <button
+            type="button"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+            (click)="togglePasswordVisibility('confirmPassword')"
+          >
+            <!-- {{ showConfirmPassword ? "🙈" : "👁️" }} -->
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón Actualizar -->
+      <div class="col-span-12 flex justify-center mt-6">
+        <button
+          type="submit"
+          class="bg-blue-900 text-white px-10 py-3 rounded-full shadow-md hover:bg-deepBlue transition"
+          [disabled]="form.invalid"
+        >
+          ACTUALIZAR CLAVE
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

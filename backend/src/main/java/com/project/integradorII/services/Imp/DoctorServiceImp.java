@@ -149,7 +149,9 @@ public class DoctorServiceImp implements DoctorService {
         doctorEntity.setEmail(doctorUpdate.email());
 
         UserEntity user = doctorEntity.getUser();
-        user.setPassword(doctorUpdate.password());
+        if (doctorUpdate.password() != null && !doctorUpdate.password().equals(user.getPassword())) {
+            user.setPassword(doctorUpdate.password());
+        }
 
         return doctorRepository.save(doctorEntity);
     }
