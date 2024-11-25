@@ -1,0 +1,98 @@
+<div class="container mx-auto px-4 py-6">
+  <!-- class="flex min-h-screen bg-gray-100" -->
+  <!-- Contenido principal: Componente Appointments -->
+  <div class="flex-1 p-6 lg:p-12">
+    <ng-container *ngIf="!showConfirmation; else confirmationView">
+      <h2 class="text-deepBlue text-3xl font-bold mb-6">Pide tu cita</h2>
+
+      <!-- Formulario de selección de cita -->
+      <form class="space-y-6 w-90 mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="relative mb-4">
+            <label for="fecha" class="block text-sm font-semibold text-deepBlue mb-2">Fecha:</label>
+            <input 
+              type="date" 
+              id="fecha" 
+              [(ngModel)]="selectedDate" 
+              (change)="onDateChange()"
+              name="fecha"
+              class="pl-10 pr-10 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue">
+          </div>
+          <div class="relative mb-4">
+            <label for="especialidad" class="block text-sm font-semibold text-deepBlue mb-2">Especialidad:</label>
+            <select 
+              id="especialidad"
+              name="especialidad" 
+              [(ngModel)]="selectedSpecialty" 
+              (change)="onSpecialtyChange($event)" 
+              class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue text-gray-700">
+              <option value="todas" class="text-gray-700">Todas</option>
+              <option *ngFor="let specialty of specialties" [value]="specialty.id">{{ specialty.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tabla de doctores y horarios -->
+        <div class="overflow-x-auto bg-white rounded-lg shadow-lg mt-6">
+          <table class="min-w-full bg-white">
+            <thead>
+              <tr class="w-full bg-deepBlue text-white text-center">
+                <th class="py-3 px-4 font-semibold text-sm">Médico</th>
+                <th class="py-3 px-4 font-semibold text-sm">Horario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doctor of doctors" class="border-b text-center">
+                <td class="py-3 px-4">{{ doctor.lastName + " " + doctor.name }}</td>
+                <td class="py-3 px-4">
+                  <div *ngIf="doctor.schedule && doctor.schedule.length > 0; else noSchedule">
+                    <button 
+                    *ngFor="let time of doctor.schedule" 
+                    (click)="onScheduleSelect(time, doctor)"
+                    [ngClass]="{'bg-skyBlue text-white': selectedSchedule === time && selectedDoctor === doctor, 'bg-deepBlue text-white': selectedSchedule !== time || selectedDoctor !== doctor}"
+                    class="inline-block px-3 py-1 rounded-lg bg-deepBlue text-white font-medium m-1 hover:bg-skyBlue transition">
+                      {{ time }}
+                    </button>
+                  </div>
+                  <ng-template #noSchedule>
+                    <span class="px-3 py-1 rounded-lg bg-gray-300 text-sm font-medium">Sin horario disponible</span>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Botón de Agendar Cita -->
+        <button
+          (click)="confirmAppointment()"
+          type="button"
+          class="w-full py-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold items-center">
+          Agendar Cita
+        </button>
+      </form>
+    </ng-container>
+
+    <!-- Vista de Confirmación -->
+    <ng-template #confirmationView>
+      <h2 class="text-deepBlue text-3xl font-bold mb-6">Confirmar Cita</h2>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <h3 class="text-xl font-bold mb-4 text-center">Datos de la Cita</h3>
+      <p><strong>Médico:</strong> {{ selectedDoctor?.lastName + " " + selectedDoctor?.name }}</p>
+      <p><strong>Especialidad:</strong> {{ selectedSpecialtyName }}</p>
+      <p><strong>Fecha de Cita:</strong> {{ selectedDate }}</p>
+      <p><strong>Hora de Cita:</strong> {{ selectedSchedule }}</p>
+    </div>
+    <div *ngIf="patient" class="bg-white p-6 rounded-lg shadow-lg">
+      <h3 class="text-xl font-bold mb-4 text-center">Datos del Paciente</h3>
+      <p><strong>Nombre:</strong> {{ patient.name }} {{ patient.lastName }}</p>
+      <p><strong>Email:</strong> {{ patient.email}}</p>
+      <p><strong>DNI:</strong> {{ patient.dni}}</p>
+    </div>
+  </div>
+  <button   href="/appointments" class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="toAppointment()">Volver</button>
+  <button class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="submitAppointment()">Confirmar</button>
+    </ng-template>
+  </div>
+</div>
