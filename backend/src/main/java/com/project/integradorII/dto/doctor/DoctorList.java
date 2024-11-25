@@ -1,5 +1,6 @@
 package com.project.integradorII.dto.doctor;
 
+import com.project.integradorII.entities.SpecialtyEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -17,6 +18,6 @@ public record DoctorList(
         @NotBlank
         String cmp,
         @NotBlank
-        List<String> specialties
+        SpecialtyEntity specialties
 ) {
 }
