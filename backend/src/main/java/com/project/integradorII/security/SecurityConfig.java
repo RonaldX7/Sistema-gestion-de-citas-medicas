@@ -45,18 +45,14 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/cita/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/medico/listar").permitAll();
                     http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/medico/registrar").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/horarios/registrar").permitAll();
                     //configurar los endpoints privados
-                    //Endpoints del paciente
-                    http.requestMatchers(HttpMethod.DELETE, "/paciente/eliminar/{id}").hasAnyRole("USER");
-
-                    //Endpoints del medico
-                    http.requestMatchers(HttpMethod.PUT, "/medico/actualizar/{id}").hasAnyRole("MEDICO");
-                    http.requestMatchers(HttpMethod.DELETE, "/medico/eliminar/{id}").hasAnyRole("MEDICO");
 
                     //Endpoints del administrador
 

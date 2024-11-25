@@ -73,7 +73,7 @@
         >
           <td class="py-2 px-4">{{ doctor.cmp }}</td>
           <td class="py-2 px-4">{{ doctor.name }}</td>
-          <td class="py-2 px-4">{{ doctor.apellido }}</td>
+          <td class="py-2 px-4">{{ doctor.lastName }}</td>
           <td class="py-2 px-4">{{ doctor.phone }}</td>
           <td class="py-2 px-4">{{ doctor.email }}</td>
           <td class="py-2 px-4">{{ doctor.specialty }}</td>
@@ -109,7 +109,7 @@
       </div>
       <div class="mb-4">
         <label class="block text-gray-700">Apellido</label>
-        <input [(ngModel)]="newDoctor.apellido" name="apellido" type="text" class="w-full p-2 border rounded-lg">
+        <input [(ngModel)]="newDoctor.lastname" name="apellido" type="text" class="w-full p-2 border rounded-lg">
         <div *ngIf="fieldErrors.cmp" class="text-red-500 text-sm mt-1">{{ fieldErrors.apellido }}</div>
       </div>
       <div class="mb-4">
@@ -132,73 +132,31 @@
           [ngClass]="{ 'border-red-500': fieldErrors.specialty }"
         >
           <option value="" disabled selected>Seleccione Especialidad</option>
-          <option *ngFor="let specialty of specialties" [value]="specialty">{{ specialty }}</option>
+          <option *ngFor="let specialty of specialties" [value]="specialty.name">{{ specialty.name }}</option>
         </select>
         <div *ngIf="fieldErrors.specialty" class="text-red-500 text-sm">
           La especialidad es obligatoria.
         </div>
       </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Username</label>
+        <input [(ngModel)]="newDoctor.username" name="username" type="text" class="w-full p-2 border rounded-lg" [readonly]="isEditing">
+        <!-- <div *ngIf="fieldErrors.cmp" class="text-red-500 text-sm mt-1">{{ fieldErrors.cmp }}</div> -->
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Password</label>
+        <input [(ngModel)]="newDoctor.password" name="password" type="text" class="w-full p-2 border rounded-lg" [readonly]="isEditing">
+        <!-- <div *ngIf="fieldErrors.cmp" class="text-red-500 text-sm mt-1">{{ fieldErrors.cmp }}</div> -->
+      </div>
+
       <div class="flex justify-end">
         <button type="button" (click)="closeModal()" class="mr-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
           Cancelar
         </button>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+        <button type="submit" (click)="addDoctor()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
           Guardar
         </button>
       </div>
     </form>
   </div>
 </div>
-
-
-<!--<div class="p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-deepBlue text-2xl font-bold mb-4">Lista Doctores</h2>
-  
-    <!-- Filtros 
-    <div class="flex space-x-4 mb-4">
-      <input 
-        type="text" 
-        placeholder="Especialidad" 
-        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
-      />
-      <input 
-        type="text" 
-        placeholder="Nombre" 
-        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
-      />
-      <button 
-        class="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
-        🔍
-      </button>
-      <button 
-        class="p-2 bg-green-500 text-white rounded-lg hover:bg-green-700">
-        Agregar
-      </button>
-    </div>
-  
-    <!-- Tabla 
-    <table class="w-full border-collapse rounded-lg overflow-hidden shadow-md">
-      <thead>
-        <tr class="bg-deepBlue text-white">
-          <th class="py-2 px-4">CMP</th>
-          <th class="py-2 px-4">Nombre</th>
-          <th class="py-2 px-4">Teléfono</th>
-          <th class="py-2 px-4">E-mail</th>
-          <th class="py-2 px-4">Especialidad</th>
-          <th class="py-2 px-4">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="hover:bg-gray-100" *ngFor="let doctor of doctors">
-          <td class="py-2 px-4">{{ doctor.cmp }}</td>
-          <td class="py-2 px-4">{{ doctor.name }}</td>
-          <td class="py-2 px-4">{{ doctor.phone }}</td>
-          <td class="py-2 px-4">{{ doctor.email }}</td>
-          <td class="py-2 px-4">{{ doctor.specialty }}</td>
-          <td class="py-2 px-4">
-            <button class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-700">Modificar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>-->

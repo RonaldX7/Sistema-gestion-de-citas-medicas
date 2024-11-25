@@ -46,8 +46,7 @@ public class DoctorServiceImp implements DoctorService {
                     doctorEntity.getLastName(),
                     doctorEntity.getPhone(),
                     doctorEntity.getCmp(),
-                    doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName)
-                            .collect(Collectors.toList())
+                    doctorEntity.getSpecialties()
             );
         }).collect(Collectors.toList());
 
@@ -70,8 +69,7 @@ public class DoctorServiceImp implements DoctorService {
                             doctorEntity.getLastName(),
                             doctorEntity.getPhone(),
                             doctorEntity.getCmp(),
-                            doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName)
-                                    .collect(Collectors.toList())
+                            doctorEntity.getSpecialties()
                     );
                 }).collect(Collectors.toList());
 
@@ -92,21 +90,13 @@ public class DoctorServiceImp implements DoctorService {
             throw new IllegalArgumentException("Agrege un rol valido");
         }
 
-        //Guardar la especialidad si no existe
-        doctorRequest.specialty().specialtyListName().forEach(specialtyName -> {
-            Optional<SpecialtyEntity> specialtyEntity = specialtyRepository.findByName(specialtyName);
 
-            //Si no existe la especialidad se crea
-            if (specialtyEntity.isEmpty()) {
-                SpecialtyEntity specialty = SpecialtyEntity.builder().name(specialtyName).build();
-                specialtyRepository.save(specialty);
-            }
-        });
+        //Validar si la especialidad existe
+        SpecialtyEntity specialtyEntity = specialtyRepository.findByName(doctorRequest.specialty());
 
-        // Asignar especialidades al doctor
-        Set<SpecialtyEntity> specialties = specialtyRepository.
-                findSpecialtyEntitiesByNameIn(doctorRequest.specialty().specialtyListName())
-                .stream().collect(Collectors.toSet());
+        if (specialtyEntity.getId() == null) {
+            throw new IllegalArgumentException("La especialidad no existe");
+        }
 
         //Crear el usuario
         UserRequest userRequest = new UserRequest(
@@ -124,7 +114,7 @@ public class DoctorServiceImp implements DoctorService {
                 .phone(doctorRequest.phone())
                 .email(doctorRequest.email())
                 .cmp(doctorRequest.cmp())
-                .specialties(specialties)
+                .specialties(specialtyEntity)
                 .user(userEntity)
                 .build();
 

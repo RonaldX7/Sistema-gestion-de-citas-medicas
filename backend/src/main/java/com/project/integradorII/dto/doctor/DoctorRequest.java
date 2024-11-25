@@ -19,8 +19,8 @@ public record DoctorRequest(
         String password,
         @NotBlank
         String cmp,
-        @Valid
-        SpecialtyRequest specialty,
+        @NotNull
+        String specialty,
         @NotNull
         Long roleId
 ) {

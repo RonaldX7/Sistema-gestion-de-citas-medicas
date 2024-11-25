@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface SpecialtyRepository extends JpaRepository<SpecialtyEntity, Long> {
 
-    Optional<SpecialtyEntity> findByName(String specialtyName);
+    SpecialtyEntity findByName(String specialtyName);
 
     List<SpecialtyEntity> findSpecialtyEntitiesByNameIn(List<String> specialtyListName);
 
