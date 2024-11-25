@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class DoctorService {
   private doctorUrl= 'http://localhost:8080/medico/listar';
+  private doctor_register_url='http://localhost:8080/medico/registrar'
+
   //private esp_docUrl= 'http://localhost:8080/medico/listar/${specialty_id}';// se intento pero no se pudo fallo pipipi
   constructor(private httpClient: HttpClient) {}
 
@@ -18,6 +20,15 @@ export class DoctorService {
     const url = `http://localhost:8080/medico/listar/${specialty_id}`;
     return this.httpClient.get<any>(url);
   }
+
+  registerDoctor(doctorData:any): Observable<any>{
+    return this.httpClient.post<any>(this.doctor_register_url,doctorData);
+
+  }
+
+
+
+
 
   
 }

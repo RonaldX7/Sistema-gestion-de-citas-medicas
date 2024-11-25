@@ -8,13 +8,18 @@ import { Observable } from 'rxjs';
 })
 export class AppointmentService {
 
-  private REGISTER_APPOINTMENT_URL = 'http://localhost:8080/cita/registrar';
+  private APPOINTMENT_URL = 'http://localhost:8080/cita/registrar';
+  private citas_url='http://localhost:8080/cita/litar';
 
   constructor(private httpClient: HttpClient,
     private router: Router,
   ) {}
 
   appointment(userData: any): Observable<any> {
-    return this.httpClient.post<any>(this.REGISTER_APPOINTMENT_URL, userData);
+    return this.httpClient.post<any>(this.APPOINTMENT_URL, userData);
+  }
+
+  getCitas(){
+    return this.httpClient.get<any>(this.citas_url);
   }
 }

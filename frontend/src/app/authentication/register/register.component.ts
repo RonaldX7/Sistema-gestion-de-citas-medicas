@@ -13,12 +13,14 @@ import Swal from 'sweetalert2';
   styles: ``
 })
 export class RegisterComponent {
-  user = {
+  user = {//agregar adress,districtID
     name: '',
     lastName: '',
     dni: '',
     birthDate: '',
-    direction: '',
+    direction:'',
+    //address: '',
+    //districtId:'',
     genderId: '',
     phone: '',
     email: '',
