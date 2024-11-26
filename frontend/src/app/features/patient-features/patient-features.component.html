@@ -1,0 +1,9 @@
+<div class="flex flex-col md:flex-row min-h-screen"  style="background-image: url('/fondo-noazul.png');">
+
+    <!-- Sidebar -->
+    <app-sidebar [options]="menuOptions" [userType]="userType"></app-sidebar>
+    <!-- Contenido Principal -->
+    <main class="flex-grow p-6">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
