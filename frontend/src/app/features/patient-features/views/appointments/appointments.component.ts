@@ -209,7 +209,6 @@ confirmAppointment(): void {
   
       // Construir el objeto con los datos necesarios para la cita
       const userData = {
-        
         date:this.selectedDate,
         patientId: this.patient.id, // ID del paciente
         specialtyId: this.selectedSpecialty, // ID de la especialidad seleccionada
