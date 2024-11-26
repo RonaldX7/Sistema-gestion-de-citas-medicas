@@ -38,7 +38,7 @@ export class LoginComponent {
 
       this.authService.login(this.user.username, this.user.password).subscribe({
         next: () => {
-          this.router.navigate(['/patient-home']);
+          this.router.navigate(['/patient-features/patient-home']);
         },
         error: (err) => {
           console.error('Error en autenticación:', err);
