@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AppointmentService } from '../../../../core/services/appointment.service';
 
 @Component({
   selector: 'app-list-citas',
@@ -9,6 +10,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './list-citas.component.html',
 })
 export class ListCitasComponent {
+  
+  constructor(private appointmentService:AppointmentService){}
   searchTerm: string = '';
   searchDate: string = '';
   searchSpecialty: string = '';

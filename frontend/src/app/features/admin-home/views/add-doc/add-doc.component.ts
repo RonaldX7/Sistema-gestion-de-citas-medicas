@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { DoctorService } from '../../../../core/services/doctor.service';
 import Swal from 'sweetalert2';
 import { SpecialtyService } from '../../../../core/services/specialty.service';
@@ -16,7 +16,7 @@ export class AddDocComponent implements OnInit {
   searchName: string = '';
   // specialties: string[] = ['Todos', 'Cardiología', 'Pediatría', 'Dermatología', 'Psicología'];
   specialties: any[] = [];
-  selectedSpecialty: string = 'todas';
+  selectedSpecialty: string = '';
   doctors: {  
     id: string; 
     specialtyId: string; 
@@ -25,20 +25,14 @@ export class AddDocComponent implements OnInit {
     lastName: string; 
     phone: string; 
     email: string; 
-    specialty?: string[]}[] = [];
-  // doctors = [
-  //   { cmp: '45636', name: 'Katherine Noelia', apellido: 'Franco Escamilla' , phone: '987654321', email: 'kayh32@example.com', specialty: 'Psicología' },
-  //   { cmp: '53287', name: 'Juliana Carbajal' , apellido: 'Meza Cruz', phone: '986321457', email: 'julicvasquez@example.com', specialty: 'Cardiología' },
-  //   { cmp: '46322', name: 'Fredy Arostegui' , apellido: 'Soloorzano Baarazorda', phone: '963287451', email: 'fredyaa98@example.com', specialty: 'Oftalmología' },
-  //   { cmp: '53688', name: 'Lourdes Medina' , apellido: 'Flores Nuñez', phone: '902146325', email: 'lourdesalas75@example.com', specialty: 'Pediatría' },
-  // ];
-
+    specialty: { id: number; name: string }[]
+  }[]=[];
   filteredDoctors = [...this.doctors];
   showModal = false;
   isEditing = false;
   newDoctor = {
     name:'',
-    lastname:'',
+    lastName:'',
     phone: '',
     email: '',
     username:'',
@@ -48,21 +42,15 @@ export class AddDocComponent implements OnInit {
     roleId: 3
   };
 
-  fieldErrors = {
-    cmp: '',
-    nombre: '',
-    apellido: '',
-    phone: '',
-    email: '',
-    specialty: '',
-  };
+  fieldErrors: { [key: string]: string } = {};
 
   constructor(private doctorService:DoctorService, private specialtyService:SpecialtyService, private router: Router){}
 
   ngOnInit(): void {
-    this.loadSpecialties();
     this.loadDoctors();
+    this.loadSpecialties();
     this.filteredDoctors = this.doctors;
+    
   }
 
   loadSpecialties(): void {
@@ -79,7 +67,9 @@ export class AddDocComponent implements OnInit {
   loadDoctors(){
     this.doctorService.getDoctors().subscribe(
       (data) => {
+        console.log('Doctores cargados exitosamente:', data);
         this.doctors = data;
+        this.filteredDoctors = this.doctors;
       },
       (error) => {
         console.error('Error al cargar doctores', error);
@@ -98,28 +88,27 @@ export class AddDocComponent implements OnInit {
   }
 
   validateFields(): boolean {
+    const { cmp, name, lastName, phone, email, username, password, specialty } = this.newDoctor;
+    this.fieldErrors = { cmp: '',name: '', lastName: '' ,phone: '', email: '', username: '', password:' ',specialty: ''};
+    const validations = [
+      { field: 'cmp', condition: /^\d{1,5}$/.test(cmp), error: 'El CMP debe ser numérico y no puede exceder 5 dígitos.' },
+      { field: 'name', condition: !!name.trim(), error: 'El nombre es obligatorio.' },
+      { field: 'lastName', condition: !!lastName.trim(), error: 'El apellido es obligatorio.' },
+      { field: 'phone', condition: /^9\d{8}$/.test(phone), error: 'El teléfono debe tener 9 dígitos y empezar con 9.' },
+      { field: 'email', condition: /.+@.+\..+/.test(email), error: 'El email debe contener @.' },
+      { field: 'username', condition: !!username.trim(), error: 'El nombre de usuario es obligatorio.' },
+      { field: 'password', condition: !!password.trim(), error: 'La contraseña es obligatoria.' },
+      { field: 'specialty', condition: specialty.length > 0, error: 'La especialidad es obligatoria.' }
+    ];
+
+ // Aplica las validaciones y almacena los errores
     let valid = true;
-    this.fieldErrors = { cmp: '',nombre: '', apellido: '' ,phone: '', email: '', specialty: '' };
-
-    if (!/^\d{1,5}$/.test(this.newDoctor.cmp)) {
-      this.fieldErrors.cmp = 'El CMP debe ser numérico y no puede exceder 5 dígitos.';
-      valid = false;
-    }
-
-    if (!/^9\d{8}$/.test(this.newDoctor.phone)) {
-      this.fieldErrors.phone = 'El teléfono debe tener 9 dígitos y empezar con 9.';
-      valid = false;
-    }
-
-    if (!/.+@.+\..+/.test(this.newDoctor.email)) {
-      this.fieldErrors.email = 'El email debe contener @.';
-      valid = false;
-    }
-
-    if (!this.newDoctor.specialty) {
-      this.fieldErrors.specialty = 'La especialidad es obligatoria.';
-      valid = false;
-    }
+    validations.forEach(({ field, condition, error }) => {
+      if (!condition) {
+        this.fieldErrors[field] = error;
+        valid = false;
+      }
+    });
 
     return valid;
   }
@@ -142,7 +131,7 @@ export class AddDocComponent implements OnInit {
   resetDoctorForm() {
     this.newDoctor = {
       name:'',
-      lastname:'',
+      lastName:'',
       phone: '',
       email: '',
       username:'',
@@ -155,12 +144,9 @@ export class AddDocComponent implements OnInit {
   }
 
   addDoctor() {
-    // if (this.validateFields()) {
-    //   this.doctors.push({ ...this.newDoctor });
-    //   this.filterDoctors();
-    //   this.closeModal();
-    //   this.showSuccessMessage('Doctor agregado exitosamente.');
-    // }
+    if (!this.validateFields()) {
+      return; // Detener si las validaciones fallan
+    }
     this.doctorService.registerDoctor(this.newDoctor).subscribe({
       next: () => {
         Swal.fire({
@@ -171,7 +157,8 @@ export class AddDocComponent implements OnInit {
           confirmButtonText: 'Cerrar',
           confirmButtonColor: '#3085d6'
         }).then(() => {
-          this.router.navigate(['/admin-home']);
+          this.router.navigate(['/admin-home/add-doc']);
+          this.loadDoctors();
         });
       },
       error: (err) => {
@@ -181,7 +168,6 @@ export class AddDocComponent implements OnInit {
           text: err.error?.message || 'Hubo un problema al registrar al Doctor.',
           confirmButtonText: 'Cerrar'
         });
-        console.log(this.newDoctor);
       }
     });
   }
