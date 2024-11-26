@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -50,6 +48,26 @@ public class DoctorServiceImp implements DoctorService {
                     doctorEntity.getSpecialties().getName()
             );
         }).collect(Collectors.toList());
+
+        return doctorLists;
+    }
+
+    @Override
+    public List<DoctorList> ListById(Long id) {
+
+        DoctorEntity doctors = doctorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
+
+        //Mapear la lista de doctores
+        List<DoctorList> doctorLists = List.of(new DoctorList(
+                doctors.getId(),
+                doctors.getName(),
+                doctors.getLastName(),
+                doctors.getPhone(),
+                doctors.getCmp(),
+                doctors.getEmail(),
+                doctors.getSpecialties().getName()
+        ));
 
         return doctorLists;
     }

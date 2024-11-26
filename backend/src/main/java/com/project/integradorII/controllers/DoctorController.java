@@ -4,6 +4,7 @@ import com.project.integradorII.dto.doctor.DoctorList;
 import com.project.integradorII.dto.doctor.DoctorRequest;
 import com.project.integradorII.dto.doctor.DoctorUpdate;
 import com.project.integradorII.entities.DoctorEntity;
+import com.project.integradorII.services.DoctorService;
 import com.project.integradorII.services.Imp.DoctorServiceImp;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,18 @@ import java.util.List;
 @RequestMapping("/medico")
 public class DoctorController {
 
-    private final DoctorServiceImp doctorService;
+    private final DoctorService doctorService;
 
     //metodo para listar medicos
     @GetMapping("/listar")
     public ResponseEntity<List<DoctorList>> ListAllDotors(){
         return new ResponseEntity<>(this.doctorService.ListAllDoctors(), HttpStatus.OK);
+    }
+
+    //metodo para listar medico por id
+    @GetMapping("/listar/{id}")
+    public ResponseEntity<List<DoctorList>> ListDoctorById(@PathVariable Long id){
+        return new ResponseEntity<>(this.doctorService.ListById(id), HttpStatus.OK);
     }
 
     //metodo para listar medico por especialidad
