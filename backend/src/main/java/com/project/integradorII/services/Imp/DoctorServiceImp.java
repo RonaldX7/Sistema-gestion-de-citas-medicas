@@ -46,7 +46,8 @@ public class DoctorServiceImp implements DoctorService {
                     doctorEntity.getLastName(),
                     doctorEntity.getPhone(),
                     doctorEntity.getCmp(),
-                    doctorEntity.getSpecialties()
+                    doctorEntity.getEmail(),
+                    doctorEntity.getSpecialties().getName()
             );
         }).collect(Collectors.toList());
 
@@ -69,7 +70,8 @@ public class DoctorServiceImp implements DoctorService {
                             doctorEntity.getLastName(),
                             doctorEntity.getPhone(),
                             doctorEntity.getCmp(),
-                            doctorEntity.getSpecialties()
+                            doctorEntity.getEmail(),
+                            doctorEntity.getSpecialties().getName()
                     );
                 }).collect(Collectors.toList());
 
