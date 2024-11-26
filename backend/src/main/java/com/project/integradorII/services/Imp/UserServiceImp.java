@@ -174,13 +174,15 @@ public class UserServiceImp implements UserService {
 
         String code =randomCodeGenerator.generateRandomCode(5);
 
-        String content = stringHtml("templates/EmailRecuperacion.html")
+        String content = stringHtml("templates/EmailRecuperation.html")
                 .replace("{code}", code);
 
         //Guardar el codigo de recuperacion
-        HistoryRecuperation historyRecuperation = new HistoryRecuperation();
-        historyRecuperation.setCode(code);
-        historyRecuperation.setUser(patientEntity.getUser());
+        HistoryRecuperation historyRecuperation = HistoryRecuperation.builder()
+                .user(patientEntity.getUser())
+                .code(code)
+                .build();
+
         historyRecuperationRepository.save(historyRecuperation);
 
         emailService.sendMail(email, "Recuperar contraseña", content);

@@ -1,15 +1,15 @@
 package com.project.integradorII.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "historial_recuperacion")
+@Table(name = "tb_history_recuperation")
 public class HistoryRecuperation{
 
     @Id

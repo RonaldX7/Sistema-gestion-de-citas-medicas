@@ -29,7 +29,7 @@ public class DoctorController {
     }
 
     //metodo para listar medico por id
-    @GetMapping("/listar/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<List<DoctorList>> ListDoctorById(@PathVariable Long id){
         return new ResponseEntity<>(this.doctorService.ListById(id), HttpStatus.OK);
     }

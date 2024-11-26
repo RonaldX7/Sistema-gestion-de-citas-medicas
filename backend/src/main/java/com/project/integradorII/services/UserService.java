@@ -9,11 +9,12 @@ import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.io.IOException;
 import java.util.Map;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
     UserDetails loadUserByUsername(String username);
     AuthResponse loginUser(LoginRequest loginRequest);
     Authentication authenticate(String username, String password);
