@@ -76,10 +76,10 @@
           <td class="py-2 px-4">{{ doctor.lastName }}</td>
           <td class="py-2 px-4">{{ doctor.phone }}</td>
           <td class="py-2 px-4">{{ doctor.email }}</td>
-          <td class="py-2 px-4">{{ doctor.specialty }}</td>
+          <td class="py-2 px-4">{{ doctor.specialties}}</td>
           <td class="py-2 px-4">
             <button
-              class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-700"
+              class="bg-blue-500 text-white  px-3 py-1 rounded-lg hover:bg-blue-700"
               (click)="openModal(true, doctor)">
               Modificar
             </button>
@@ -141,14 +141,13 @@
       <div class="mb-4">
         <label class="block text-gray-700">Username</label>
         <input [(ngModel)]="newDoctor.username" name="username" type="text" class="w-full p-2 border rounded-lg" [readonly]="isEditing">
-        <!-- <div *ngIf="fieldErrors.cmp" class="text-red-500 text-sm mt-1">{{ fieldErrors.cmp }}</div> -->
+        <div *ngIf="fieldErrors['username']" class="text-red-500 text-sm mt-1">{{ fieldErrors['username'] }}</div>
       </div>
       <div class="mb-4">
         <label class="block text-gray-700">Password</label>
         <input [(ngModel)]="newDoctor.password" name="password" type="text" class="w-full p-2 border rounded-lg" [readonly]="isEditing">
-        <!-- <div *ngIf="fieldErrors.cmp" class="text-red-500 text-sm mt-1">{{ fieldErrors.cmp }}</div> -->
+        <div *ngIf="fieldErrors['password']" class="text-red-500 text-sm mt-1">{{ fieldErrors['password'] }}</div>
       </div>
-
       <div class="flex justify-end">
         <button type="button" (click)="closeModal()" class="mr-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
           Cancelar

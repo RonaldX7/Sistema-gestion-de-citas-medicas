@@ -38,7 +38,7 @@ export class ListCitasComponent {
   const selectedDate = new Date(event.year, event.month - 1, event.day);
   this.searchDate = selectedDate.toISOString().split('T')[0]; // Formato yyyy-MM-dd
   this.filterCitas();
-}
+  }
 
 
   filterCitas() {
