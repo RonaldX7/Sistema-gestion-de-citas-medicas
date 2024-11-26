@@ -10,6 +10,7 @@ import com.project.integradorII.repositories.DistrictRepository;
 import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.UserRepository;
 import com.project.integradorII.services.Imp.PatientServiceImp;
+import com.project.integradorII.services.PatientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import java.util.List;
 @RequestMapping("/paciente")
 public class PatientController {
 
-    private final PatientServiceImp patientService;
+    private final PatientService patientService;
 
     private final PatientRepository patientRepository;
 
@@ -51,9 +52,21 @@ public class PatientController {
         return new ResponseEntity<>(this.patientService.ListAllPatients(), HttpStatus.OK);
     }
 
+    //metodo para listar paciente por dni
+    @GetMapping("/listar/dni/{dni}")
+    public ResponseEntity<PatientEntity> ListPatientByDni(@PathVariable String dni){
+        return new ResponseEntity<>(this.patientRepository.findByDni(dni),HttpStatus.OK);
+    }
+
+    //metodo para listar pacientes por id
+    @GetMapping("/{id}")
+    public ResponseEntity<List<PatientList>> ListPatientById(@PathVariable Long id){
+        return new ResponseEntity<>(this.patientService.ListById(id),HttpStatus.OK);
+    }
+
     //metodo para listar paciente por user id
     @GetMapping("/listar/{id}")
-    public ResponseEntity<List<PatientList>> ListPatientById(@PathVariable Long id){
+    public ResponseEntity<List<PatientList>> ListPatientByUserId(@PathVariable Long id){
         return new ResponseEntity<>(this.patientService.ListPatientByUserId(id),HttpStatus.OK);
     }
 
