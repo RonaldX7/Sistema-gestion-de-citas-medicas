@@ -25,20 +25,32 @@ export class RegisterComponent {
     password: '',
     roleId: 2 // Por ejemplo, 2 para "Paciente"
   };
-  
+
+  showSuccessModal = false;
+  showErrorModal = false;
   constructor(private registerService: RegisterService, private router: Router){}
   onRegister() {
     this.registerService.register(this.user).subscribe({
       next: (response) => {
         console.log('Registro exitoso:', response);
         // Redirige o muestra un mensaje de éxito
+        //alert(' Registrado con éxito');
+        this.showSuccessModal=true;
       },
       error: (err) => {
         console.error('Error en el registro:', err);
+        //alert(' Hubo un error en el registro');
+        this.showErrorModal=true;
       }
     });
   }
-
+  
+  closeSuccessModal(){
+    this.showSuccessModal=false;
+  }
+  closeErrorModal(){
+    this.showErrorModal=false;
+  }
   backToLogin(){
     this.router.navigate(['/login']);
   }
