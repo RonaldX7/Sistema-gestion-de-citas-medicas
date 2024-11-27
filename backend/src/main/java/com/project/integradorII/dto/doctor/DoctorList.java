@@ -18,6 +18,8 @@ public record DoctorList(
         @NotBlank
         String cmp,
         @NotBlank
-        SpecialtyEntity specialties
+        String email,
+        @NotBlank
+        String specialties
 ) {
 }

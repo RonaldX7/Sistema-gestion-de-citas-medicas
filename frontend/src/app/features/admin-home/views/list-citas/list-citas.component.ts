@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AppointmentService } from '../../../../core/services/appointment.service';
 
 @Component({
   selector: 'app-list-citas',
@@ -9,6 +10,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './list-citas.component.html',
 })
 export class ListCitasComponent {
+  
+  constructor(private appointmentService:AppointmentService){}
   searchTerm: string = '';
   searchDate: string = '';
   searchSpecialty: string = '';
@@ -35,7 +38,7 @@ export class ListCitasComponent {
   const selectedDate = new Date(event.year, event.month - 1, event.day);
   this.searchDate = selectedDate.toISOString().split('T')[0]; // Formato yyyy-MM-dd
   this.filterCitas();
-}
+  }
 
 
   filterCitas() {

@@ -19,14 +19,14 @@ export class ScheduleService {
   private baseURL = 'http://localhost:8080/horarios/listar';
   constructor(private httpClient: HttpClient) {}
 
-  getScheduleForDoctor(doctor_id:string,date:string): Observable<Schedule[]> {
-    const url = `${this.baseURL}/${doctor_id}/${date}`;
+  getScheduleForDoctor(doctor_id:string): Observable<Schedule[]> {
+    const url = `${this.baseURL}/${doctor_id}`;
     return this.httpClient.get<Schedule[]>(url);
   }
 
   // Nuevo método para obtener solo el ID del primer horario disponible
-  getScheduleId(doctor_id: string, date: string): Observable<number | null> {
-    const url = `${this.baseURL}/${doctor_id}/${date}`;
+  getScheduleId(doctor_id: string): Observable<number | null> {
+    const url = `${this.baseURL}/${doctor_id}`;
     return this.httpClient.get<Schedule[]>(url).pipe(
       map(schedules => {
         const availableSchedule = schedules.find(schedule => schedule.isAvailable);

@@ -38,12 +38,14 @@
             <thead>
               <tr class="w-full bg-deepBlue text-white text-center">
                 <th class="py-3 px-4 font-semibold text-sm">Médico</th>
+                <th class="py-3 px-4 font-semibold text-sm">Especialidad</th>
                 <th class="py-3 px-4 font-semibold text-sm">Horario</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let doctor of doctors" class="border-b text-center">
                 <td class="py-3 px-4">{{ doctor.lastName + " " + doctor.name }}</td>
+                <td class="py-3 px-4">{{ doctor.specialties}}</td>
                 <td class="py-3 px-4">
                   <div *ngIf="doctor.schedule && doctor.schedule.length > 0; else noSchedule">
                     <button 

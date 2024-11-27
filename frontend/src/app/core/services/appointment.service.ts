@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class AppointmentService {
 
   private APPOINTMENT_URL = 'http://localhost:8080/cita/registrar';
-  private citas_url='http://localhost:8080/cita/litar';
+  private citas_url='http://localhost:8080/cita/listar';
 
   constructor(private httpClient: HttpClient,
     private router: Router,

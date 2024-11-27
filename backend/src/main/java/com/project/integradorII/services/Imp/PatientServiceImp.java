@@ -48,6 +48,26 @@ public class PatientServiceImp implements PatientService {
         return patientLists;
     }
 
+    @Override
+    public List<PatientList> ListById(Long id) {
+
+        //Buscar paciente por id
+        PatientEntity patientEntity = patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
+
+        //Mapeando lista de pacientes
+        List<PatientList> patientLists = List.of(new PatientList(
+                patientEntity.getId(),
+                patientEntity.getDni(),
+                patientEntity.getName(),
+                patientEntity.getLastName(),
+                patientEntity.getGender().getId(), //Aqui se obtiene el id del genero
+                patientEntity.getEmail()
+        ));
+
+        return patientLists;
+    }
+
     @Transactional
     @Override
     public List<PatientList> ListPatientByUserId(Long userId) {
@@ -126,6 +146,7 @@ public class PatientServiceImp implements PatientService {
         //Guardar el paciente
         return patientRepository.save(patientEntity);
     }
+
 
     //Metodo para actualizar un paciente
     @Transactional

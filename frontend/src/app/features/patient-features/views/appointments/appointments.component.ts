@@ -17,12 +17,12 @@ import { AppointmentService } from '../../../../core/services/appointment.servic
 export class AppointmentsComponent implements OnInit {
   showModal = true;
   showConfirmation = false;
-  doctors: { id: string; name: string; lastName: string; specialty: string; specialtyId: string; schedule?: string[] }[] = [];
+  doctors: { id: string; name: string; lastName: string; specialties: string; specialtyId: string; schedule?: string[] }[] = [];
   patient: { id: string; dni: string; name: string; lastName: string; genderId:string; email: string;  } = {id:'',dni: '',name: '',lastName: '',genderId:'',email: ''};
   specialties: any[] = []; // Arreglo para almacenar las especialidades
   selectedSpecialty: string = 'todas'; // con esto guardo la especialidad seleccionada
-  selectedDate: string = '2024-11-05'; // fecha por defecto
-  selectedDoctor: { id: string; name: string; lastName: string; specialty: string; specialtyId: string; schedule?: string[] } | null = null;
+  selectedDate: string = ''; // fecha por defecto
+  selectedDoctor: { id: string; name: string; lastName: string; specialties: string; specialtyId: string; schedule?: string[] } | null = null;
   selectedSchedule: string | null = null; // Almacena el horario seleccionado
   selectedSpecialtyName: string | null = null; // Almacena la especialidad seleccionada
 
@@ -32,6 +32,7 @@ export class AppointmentsComponent implements OnInit {
  specialtyId: string = ''; // ID de la especialidad seleccionada
  doctorId: string = ''; // ID del doctor seleccionado
  scheduleId: number | null = null; // ID del horario seleccionado
+ statusId: number=1;
 
 
   constructor(
@@ -43,16 +44,34 @@ export class AppointmentsComponent implements OnInit {
     private authService: AuthService,
     private appointmentService: AppointmentService
   ) {}
+  searchTerm: string = '';
+  searchDate: string = '';
+  searchSpecialty: string = '';
 
 
   ngOnInit(): void {
+    const today = new Date().toISOString().split('T')[0];
     this.loadSpecialties();
     this.loadDoctors(); // Cargar doctores desde el backend
     this.userId = this.authService.getUserId();
     this.loadPatientData();
     console.log('User ID en AppointmentsComponent:', this.userId);
-    
+
+     //Para la fecha actual
+    const todayDate = new Date();
+    const year = todayDate.getFullYear();
+    const month = String(todayDate.getMonth() + 1).padStart(2, '0'); // Mes en formato 2 dígitos
+    const day = String(todayDate.getDate()).padStart(2, '0'); // Día en formato 2 dígitos
+
+    this.selectedDate = `${year}-${month}-${day}`;
+
+
   }
+
+  // onDateSelection(event: any) {
+  //   const selectedDate = new Date(event.year, event.month - 1, event.day);
+  //   this.searchDate = selectedDate.toISOString().split('T')[0]; // Formato yyyy-MM-dd
+  //   }
 
 
   loadSpecialties(): void {
@@ -96,6 +115,7 @@ export class AppointmentsComponent implements OnInit {
     this.doctorService.getDoctorsforSpecialty(specialtyId).subscribe(
       (data) => {
         this.doctors = data;
+        console.log("Doctores cargados por:", this.doctors);
         this.loadSchedulesForDoctors();
       },
       (error) => {
@@ -119,13 +139,14 @@ export class AppointmentsComponent implements OnInit {
 
   loadSchedulesForDoctors(): void {
     this.doctors.forEach((doctor) => {
-      const formattedDate = new Date(this.selectedDate).toISOString().split('T')[0];
-      this.scheduleService.getScheduleForDoctor(doctor.id, formattedDate).subscribe(
+      //const formattedDate = new Date(this.selectedDate).toISOString().split('T')[0];
+      this.scheduleService.getScheduleForDoctor(doctor.id).subscribe(
         (schedules: Schedule[]) => {
-          console.log(`Horarios para el doctor ${doctor.id}:`, schedules); // Verifica aquí la respuesta de la API
+          console.log(`Horarios para el doctor ${doctor.id}:`, schedules);// Verifica aquí la respuesta de la API
           const availableSchedules = schedules
             .filter(schedule => schedule.isAvailable)
-            .map(schedule => `${schedule.startHour} - ${schedule.endHour}`);
+            .map(schedule => `${this.formatHour(schedule.startHour)} - ${this.formatHour(schedule.endHour)}`);
+            //.map(schedule => `${this.formatHour(schedule.startHour)} - ${this.formatHour(schedule.endHour)}`);
           doctor.schedule = availableSchedules.length > 0 ? availableSchedules : ['Sin horario disponible'];
         },
         (error) => {
@@ -137,6 +158,7 @@ export class AppointmentsComponent implements OnInit {
 
   // Escuchar cambios en la fecha y cargar horarios
   onDateChange(): void {
+    console.log('Fecha seleccionada:', this.selectedDate);
     this.loadSchedulesForDoctors();
     this.selectedSchedule = null;
   }
@@ -157,7 +179,7 @@ confirmAppointment(): void {
 
     // Si la especialidad seleccionada es "todas", asigna el nombre de la especialidad del doctor
     if (this.selectedSpecialty === 'todas') {
-      this.selectedSpecialtyName = this.selectedDoctor.specialty || "N/A";
+      this.selectedSpecialtyName = this.selectedDoctor.specialties || "N/A";
     } else {
       const specialty = this.specialties.find(s => s.id.toString() === this.selectedSpecialty.toString());
       this.selectedSpecialtyName = specialty ? specialty.name : "N/A";
@@ -178,7 +200,7 @@ confirmAppointment(): void {
     }
   
     // Llama a fetchScheduleId para obtener el scheduleId
-    this.fetchScheduleId(this.selectedDoctor.id, this.selectedDate).then(() => {
+    this.fetchScheduleId(this.selectedDoctor.id).then(() => {
       if (!this.scheduleId) {
         console.error("No se ha obtenido un scheduleId válido.");
         alert("Error al obtener el ID del horario. Intenta de nuevo.");
@@ -187,10 +209,12 @@ confirmAppointment(): void {
   
       // Construir el objeto con los datos necesarios para la cita
       const userData = {
+        date:this.selectedDate,
         patientId: this.patient.id, // ID del paciente
         specialtyId: this.selectedSpecialty, // ID de la especialidad seleccionada
         doctorId: this.selectedDoctor?.id, // ID del doctor seleccionado
-        scheduleId: this.scheduleId // ID del horario obtenido
+        scheduleId: this.scheduleId, // ID del horario obtenido
+        statusId:this.statusId=1
       };
   
       console.log('Datos de la cita a enviar:', userData);
@@ -211,9 +235,9 @@ confirmAppointment(): void {
   }
   
   // Modifica fetchScheduleId para que retorne una Promesa
-  fetchScheduleId(doctorId: string, date: string): Promise<void> {
+  fetchScheduleId(doctorId: string): Promise<void> {
     return new Promise((resolve) => {
-      this.scheduleService.getScheduleId(doctorId, date).subscribe({
+      this.scheduleService.getScheduleId(doctorId).subscribe({
         next: (id) => {
           this.scheduleId = id;
           console.log('Schedule ID obtenido:', this.scheduleId);
@@ -238,6 +262,11 @@ confirmAppointment(): void {
 
   closeModal(): void {
     this.showModal = false;
+  }
+
+  formatHour(hour: string): string {
+    // Asume que `hour` está en formato "HH:mm:ss" y corta los segundos
+    return hour.slice(0, 5); // Devuelve "HH:mm"
   }
 
   

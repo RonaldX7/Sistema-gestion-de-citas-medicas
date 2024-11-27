@@ -2,7 +2,7 @@ package com.project.integradorII.security;
 
 import com.project.integradorII.security.filter.JwtValidator;
 import com.project.integradorII.security.util.JwtUtils;
-import com.project.integradorII.services.Imp.UserServiceImp;
+import com.project.integradorII.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -68,10 +68,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserServiceImp userServiceImp) {
+    public AuthenticationProvider authenticationProvider(UserService userService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userServiceImp);
+        provider.setUserDetailsService(userService);
         return provider;
     }
 
