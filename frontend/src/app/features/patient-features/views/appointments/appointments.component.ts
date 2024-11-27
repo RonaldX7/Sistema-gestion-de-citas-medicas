@@ -8,6 +8,7 @@ import { ScheduleService, Schedule } from '../../../../core/services/schedule.se
 import { PatientService } from '../../../../core/services/patient.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AppointmentService } from '../../../../core/services/appointment.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
@@ -17,7 +18,7 @@ import { AppointmentService } from '../../../../core/services/appointment.servic
 export class AppointmentsComponent implements OnInit {
   showModal = true;
   showConfirmation = false;
-  doctors: { id: string; name: string; lastName: string; specialties: string; specialtyId: string; schedule?: string[] }[] = [];
+  doctors: { id: string; name: string; lastName: string; specialties: string; specialtyId: string; schedule?: string[];  scheduleObjects?: Schedule[]; }[] = [];
   patient: { id: string; dni: string; name: string; lastName: string; genderId:string; email: string;  } = {id:'',dni: '',name: '',lastName: '',genderId:'',email: ''};
   specialties: any[] = []; // Arreglo para almacenar las especialidades
   selectedSpecialty: string = 'todas'; // con esto guardo la especialidad seleccionada
@@ -138,22 +139,28 @@ export class AppointmentsComponent implements OnInit {
   }
 
   loadSchedulesForDoctors(): void {
-    this.doctors.forEach((doctor) => {
-      //const formattedDate = new Date(this.selectedDate).toISOString().split('T')[0];
-      this.scheduleService.getScheduleForDoctor(doctor.id).subscribe(
-        (schedules: Schedule[]) => {
-          console.log(`Horarios para el doctor ${doctor.id}:`, schedules);// Verifica aquí la respuesta de la API
-          const availableSchedules = schedules
-            .filter(schedule => schedule.isAvailable)
-            .map(schedule => `${this.formatHour(schedule.startHour)} - ${this.formatHour(schedule.endHour)}`);
-            //.map(schedule => `${this.formatHour(schedule.startHour)} - ${this.formatHour(schedule.endHour)}`);
-          doctor.schedule = availableSchedules.length > 0 ? availableSchedules : ['Sin horario disponible'];
-        },
-        (error) => {
-          console.error(`Error al cargar horarios para el doctor ${doctor.id}`, error);
-        }
-      );
-    });
+   
+  this.doctors.forEach((doctor) => {
+    this.scheduleService.getScheduleForDoctor(doctor.id).subscribe(
+      (schedules: Schedule[]) => {
+        console.log(`Horarios para el doctor ${doctor.id}:`, schedules); // Verifica la respuesta de la API
+
+        // Mantén los objetos originales para buscar después el scheduleId
+        doctor.scheduleObjects = schedules.filter(schedule => schedule.isAvailable);
+        console.log(`scheduleObjects para el doctor ${doctor.id}:`, doctor.scheduleObjects);
+        // Transforma los horarios en formato legible
+        const availableSchedules = doctor.scheduleObjects.map(
+          (schedule) => `${this.formatHour(schedule.startHour)} - ${this.formatHour(schedule.endHour)}`
+        );
+
+        // Asigna los horarios legibles al doctor
+        doctor.schedule = availableSchedules.length > 0 ? availableSchedules : ['Sin horario disponible'];
+      },
+      (error) => {
+        console.error(`Error al cargar horarios para el doctor ${doctor.id}`, error);
+      }
+    );
+  });
   }
 
   // Escuchar cambios en la fecha y cargar horarios
@@ -167,6 +174,22 @@ export class AppointmentsComponent implements OnInit {
   onScheduleSelect(time: string, doctor: any): void {
     this.selectedSchedule = time;
     this.selectedDoctor = doctor;
+
+    console.log(`Horarios del doctor ${doctor.id}:`, doctor.scheduleObjects);
+    console.log(`Horario seleccionado: ${time}`);
+    // Busca el scheduleId correspondiente al horario seleccionado
+  const selectedScheduleObject = doctor.scheduleObjects?.find(
+    (schedule: Schedule) => `${this.formatHour(schedule.startHour)} - ${this.formatHour(schedule.endHour)}` === time
+  );
+
+  // Actualiza el scheduleId si existe
+  if (selectedScheduleObject) {
+    this.scheduleId = selectedScheduleObject.id;
+    console.log(`Horario seleccionado: ${time}, Schedule ID: ${this.scheduleId}`);
+  } else {
+    console.error('No se encontró un ID de horario para el horario seleccionado.');
+  }
+    
   }
 
   // Método para confirmar la cita antes de enviarla
@@ -191,65 +214,63 @@ confirmAppointment(): void {
   }
 }
 
-  // Método para confirmar la cita
-  submitAppointment(): void {
-    if (!this.selectedDoctor || !this.selectedDate) {
-      console.error("Doctor o fecha no seleccionados.");
-      alert("Por favor, selecciona un doctor y una fecha.");
-      return;
+// Método para confirmar la cita
+submitAppointment(): void {
+  // Validar que todos los datos necesarios estén presentes
+  if (!this.selectedDoctor || !this.selectedDate || !this.scheduleId) {
+    console.error("Doctor, fecha o horario no seleccionados.");
+    alert("Por favor, selecciona un doctor, una fecha y un horario.");
+    return;
+  }
+
+  // Construir el objeto con los datos necesarios para la cita
+  const userData = {
+    date: this.selectedDate,
+    patientId: this.patient.id, // ID del paciente
+    specialtyId: this.selectedSpecialty, // ID de la especialidad seleccionada
+    doctorId: this.selectedDoctor.id, // ID del doctor seleccionado
+    scheduleId: this.scheduleId, // ID del horario seleccionado
+    statusId: this.statusId // Estado de la cita
+  };
+
+  console.log('Datos de la cita a enviar:', userData);
+
+  // Llamar al servicio para registrar la cita
+  this.appointmentService.appointment(userData).subscribe({
+    // next: (response) => {
+    //   console.log('Cita registrada exitosamente:', response);
+    //   alert('Cita registrada con éxito');
+    //   this.showConfirmation = false; // Regresar a la pantalla principal
+    // },
+    // error: (err) => {
+    //   console.error('Error al registrar la cita:', err);
+    //   alert('Error al registrar la cita');
+    // }
+    next: () => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Registro exitoso',
+        text: 'Cita registrada correctamente.',
+        showConfirmButton: true,
+        confirmButtonText: 'Cerrar',
+        confirmButtonColor: '#3085d6'
+      }).then(() => {
+        this.router.navigate(['/patient-features/appointments']);
+        this.showConfirmation = false;
+      });
+    },
+    error: (err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error en el registro',
+        text: err.error?.message || 'Hubo un problema al registrar una cita.',
+        confirmButtonText: 'Cerrar'
+      });
     }
-  
-    // Llama a fetchScheduleId para obtener el scheduleId
-    this.fetchScheduleId(this.selectedDoctor.id).then(() => {
-      if (!this.scheduleId) {
-        console.error("No se ha obtenido un scheduleId válido.");
-        alert("Error al obtener el ID del horario. Intenta de nuevo.");
-        return;
-      }
-  
-      // Construir el objeto con los datos necesarios para la cita
-      const userData = {
-        date:this.selectedDate,
-        patientId: this.patient.id, // ID del paciente
-        specialtyId: this.selectedSpecialty, // ID de la especialidad seleccionada
-        doctorId: this.selectedDoctor?.id, // ID del doctor seleccionado
-        scheduleId: this.scheduleId, // ID del horario obtenido
-        statusId:this.statusId=1
-      };
-  
-      console.log('Datos de la cita a enviar:', userData);
-  
-      // Llamar al servicio para registrar la cita
-      this.appointmentService.appointment(userData).subscribe({
-        next: (response) => {
-          console.log('Cita registrada exitosamente:', response);
-          alert('Cita registrada con éxito');
-          this.showConfirmation = false; // Regresar a la pantalla principal
-        },
-        error: (err) => {
-          console.error('Error al registrar la cita:', err);
-          alert('Error al registrar la cita');
-        }
-      });
-    });
-  }
-  
-  // Modifica fetchScheduleId para que retorne una Promesa
-  fetchScheduleId(doctorId: string): Promise<void> {
-    return new Promise((resolve) => {
-      this.scheduleService.getScheduleId(doctorId).subscribe({
-        next: (id) => {
-          this.scheduleId = id;
-          console.log('Schedule ID obtenido:', this.scheduleId);
-          resolve();
-        },
-        error: (err) => {
-          console.error('Error al obtener el Schedule ID:', err);
-          resolve(); // Resolver la promesa incluso en caso de error
-        }
-      });
-    });
-  }
+
+
+  });
+}
 
   logout(): void {
     localStorage.removeItem('authToken');
