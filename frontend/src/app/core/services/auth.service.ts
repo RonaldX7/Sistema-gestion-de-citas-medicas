@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private LOGIN_URL = 'http://localhost:8080/auth/log-in';
+  private LOGIN_URL = 'http://localhost:8080/auth'; // URL de la API de autenticación
   private tokenKey = 'authToken';
   private userIdKey = 'userId';
 
@@ -15,7 +17,7 @@ export class AuthService {
 
   // Método de login para autenticar y almacenar el token y userId
   login(username: string, password: string): Observable<any> {
-    return this.httpClient.post<any>(this.LOGIN_URL, { username, password }).pipe(
+    return this.httpClient.post<any>(`${this.LOGIN_URL}/log-in`, { username, password }).pipe(
       tap(response => {
         if (response.jwt && response.userId) { // Asegúrate de que el token y el userId estén en la respuesta
           console.log('Token recibido:', response.jwt);
@@ -28,6 +30,42 @@ export class AuthService {
       })
     );
   }
+
+  // Método para enviar un correo de recuperación de contraseña
+  sendEmailForRecoveryPassword(email: string): Observable<any> {
+    return this.httpClient.post<any>(`${this.LOGIN_URL}/recover-password/${email}`, {});
+  }
+
+  // Método para cambiar la contraseña
+  changePassword(password: string, validPassword: string, code: string): Observable<any> {
+    const body = { password, validPassword, code };
+    return this.httpClient.post<any>(`${this.LOGIN_URL}/change-password`, body);
+  }
+
+  // Método para extraer roles del token
+  getRolesFromToken(): string[] {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken.authorities ? decodedToken.authorities.split(',') : [];
+    }
+    return [];
+  }
+
+
+    // Método para redirigir según los roles
+    redirectToRoleBasedView(): void {
+      const roles = this.getRolesFromToken();
+      if (roles.includes('ROLE_ADMIN')) {
+        this.router.navigate(['/admin-home']);
+      } else if (roles.includes('ROLE_USER')) {
+        this.router.navigate(['/patient-features/patient-home']);
+      } else if (roles.includes('ROLE_DOCTOR')) {
+        this.router.navigate(['/doctor-features/doctor-home']);
+      }else {
+        this.router.navigate(['/login']);
+      }
+    }
 
   // Método para guardar el token en localStorage
   private setToken(token: string): void {

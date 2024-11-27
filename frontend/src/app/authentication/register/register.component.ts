@@ -19,9 +19,9 @@ export class RegisterComponent {
     dni: '',
     birthDate: '',
     direction:'',
-    //address: '',
-    //districtId:'',
-    genderId: '',
+    address: '',
+    districtId: 0,
+    genderId: 0,
     phone: '',
     email: '',
     username: '',
@@ -31,8 +31,38 @@ export class RegisterComponent {
 
   confirmPassword = '';
   showSuccessModal = false;
+  departments: any[] = [];
+  districts: any[] = [];
 
   constructor(private registerService: RegisterService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadDepartments();
+  }
+
+  loadDepartments(): void {
+    this.registerService.listDepartments().subscribe(
+      response => {
+        this.departments = response;
+      },
+      error => {
+        console.error('Error al cargar los departamentos:', error);
+      }
+    );
+  }
+
+  onDepartmentChange(event: Event): void {
+  // Convertir el valor del evento a un número
+  const departmentId = Number((event.target as HTMLSelectElement).value);
+    this.registerService.listDistrictsByDepartment(departmentId).subscribe(
+      response => {
+        this.districts = response;
+      },
+      error => {
+        console.error('Error al cargar los distritos:', error);
+      }
+    );
+  }
 
   onRegister(registerForm: any) {
     if (registerForm.invalid) {

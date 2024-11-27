@@ -38,7 +38,8 @@ export class LoginComponent {
 
       this.authService.login(this.user.username, this.user.password).subscribe({
         next: () => {
-          this.router.navigate(['/patient-features/patient-home']);
+          // Llama al método de redirección después de un login exitoso
+          this.authService.redirectToRoleBasedView();
         },
         error: (err) => {
           console.error('Error en autenticación:', err);

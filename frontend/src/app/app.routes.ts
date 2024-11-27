@@ -14,10 +14,6 @@ export const routes: Routes = [
         loadComponent:()=> import('./authentication/recover-password/recover-password.component').then(m=>m.RecoverPasswordComponent)
     },
     {
-        path:'new-password',
-        loadComponent:() => import('./authentication/new-password/new-password.component').then(m=>m.NewPasswordComponent)
-    },
-    {
         path: 'patient-features',
         loadChildren: () => import('./features/patient-features/patient-features.route').then(m => m.PatientFeaturesRoutingModule),
 
