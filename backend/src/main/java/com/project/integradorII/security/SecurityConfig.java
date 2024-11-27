@@ -43,6 +43,8 @@ public class SecurityConfig {
                     //configurar los endpoints publicos
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/paciente/departamentos").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/paciente/distritos/{deparmentId}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/cita/listar").permitAll();
