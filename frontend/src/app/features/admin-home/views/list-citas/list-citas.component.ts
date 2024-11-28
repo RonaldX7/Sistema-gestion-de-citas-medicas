@@ -15,6 +15,7 @@ export class ListCitasComponent {
   searchTerm: string = '';
   searchDate: string = '';
   searchSpecialty: string = '';
+  selectedDate: string = ''; // fecha por defecto
   
   specialties = ['Dermatología', 'Cardiología', 'Oftalmología', 'Pediatría', 'Todas'];
 
@@ -30,15 +31,20 @@ export class ListCitasComponent {
   selectedCita: any = null;
 
   ngOnInit() {
-    const today = new Date().toISOString().split('T')[0]; // Obtener la fecha actual en formato yyyy-MM-dd
-    this.searchDate = today;
+     //Para la fecha actual
+     const todayDate = new Date();
+     const year = todayDate.getFullYear();
+     const month = String(todayDate.getMonth() + 1).padStart(2, '0'); // Mes en formato 2 dígitos
+     const day = String(todayDate.getDate()).padStart(2, '0'); // Día en formato 2 dígitos
+ 
+     this.selectedDate = `${year}-${month}-${day}`;
     this.filterCitas(); // Filtrar citas para la fecha actual al cargar la página
   }
   onDateSelection(event: any) {
   const selectedDate = new Date(event.year, event.month - 1, event.day);
   this.searchDate = selectedDate.toISOString().split('T')[0]; // Formato yyyy-MM-dd
   this.filterCitas();
-}
+  }
 
 
   filterCitas() {
