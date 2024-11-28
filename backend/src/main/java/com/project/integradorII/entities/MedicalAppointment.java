@@ -36,7 +36,7 @@ public class MedicalAppointment {
     @Column(name = "appointment_end_time")
     private LocalTime endTime;
 
-    @OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cost_id")
     private AppointmentCosts cost;
 

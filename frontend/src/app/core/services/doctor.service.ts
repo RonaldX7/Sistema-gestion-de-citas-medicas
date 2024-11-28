@@ -1,0 +1,36 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Doctor } from '../../Models/doctor.model';
+@Injectable({
+  providedIn: 'root'
+})
+export class DoctorService {
+ 
+  private doctor_register_url='http://localhost:8080/medico/registrar'
+  private doctorUrl= 'http://localhost:8080/medico/listar';
+  
+  //private esp_docUrl= 'http://localhost:8080/medico/listar/${specialty_id}';// se intento pero no se pudo fallo pipipi
+  constructor(private httpClient: HttpClient) {}
+
+ 
+  getDoctors(): Observable<any> {
+    return this.httpClient.get<Doctor[]>(this.doctorUrl);
+  }
+
+  getDoctorsforSpecialty(specialty_id: string): Observable<any> {
+    const url = `http://localhost:8080/medico/listar/${specialty_id}`;
+    return this.httpClient.get<any>(url);
+  }
+
+  registerDoctor(doctorData:any): Observable<any>{
+    return this.httpClient.post<any>(this.doctor_register_url,doctorData);
+
+  }
+
+
+
+
+
+  
+}

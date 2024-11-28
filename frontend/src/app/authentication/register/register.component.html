@@ -1,0 +1,191 @@
+<div class="flex h-screen bg-cover bg-center" style="background-image: url('/fondo.png');">
+  <div class="flex h-full w-full">
+    <!-- Sección del logo y texto -->
+    <div class="w-1/2 flex flex-col items-center justify-center">
+      <img src="/logo-render.png" alt="IPS VidaPlena Logo" class="w-100 mb-4">
+      <p class="text-deepBlue text-lg font-semibold text-center">NACIMOS PARA CUIDARTE DE<br> MODO INTEGRAL</p>
+    </div>
+
+    <!-- Sección de formulario de registro -->
+    <div class="w-1/2 flex items-center justify-center">
+      <div class="bg-white p-10 rounded-lg shadow-md w-100">
+        <h2 class="text-deepBlue text-4xl font-bold mb-6">Registro</h2>
+        <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+          
+          <!-- DNI y Fecha de Nacimiento -->
+          <div class="mb-4 flex">
+            <div class="w-1/2 mr-2 relative">
+              <input
+                type="text"
+                placeholder="DNI"
+                [(ngModel)]="user.dni"
+                name="dni"
+                #dni="ngModel"
+                required
+                minlength="8"
+                maxlength="8"
+                pattern="^[0-9]*$"
+                class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+              <span *ngIf="dni.invalid && dni.touched" class="text-red-500 text-sm">DNI inválido (8 dígitos).</span>
+            </div>
+            <div class="w-1/2 ml-2 relative">
+              <input
+                type="date"
+                [(ngModel)]="user.birthDate"
+                name="birthDate"
+                #birthDate="ngModel"
+                required
+                class="block w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+              <span *ngIf="birthDate.invalid && birthDate.touched" class="text-red-500 text-sm">Fecha inválida.</span>
+            </div>
+          </div>      
+
+          <!-- Nombres y Apellidos -->
+          <div class="relative mb-4">
+            <input
+              type="text"
+              placeholder="Nombres"
+              [(ngModel)]="user.name"
+              name="name"
+              #name="ngModel"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+            <span *ngIf="name.invalid && name.touched" class="text-red-500 text-sm">Campo obligatorio.</span>
+          </div>
+
+          <div class="relative mb-4">
+            <input
+              type="text"
+              placeholder="Apellidos"
+              [(ngModel)]="user.lastName"
+              name="lastName"
+              #lastName="ngModel"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+            <span *ngIf="lastName.invalid && lastName.touched" class="text-red-500 text-sm">Campo obligatorio.</span>
+          </div>
+          <!-- Departamento-->
+          <div class="relative mb-4">
+            <select class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue text-gray-500" 
+            id="department" (change)="onDepartmentChange($event)" required>
+            <option value="" disabled selected>Seleccione un departamento</option>
+            <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
+            </select>
+          </div>
+          <!-- Distrito-->
+          <div class="relative mb-4">
+          <select class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue text-gray-500" 
+          id="district" [(ngModel)]="user.districtId" name="districtId" required>
+            <option value="" disabled selected>Seleccione</option>
+            <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
+          </select>
+          </div>
+          <!-- Dirección -->
+          <div class="relative mb-4">
+            <input
+              type="text"
+              placeholder="Dirección"
+              [(ngModel)]="user.address"
+              name="direction"
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+          </div>
+          <!-- Teléfono y Género -->
+          <div class="mb-4 flex">
+            <div class="w-1/2 mr-2 relative">
+              <input
+                type="text"
+                placeholder="Teléfono"
+                [(ngModel)]="user.phone"
+                name="phone"
+                #phone="ngModel"
+                pattern="^[0-9]{9}$"
+                required
+                class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+              />
+              <span *ngIf="phone.invalid && phone.touched" class="text-red-500 text-sm">Teléfono inválido (9 dígitos).</span>
+            </div>
+            <div class="w-1/2 ml-2 relative">
+              <select
+                [(ngModel)]="user.genderId"
+                name="genderId"
+                #genderId="ngModel"
+                required
+                class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue text-gray-500"
+              >
+                <option value="" disabled selected>Género</option>
+                <option value="1">Masculino</option>
+                <option value="2">Femenino</option>
+                <option value="3">Otros</option>
+              </select>
+              <span *ngIf="genderId.invalid && genderId.touched" class="text-red-500 text-sm">Seleccione un género.</span>
+            </div>
+          </div>
+
+          <!-- Usuario -->
+          <div class="relative mb-4">
+            <input
+              type="text"
+              placeholder="Username"
+              [(ngModel)]="user.username"
+              name="username"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="relative mb-4">
+            <input
+              type="email"
+              placeholder="E-mail"
+              [(ngModel)]="user.email"
+              name="email"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+          </div>
+
+          <!-- Contraseña -->
+          <div class="relative mb-4">
+            <input
+              type="password"
+              placeholder="Contraseña"
+              [(ngModel)]="user.password"
+              name="password"
+              required
+              minlength="8"
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+          </div>
+
+          <!-- Confirmar Contraseña -->
+          <div class="relative mb-6">
+            <input
+              type="password"
+              placeholder="Confirmar Contraseña"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              required
+              class="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-deepBlue"
+            />
+            <span *ngIf="confirmPassword !== user.password && registerForm.submitted" class="text-red-500 text-sm">Las contraseñas no coinciden.</span>
+          </div>
+
+          <!-- Botón -->
+          <button
+            type="submit"
+            [disabled]="registerForm.invalid"
+            class="w-full py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300"
+          >
+            Registrar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

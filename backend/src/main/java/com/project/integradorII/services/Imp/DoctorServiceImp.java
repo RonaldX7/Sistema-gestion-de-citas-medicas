@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -46,10 +44,30 @@ public class DoctorServiceImp implements DoctorService {
                     doctorEntity.getLastName(),
                     doctorEntity.getPhone(),
                     doctorEntity.getCmp(),
-                    doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName)
-                            .collect(Collectors.toList())
+                    doctorEntity.getEmail(),
+                    doctorEntity.getSpecialties().getName()
             );
         }).collect(Collectors.toList());
+
+        return doctorLists;
+    }
+
+    @Override
+    public List<DoctorList> ListById(Long id) {
+
+        DoctorEntity doctors = doctorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
+
+        //Mapear la lista de doctores
+        List<DoctorList> doctorLists = List.of(new DoctorList(
+                doctors.getId(),
+                doctors.getName(),
+                doctors.getLastName(),
+                doctors.getPhone(),
+                doctors.getCmp(),
+                doctors.getEmail(),
+                doctors.getSpecialties().getName()
+        ));
 
         return doctorLists;
     }
@@ -70,8 +88,8 @@ public class DoctorServiceImp implements DoctorService {
                             doctorEntity.getLastName(),
                             doctorEntity.getPhone(),
                             doctorEntity.getCmp(),
-                            doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName)
-                                    .collect(Collectors.toList())
+                            doctorEntity.getEmail(),
+                            doctorEntity.getSpecialties().getName()
                     );
                 }).collect(Collectors.toList());
 
@@ -92,21 +110,13 @@ public class DoctorServiceImp implements DoctorService {
             throw new IllegalArgumentException("Agrege un rol valido");
         }
 
-        //Guardar la especialidad si no existe
-        doctorRequest.specialty().specialtyListName().forEach(specialtyName -> {
-            Optional<SpecialtyEntity> specialtyEntity = specialtyRepository.findByName(specialtyName);
 
-            //Si no existe la especialidad se crea
-            if (specialtyEntity.isEmpty()) {
-                SpecialtyEntity specialty = SpecialtyEntity.builder().name(specialtyName).build();
-                specialtyRepository.save(specialty);
-            }
-        });
+        //Validar si la especialidad existe
+        SpecialtyEntity specialtyEntity = specialtyRepository.findByName(doctorRequest.specialty());
 
-        // Asignar especialidades al doctor
-        Set<SpecialtyEntity> specialties = specialtyRepository.
-                findSpecialtyEntitiesByNameIn(doctorRequest.specialty().specialtyListName())
-                .stream().collect(Collectors.toSet());
+        if (specialtyEntity.getId() == null) {
+            throw new IllegalArgumentException("La especialidad no existe");
+        }
 
         //Crear el usuario
         UserRequest userRequest = new UserRequest(
@@ -124,7 +134,7 @@ public class DoctorServiceImp implements DoctorService {
                 .phone(doctorRequest.phone())
                 .email(doctorRequest.email())
                 .cmp(doctorRequest.cmp())
-                .specialties(specialties)
+                .specialties(specialtyEntity)
                 .user(userEntity)
                 .build();
 
