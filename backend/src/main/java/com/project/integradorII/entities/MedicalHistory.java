@@ -2,6 +2,7 @@ package com.project.integradorII.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
@@ -27,6 +28,7 @@ public class MedicalHistory {
     @JoinColumn(name = "medical_appointment_id")
     private MedicalAppointment medicalAppointment;
 
+    @CreationTimestamp
     @Column(name = "creation_date")
     private LocalDate creation_date;
 

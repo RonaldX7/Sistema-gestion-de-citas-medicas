@@ -2,6 +2,7 @@ package com.project.integradorII.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
@@ -17,6 +18,7 @@ public class MedicalDiagnosis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @CreationTimestamp
     @Column(name = "emision_date")
     private LocalDate emision_date;
 
