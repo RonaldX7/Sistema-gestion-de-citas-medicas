@@ -1,4 +1,4 @@
-package utilitarian;
+package com.project.integradorII.utilitarian;
 
 import org.springframework.context.annotation.Configuration;
 
