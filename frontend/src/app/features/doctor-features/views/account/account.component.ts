@@ -1,104 +1,101 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // Importa FormsModule
+import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+import { DoctorService } from '../../../../core/services/doctor.service';
+import { AuthService } from '../../../../core/services/auth.service';
+
+interface Doctor {
+  id: string;
+  cmp: string;
+  name: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  newPassword: string;
+  confirmPassword: string;
+}
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [FormsModule], // Agrega FormsModule aquí
+  imports: [FormsModule, CommonModule], // Agrega FormsModule aquí
   templateUrl: './account.component.html',
   styles: ``,
 })
-export class AccountComponent {
-  // Contraseña simulada en el sistema
-  private storedPassword = '123456'; // Contraseña inicial simulada
 
+export class AccountComponent implements OnInit {
+ 
   // Control de visibilidad de contraseñas
   showCurrentPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
 
-  accountData = {
-    documentType: 'CMP',
-    documentNumber: '45636',
-    firstName: 'KATHERINE NOELINA',
-    lastName: 'OBREGON CANDELA',
-    phone: '987654321',
-    email: 'Kath32_n@example.com',
-    specialty: 'PSICOLOGÍA',
-    currentPassword: '',
+  doctorData: Doctor = {
+    id: '',
+    cmp: '',
+    name: '',
+    lastName: '',
+    phone: '',
+    email: '',
     newPassword: '',
-    confirmPassword: '',
+    confirmPassword: ''
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private doctorService:DoctorService, 
+    private router: Router) {}
 
-  // Función para alternar la visibilidad de las contraseñas
-  togglePasswordVisibility(field: string) {
-    if (field === 'currentPassword') {
-      this.showCurrentPassword = !this.showCurrentPassword;
-    } else if (field === 'newPassword') {
-      this.showNewPassword = !this.showNewPassword;
-    } else if (field === 'confirmPassword') {
-      this.showConfirmPassword = !this.showConfirmPassword;
+  ngOnInit(): void {
+    this.loadDoctorData();
+    this.authService.getUserId();
+  }
+
+  loadDoctorData(): void {{
+      this.doctorService.getDoctorByUserId().subscribe(
+        response => {
+          this.doctorData.id = response.id;
+          this.doctorData.cmp = response.cmp;
+          this.doctorData.name = response.name;
+          this.doctorData.lastName = response.lastName;
+          this.doctorData.phone = response.phone;
+          this.doctorData.email = response.email;
+          console.log('Datos del médico:', response);
+        },
+        error => {
+          console.error('Error al cargar los datos del médico:', error);
+        }
+      );
     }
   }
 
-  regreso() {
-    this.router.navigate(['/login']);
-  }
-
-  agenda() {
-    this.router.navigate(['/doctor-home']);
-  }
-
-  citas() {
-    this.router.navigate(['/citar-cita']);
-  }
-
-  doctor_home() {
-    this.router.navigate(['/doctor-home']);
-  }
-
-  history() {
-    this.router.navigate(['/medical-history']);
-  }
-
-  updateAccount() {
-    const { currentPassword, newPassword, confirmPassword } = this.accountData;
-
-    // Validar que todos los campos están completos
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      alert('Por favor, complete todos los campos de contraseña.');
+  updateDoctor() {
+    if (this.doctorData.newPassword !== this.doctorData.confirmPassword) {
+      Swal.fire('Error', 'Las contraseñas no coinciden', 'error');
       return;
     }
 
-    // Verificar que la contraseña actual coincide con la almacenada
-    if (currentPassword !== this.storedPassword) {
-      alert('La contraseña actual no es correcta.');
-      return;
-    }
+    const doctorUpdateData = {
+      id: this.doctorData.id,
+      cmp: this.doctorData.cmp,
+      name: this.doctorData.name,
+      lastName: this.doctorData.lastName,
+      phone: this.doctorData.phone,
+      email: this.doctorData.email,
+      password: this.doctorData.newPassword // Assuming you want to update the password
+    };
 
-    // Verificar que la nueva contraseña y la confirmación coincidan
-    if (newPassword !== confirmPassword) {
-      alert('La nueva contraseña y la confirmación no coinciden.');
-      return;
-    }
-
-    // Verificar que la nueva contraseña cumpla con requisitos mínimos (ejemplo: longitud)
-    if (newPassword.length < 6) {
-      alert('La nueva contraseña debe tener al menos 6 caracteres.');
-      return;
-    }
-
-    // Actualizar la contraseña almacenada
-    this.storedPassword = newPassword;
-    console.log('Nueva contraseña almacenada:', this.storedPassword);
-
-    // Mensaje de éxito
-    alert('¡Contraseña actualizada con éxito!');
-
-    // Redirigir al usuario
-    this.router.navigate(['/doctor-home']);
+    this.doctorService.updateDoctor(this.doctorData.id, doctorUpdateData).subscribe(
+      response => {
+        Swal.fire('Éxito', 'Datos actualizados correctamente', 'success');
+        this.router.navigate(['/doctor-features']); // Redirigir a la página deseada
+      },
+      error => {
+        Swal.fire('Error', 'Hubo un problema al actualizar los datos', 'error');
+        console.error('Error al actualizar los datos del médico:', error);
+      }
+    );
   }
 }
