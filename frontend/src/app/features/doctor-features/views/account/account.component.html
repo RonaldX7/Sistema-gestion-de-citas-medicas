@@ -5,22 +5,18 @@
 
   <!-- Contenido principal: Componente Account -->
 
-  <!-- Content -->
-  <div
-    class="max-w-4xl mx-auto bg-white bg-opacity-90 p-8 rounded-lg shadow-lg"
-  >
     <!-- Encabezado -->
-    <div class="bg-blue-900 text-white text-center py-4 rounded-md mb-8">
+    <div class="max-w-4xl mx-auto bg-blue-900 text-white text-center py-4 rounded-md mb-8 shadow-xl">
       <h1 class="text-2xl font-bold">MI CUENTA</h1>
     </div>
     <!-- Formulario -->
     <form
-      class="grid grid-cols-12 gap-y-6 gap-x-6"
+      class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-y-6 gap-x-6 p-8 bg-white shadow-lg rounded-lg"
       (ngSubmit)="updateDoctor()"
       #form="ngForm"
     >
       <!-- Tipo y número de CMP -->
-      <div class="col-span-2">
+      <div class="md:col-span-2 col-span-1">
         <label class="block text-sm font-medium text-gray-600">CMP</label>
         <input
           type="text"
@@ -32,7 +28,7 @@
       </div>
 
       <!-- Nombres y Apellidos -->
-      <div class="col-span-10">
+      <div class="md:col-span-10 col-span-1">
         <label class="block text-sm font-medium text-gray-600">Nombres</label>
         <input
           type="text"
@@ -51,7 +47,7 @@
       </div>
 
       <!-- Teléfono -->
-      <div class="col-span-4">
+      <div class="md:col-span-4 col-span-1">
         <label class="block text-sm font-medium text-gray-600">Teléfono</label>
         <input
           type="text"
@@ -62,7 +58,7 @@
       </div>
 
       <!-- Email -->
-      <div class="col-span-8">
+      <div class="md:col-span-8 col-span-1">
         <label class="block text-sm font-medium text-gray-600">E-mail</label>
         <input
           type="email"
@@ -73,7 +69,7 @@
       </div>
 
       <!-- Contraseña nueva -->
-      <div class="col-span-4">
+      <div class="md:col-span-6 col-span-1">
         <label class="block text-sm font-medium text-gray-600"
           >Contraseña nueva</label
         >
@@ -89,7 +85,7 @@
       </div>
 
       <!-- Confirmar contraseña nueva -->
-      <div class="col-span-4">
+      <div class="md:col-span-6 col-span-1">
         <label class="block text-sm font-medium text-gray-600"
           >Confirmar contraseña nueva</label
         >
@@ -109,7 +105,7 @@
       </div>
 
       <!-- Botón Actualizar -->
-      <div class="col-span-12 flex justify-center">
+      <div class="col-span-1 md:col-span-12 flex justify-center">
         <button
           type="submit"
           class="bg-blue-900 text-white px-10 py-3 rounded-full shadow-md hover:bg-blue-400 transition"
@@ -119,4 +115,3 @@
       </div>
     </form>
   </div>
-</div>

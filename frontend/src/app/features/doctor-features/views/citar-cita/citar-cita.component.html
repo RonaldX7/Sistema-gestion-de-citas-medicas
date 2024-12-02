@@ -1,4 +1,4 @@
-<div class="container mx-auto px-4 py-6">
+<div class="bg-white container mx-auto px-4 py-6 shadow-xl">
 
   <!-- class="flex flex-col md:flex-row min-h-screen" -->
   <!-- Main Content -->
@@ -10,9 +10,33 @@
       </h2>
     </div>
 
+    <!-- Contenedor de filtros -->
+  <div class="flex flex-wrap gap-4 mb-4">
+    <!-- Campo de búsqueda por fecha -->
+    <div class="flex-1 min-w-[200px]">
+      <label for="searchDate" class="block text-sm font-medium text-gray-700">Buscar por Fecha</label>
+      <input
+        id="searchDate"
+        type="date"
+        class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
+      />
+    </div>
+
+    <!-- Campo de búsqueda por especialidad -->
+    <div class="flex-1 min-w-[200px]">
+      <label for="searchSpecialty" class="block text-sm font-medium text-gray-700">Buscar por Especialidad</label>
+      <select
+        id="searchSpecialty"
+        class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
+      >
+        <option value="" selected>Todas las Especialidades</option>
+      </select>
+    </div>
+  </div>
+
     <!-- Tabla de citas -->
-    <div class="bg-white p-6 rounded-lg shadow-lg">
-      <table class="w-full text-left border-collapse">
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse rounded-lg overflow-hidden shadow-md">
         <thead>
           <tr class="bg-[#005792] text-white text-center">
             <th class="p-4">DNI</th>

@@ -50,21 +50,28 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDoctorData();
-    this.authService.getUserId();
   }
 
   loadDoctorData(): void {{
       this.doctorService.getDoctorByUserId().subscribe(
         response => {
-          this.doctorData.id = response.id;
-          this.doctorData.cmp = response.cmp;
-          this.doctorData.name = response.name;
-          this.doctorData.lastName = response.lastName;
-          this.doctorData.phone = response.phone;
-          this.doctorData.email = response.email;
-          console.log('Datos del médico:', response);
+          if (response.length > 0) { // Verifica que el arreglo no esté vacío
+            const doctor = response[0]; // Accede al primer objeto del arreglo
+            this.doctorData = { 
+              id: doctor.id,
+              cmp: doctor.cmp,
+              name: doctor.name,
+              lastName: doctor.lastName,
+              phone: doctor.phone,
+              email: doctor.email,
+              newPassword: '',
+              confirmPassword: ''
+            };
+          } else {
+            console.warn('No se encontró ningún médico con este userId.');
+          }
         },
-        error => {
+        (error) => {
           console.error('Error al cargar los datos del médico:', error);
         }
       );
@@ -93,7 +100,14 @@ export class AccountComponent implements OnInit {
         this.router.navigate(['/doctor-features']); // Redirigir a la página deseada
       },
       error => {
-        Swal.fire('Error', 'Hubo un problema al actualizar los datos', 'error');
+        // Manejar errores y mostrar mensajes claros al usuario
+        if (error.status === 400) {
+          Swal.fire('Error', 'Verifica los datos ingresados', 'error');
+        } else if (error.status === 409) {
+          Swal.fire('Error', 'El correo electrónico ya está en uso', 'error');
+        } else {
+          Swal.fire('Error', 'Hubo un problema al actualizar los datos', 'error');
+        }
         console.error('Error al actualizar los datos del médico:', error);
       }
     );
