@@ -5,10 +5,8 @@ import com.project.integradorII.dto.doctor.DoctorRequest;
 import com.project.integradorII.dto.doctor.DoctorUpdate;
 import com.project.integradorII.entities.DoctorEntity;
 import com.project.integradorII.services.DoctorService;
-import com.project.integradorII.services.Imp.DoctorServiceImp;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +26,13 @@ public class DoctorController {
         return new ResponseEntity<>(this.doctorService.ListAllDoctors(), HttpStatus.OK);
     }
 
-    //metodo para listar medico por id
-    @GetMapping("/{id}")
-    public ResponseEntity<List<DoctorList>> ListDoctorById(@PathVariable Long id){
-        return new ResponseEntity<>(this.doctorService.ListById(id), HttpStatus.OK);
+    //metodo para listar medico por user id
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<DoctorList>> ListDoctorById(@PathVariable Long userId){
+        if (userId != null){
+            return new ResponseEntity<>(this.doctorService.ListByUserId(userId), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //metodo para listar medico por especialidad

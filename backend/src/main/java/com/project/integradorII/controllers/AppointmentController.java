@@ -2,6 +2,7 @@ package com.project.integradorII.controllers;
 import com.project.integradorII.dto.appointment.AppointmentList;
 import com.project.integradorII.dto.appointment.AppointmentRequest;
 import com.project.integradorII.entities.MedicalAppointment;
+import com.project.integradorII.services.AppointmentService;
 import com.project.integradorII.services.Imp.AppointmentServiceImp;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequestMapping("/cita")
 public class AppointmentController {
 
-    private final AppointmentServiceImp appointmentService;
+    private final AppointmentService appointmentService;
 
     //metodo para listar todas las citas
     @GetMapping("/listar")

@@ -46,7 +46,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.GET, "/paciente/departamentos").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/paciente/distritos/{deparmentId}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/medico/{userId}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/cita/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
@@ -54,6 +54,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/medico/registrar").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/horarios/registrar").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/medico/actualizar/{id}").permitAll();
                     //configurar los endpoints privados
 
                     //Endpoints del administrador

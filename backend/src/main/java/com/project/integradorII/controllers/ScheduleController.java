@@ -4,6 +4,7 @@ import com.project.integradorII.dto.doctorSchedule.ScheduleList;
 import com.project.integradorII.dto.doctorSchedule.ScheduleRequest;
 import com.project.integradorII.entities.DoctorSchedule;
 import com.project.integradorII.services.Imp.ScheduleServiceImp;
+import com.project.integradorII.services.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequestMapping("/horarios")
 public class ScheduleController {
 
-    private final ScheduleServiceImp scheduleService;
+    private final ScheduleService scheduleService;
 
 
     //metodo para listar el horario por doctor

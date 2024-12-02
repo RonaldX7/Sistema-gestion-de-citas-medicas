@@ -1,7 +1,7 @@
 package com.project.integradorII.controllers;
 
 import com.project.integradorII.entities.SpecialtyEntity;
-import com.project.integradorII.services.Imp.SpecialtyServiceImp;
+import com.project.integradorII.services.SpecialtyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/especialidades")
 public class SpecialtyController {
 
-    private final SpecialtyServiceImp specialtyService;
+    private final SpecialtyService specialtyService;
 
     @GetMapping("/listar")
     public ResponseEntity<List<SpecialtyEntity>> ListAllSpecialties(){

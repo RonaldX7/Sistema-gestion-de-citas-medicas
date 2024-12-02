@@ -30,4 +30,5 @@ public interface AppointmentRepository extends JpaRepository<MedicalAppointment,
     //Verificar si el paciente ya tiene una cita en la fecha y hora seleccionada
     boolean existsByDateAndAndStartTimeAndAndEndTime(LocalDate date, LocalTime startTime, LocalTime endTime);
 
+    //Cambiar el estado de una cita
 }

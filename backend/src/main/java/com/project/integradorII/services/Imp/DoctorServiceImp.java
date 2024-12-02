@@ -52,11 +52,17 @@ public class DoctorServiceImp implements DoctorService {
         return doctorLists;
     }
 
+    //Metodo para listar un medico por user_id
+    @Transactional
     @Override
-    public List<DoctorList> ListById(Long id) {
+    public List<DoctorList> ListByUserId(Long userId){
 
-        DoctorEntity doctors = doctorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
+
+        DoctorEntity doctors = doctorRepository.findDoctorEntitiesByUserId(userId);
+
+        if (doctors == null) {
+            throw new IllegalArgumentException("El medico no existe");
+        }
 
         //Mapear la lista de doctores
         List<DoctorList> doctorLists = List.of(new DoctorList(
