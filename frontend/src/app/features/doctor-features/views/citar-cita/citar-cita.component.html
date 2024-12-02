@@ -1,8 +1,6 @@
-<div class="bg-white container mx-auto px-4 py-6 shadow-xl">
+<div class="bg-white container mx-auto p-6 shadow-md rounded-lg">
 
   <!-- class="flex flex-col md:flex-row min-h-screen" -->
-  <!-- Main Content -->
-  <main class="flex-1 p-8">
     <!-- Encabezado -->
     <div class="bg-blue-900 text-white p-4 rounded-lg shadow-md mb-5">
       <h2 class="text-2xl font-bold text-center uppercase">
@@ -11,56 +9,56 @@
     </div>
 
     <!-- Contenedor de filtros -->
-  <div class="flex flex-wrap gap-4 mb-4">
-    <!-- Campo de búsqueda por fecha -->
-    <div class="flex-1 min-w-[200px]">
-      <label for="searchDate" class="block text-sm font-medium text-gray-700">Buscar por Fecha</label>
-      <input
-        id="searchDate"
-        type="date"
-        class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
-      />
-    </div>
+    <div class="flex flex-wrap gap-4 mb-4">
+      <!-- Campo de búsqueda por fecha
+      <div class="flex-1 min-w-[200px]">
+        <label for="searchDate" class="block text-sm font-medium text-gray-700">Buscar por Fecha</label>
+        <input
+          id="searchDate"
+          type="date"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
+        />
+      </div> -->
 
-    <!-- Campo de búsqueda por especialidad -->
-    <div class="flex-1 min-w-[200px]">
-      <label for="searchSpecialty" class="block text-sm font-medium text-gray-700">Buscar por Especialidad</label>
-      <select
-        id="searchSpecialty"
-        class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
-      >
-        <option value="" selected>Todas las Especialidades</option>
-      </select>
+      <!-- Campo de búsqueda por especialidad -->
+      <div class="flex-col min-w-[200px]">
+        <label for="searchSpecialty" class="block text-sm font-medium text-gray-700">Buscar por Estado</label>
+        <select
+          id="searchSpecialty"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
+        >
+          <option value="" selected>Todas los estados</option>
+        </select>
+      </div>
     </div>
-  </div>
 
     <!-- Tabla de citas -->
     <div class="overflow-x-auto">
       <table class="w-full border-collapse rounded-lg overflow-hidden shadow-md">
         <thead>
           <tr class="bg-[#005792] text-white text-center">
-            <th class="p-4">DNI</th>
-            <th class="p-4">Nombres</th>
-            <th class="p-4">Apellidos</th>
-            <th class="p-4">Fecha</th>
-            <th class="p-4">Especialidad</th>
-            <th class="p-4">Estado</th>
-            <th class="p-4">Perfil Clínico</th>
-            <th class="p-4">Receta</th>
+            <th class="p-2">DNI</th>
+            <th class="p-2">Nombres</th>
+            <th class="p-2">Apellidos</th>
+            <th class="p-2">Fecha</th>
+            <th class="p-2">Especialidad</th>
+            <th class="p-2">Estado</th>
+            <th class="p-2">Perfil Clínico</th>
+            <th class="p-2">Receta</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="even:bg-[#EDF9FC] hover:bg-[#80DDDB] text-center">
-            <td class="p-4">080526987</td>
-            <td class="p-4">Julio Cesar</td>
-            <td class="p-4">Medrano Ossco</td>
-            <td class="p-4">20/09/24</td>
-            <td class="p-4">Psicología</td>
-            <td class="p-4">Atendido</td>
-            <td class="p-4 text-center align-middle">
+          <tr class="even:bg-[#EDF9FC] hover:bg-slate-200 text-center">
+            <td class="p-2">080526987</td>
+            <td class="p-2">Julio Cesar</td>
+            <td class="p-2">Medrano Ossco</td>
+            <td class="p-2">20/09/24</td>
+            <td class="p-2">Psicología</td>
+            <td class="p-2">Atendido</td>
+            <td class="p-2 text-center align-middle">
               <button
                 (click)="openProfileModal('Julio Cesar Medrano Ossco')"
-                class="bg-blue-900 text-white hover:bg-deepBlue px-6 py-2 rounded-lg text-base"
+                class="bg-blue-500 text-white hover:bg-deepBlue px-6 py-2 rounded-lg text-base"
               >
                 Ver
               </button>
@@ -68,7 +66,7 @@
             <td class="p-4 text-center align-middle">
               <button
                 (click)="openRecipeModal('Julio Cesar Medrano Ossco')"
-                class="bg-blue-900 text-white hover:bg-deepBlue px-6 py-2 rounded-lg text-base"
+                class="bg-blue-500 text-white hover:bg-deepBlue px-6 py-2 rounded-lg text-base"
               >
                 Agregar
               </button>
@@ -198,5 +196,4 @@ Generalmente bien tolerado, pero pueden ocurrir reacciones alérgicas, erupcione
         </div>
       </div>
     </div>
-  </main>
 </div>
