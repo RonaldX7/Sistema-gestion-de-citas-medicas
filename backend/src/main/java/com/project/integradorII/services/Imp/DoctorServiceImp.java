@@ -10,6 +10,7 @@ import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.repositories.SpecialtyRepository;
 import com.project.integradorII.services.DoctorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,8 @@ public class DoctorServiceImp implements DoctorService {
     private final SpecialtyRepository specialtyRepository;
 
     private final RoleRepository rolRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     //Metodo para listar todos los medicos
     @Transactional
@@ -166,7 +169,7 @@ public class DoctorServiceImp implements DoctorService {
 
         UserEntity user = doctorEntity.getUser();
         if (doctorUpdate.password() != null && !doctorUpdate.password().equals(user.getPassword())) {
-            user.setPassword(doctorUpdate.password());
+            user.setPassword(passwordEncoder.encode(doctorUpdate.password()));
         }
 
         return doctorRepository.save(doctorEntity);

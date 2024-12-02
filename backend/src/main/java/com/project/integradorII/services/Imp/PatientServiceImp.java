@@ -11,6 +11,7 @@ import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.services.PatientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class PatientServiceImp implements PatientService {
     private final RoleRepository rolRepository;
     private final GenderRepository genderRepository;
     private final DistrictRepository districtRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -178,7 +180,7 @@ public class PatientServiceImp implements PatientService {
         //actualizar los datos del usuario
         UserEntity user = patientEntity.getUser();
         if (patientUpdate.password() != null && !patientUpdate.password().equals(user.getPassword())) {
-            user.setPassword(patientUpdate.password());
+            user.setPassword(passwordEncoder.encode(patientUpdate.password()));
         }
 
         return patientRepository.save(patientEntity);
