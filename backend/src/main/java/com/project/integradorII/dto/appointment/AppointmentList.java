@@ -13,7 +13,6 @@ public record AppointmentList(
         LocalTime startTime,
         LocalTime endTime,
         Double cost,
-        @NotNull
         Long statusId,
         String status
 ) {
