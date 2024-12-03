@@ -51,7 +51,6 @@ export class AppointmentsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    const today = new Date().toISOString().split('T')[0];
     this.loadSpecialties();
     this.loadDoctors(); // Cargar doctores desde el backend
     this.userId = this.authService.getUserId();
@@ -143,7 +142,7 @@ export class AppointmentsComponent implements OnInit {
   this.doctors.forEach((doctor) => {
     this.scheduleService.getScheduleForDoctor(doctor.id).subscribe(
       (schedules: Schedule[]) => {
-        console.log(`Horarios para el doctor ${doctor.id}:`, schedules); // Verifica la respuesta de la API
+        //console.log(`Horarios para el doctor ${doctor.id}:`, schedules); // Verifica la respuesta de la API
 
         // Mantén los objetos originales para buscar después el scheduleId
         doctor.scheduleObjects = schedules.filter(schedule => schedule.isAvailable);
@@ -237,15 +236,6 @@ submitAppointment(): void {
 
   // Llamar al servicio para registrar la cita
   this.appointmentService.appointment(userData).subscribe({
-    // next: (response) => {
-    //   console.log('Cita registrada exitosamente:', response);
-    //   alert('Cita registrada con éxito');
-    //   this.showConfirmation = false; // Regresar a la pantalla principal
-    // },
-    // error: (err) => {
-    //   console.error('Error al registrar la cita:', err);
-    //   alert('Error al registrar la cita');
-    // }
     next: () => {
       Swal.fire({
         icon: 'success',
@@ -267,8 +257,6 @@ submitAppointment(): void {
         confirmButtonText: 'Cerrar'
       });
     }
-
-
   });
 }
 

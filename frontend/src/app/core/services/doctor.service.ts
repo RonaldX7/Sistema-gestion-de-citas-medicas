@@ -10,6 +10,7 @@ export class DoctorService {
   private doctor_register_url='http://localhost:8080/medico/registrar'
   private doctorUrl= 'http://localhost:8080/medico/listar';
   
+  
   //private esp_docUrl= 'http://localhost:8080/medico/listar/${specialty_id}';// se intento pero no se pudo fallo pipipi
   constructor(private httpClient: HttpClient) {}
 
@@ -25,7 +26,6 @@ export class DoctorService {
 
   registerDoctor(doctorData:any): Observable<any>{
     return this.httpClient.post<any>(this.doctor_register_url,doctorData);
-
   }
 
 

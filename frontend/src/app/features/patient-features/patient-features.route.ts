@@ -4,6 +4,7 @@ import { PatientFeaturesComponent } from './patient-features.component';
 import { PatientHomeComponent } from './views/patient-home/patient-home.component';
 import { AppointmentsComponent } from './views/appointments/appointments.component';
 import { AppointmentsListComponent } from './views/appointments-list/appointments-list.component';
+import { MyAccountComponent } from './views/my-account/my-account.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
       { path: 'patient-home', component: PatientHomeComponent },
       { path: 'appointments', component: AppointmentsComponent },
       { path: 'appointments-list', component: AppointmentsListComponent },
+      { path: 'my-account', component: MyAccountComponent},
       { path: '**', redirectTo: 'patient-home', pathMatch: 'full' },
     ],
   },
