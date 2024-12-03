@@ -35,7 +35,8 @@ public class AppointmentServiceImp implements AppointmentService {
                             appointment.getStartTime(),
                             appointment.getEndTime(),
                             appointment.getCost().getCost(),
-                            appointment.getStatus().getId()
+                            appointment.getStatus().getId(),
+                            appointment.getStatus().getStatus()
                     );
                 }).collect(java.util.stream.Collectors.toList());
 
