@@ -55,6 +55,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/medico/registrar").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/horarios/registrar").permitAll();
                     http.requestMatchers(HttpMethod.PUT, "/medico/actualizar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/cita/estado/{id}").permitAll();
                     //configurar los endpoints privados
 
                     //Endpoints del administrador
