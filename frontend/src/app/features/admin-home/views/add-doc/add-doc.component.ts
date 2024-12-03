@@ -1,21 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { DoctorService } from '../../../../core/services/doctor.service';
 import Swal from 'sweetalert2';
 import { SpecialtyService } from '../../../../core/services/specialty.service';
 import { Doctor } from '../../../../Models/doctor.model';
+
+interface UDoctor {
+  id: string;
+  cmp: string;
+  name: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 @Component({
   selector: 'app-add-doc',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './add-doc.component.html',
 })
+
 export class AddDocComponent implements OnInit {
   searchName: string = '';
   specialties: any[] = [];
   selectedSpecialty: string = '';
+  doctorId: string | null = null;
+  doctorUpdateData: any; 
 
   doctors: Doctor[]=[];
   
@@ -32,6 +47,17 @@ export class AddDocComponent implements OnInit {
     cmp:'',
     specialty: '',
     roleId: 3
+  };
+
+  doctorUpdate: UDoctor = {
+    id: '',
+    cmp:'',
+    name:'',
+    lastName:'',
+    phone: '',
+    email: '',
+    newPassword:'',
+    confirmPassword:''
   };
   
 
@@ -112,14 +138,26 @@ export class AddDocComponent implements OnInit {
     return valid;
   }
 
-  openModal(editMode = false, doctor: any = null) {
+  openModal(editMode: boolean, doctor: any): void{
     this.isEditing = editMode;
     this.showModal = true;
     if (editMode && doctor) {
-      this.newDoctor = { ...doctor };
+      this.doctorId = doctor.id;
+      this.doctorUpdate = { ...doctor };
     } else {
-      this.resetDoctorForm();
+      this.doctorId = null;
+      this.doctorUpdate = {
+        id: '',
+        cmp: '',
+        name: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        newPassword: '',
+        confirmPassword: ''
+      };
     }
+    this.showModal = true;
   }
 
   closeModal() {
@@ -172,23 +210,40 @@ export class AddDocComponent implements OnInit {
   }
 
   updateDoctor() {
-    // if (this.validateFields()) {
-    //   const index = this.doctors.findIndex(doctor => doctor.cmp === this.newDoctor.cmp);
-    //   if (index > -1) {
-    //     this.doctors[index] = { ...this.newDoctor };
-    //     this.filterDoctors();
-    //     this.closeModal();
-    //     this.showSuccessMessage('Doctor actualizado exitosamente.');
-    //   }
-    // }
-  }
 
-  showSuccessMessage(message: string) {
-    this.confirmationMessage = message;
-    this.showConfirmation = true;
-    setTimeout(() => {
-      this.showConfirmation = false;
-    }, 3000);
+    if (this.doctorUpdate.newPassword !== this.doctorUpdate.confirmPassword) {
+      Swal.fire('Error', 'Las contraseñas no coinciden', 'error');
+      return;
+    }
+
+     this.doctorUpdateData = {
+      id: this.doctorUpdate.id,
+      cmp: this.doctorUpdate.cmp,
+      name: this.doctorUpdate.name,
+      lastName: this.doctorUpdate.lastName,
+      phone: this.doctorUpdate.phone,
+      email: this.doctorUpdate.email,
+      password: this.doctorUpdate.newPassword // Assuming you want to update the password
+    };
+
+      this.doctorService.updateDoctor(this.doctorUpdate.id, this.doctorUpdateData).subscribe(
+        response => {
+          Swal.fire('Éxito', 'Doctor actualizado correctamente', 'success');
+          this.closeModal();
+          this.loadDoctors(); // Recargar la lista de doctores
+        },
+        error => {
+          // Manejar errores y mostrar mensajes claros al usuario
+          if (error.status === 400) {
+            Swal.fire('Error', 'Verifica los datos ingresados', 'error');
+          } else if (error.status === 409) {
+            Swal.fire('Error', 'El correo electrónico ya está en uso', 'error');
+          } else {
+            Swal.fire('Error', 'Hubo un problema al actualizar los datos', 'error');
+          }
+          console.error('Error al actualizar los datos del médico:', error);
+        }
+      );
   }
 
   //Mensaje de confirmación
@@ -198,28 +253,9 @@ export class AddDocComponent implements OnInit {
   closeConfirmation() {
     this.showConfirmation = false;
   }
+
+  deleteDoctor(doctor: Doctor) {
+  }
+
 }
 
-
-/*export class AddDocComponent implements OnInit {
-  specialties: { id: number; name: string }[] = [];
-  selectedSpecialty: string = '';
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
-    this.fetchSpecialties();
-  }
-
-  fetchSpecialties() {
-    this.http.get<{ id: number; name: string }[]>('URL_DEL_BACKEND/specialties')
-      .subscribe(
-        (data) => {
-          this.specialties = data;
-        },
-        (error) => {
-          console.error('Error fetching specialties:', error);
-        }
-      );
-  }
-}*/
