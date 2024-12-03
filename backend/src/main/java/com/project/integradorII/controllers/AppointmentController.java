@@ -2,6 +2,7 @@ package com.project.integradorII.controllers;
 import com.project.integradorII.dto.appointment.AppointmentList;
 import com.project.integradorII.dto.appointment.AppointmentRequest;
 import com.project.integradorII.entities.MedicalAppointment;
+import com.project.integradorII.repositories.AppointmentStatusRepository;
 import com.project.integradorII.services.Imp.AppointmentServiceImp;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,15 @@ import java.util.List;
 public class AppointmentController {
 
     private final AppointmentServiceImp appointmentService;
+    private final AppointmentStatusRepository appointmentStatusRepository;
+
+    //Metodo para listar el estado por id
+    @GetMapping("/estado/{id}")
+    public ResponseEntity<?> getAppointmentStatusById(@PathVariable Long id){
+        return new ResponseEntity<>(this.appointmentStatusRepository.findById(id), HttpStatus.OK);
+    }
+
+
 
     //metodo para listar todas las citas
     @GetMapping("/listar")

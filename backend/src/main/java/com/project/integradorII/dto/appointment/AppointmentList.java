@@ -1,6 +1,5 @@
 package com.project.integradorII.dto.appointment;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -22,6 +21,7 @@ public record AppointmentList(
         @NotNull
         Double cost,
         @NotNull
-        Long statusId
+        Long statusId,
+        String status
 ) {
 }

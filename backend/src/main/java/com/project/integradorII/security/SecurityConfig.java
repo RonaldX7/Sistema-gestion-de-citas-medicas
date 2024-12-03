@@ -40,12 +40,17 @@ public class SecurityConfig {
                 .csrf(csrfConfigurer -> csrfConfigurer.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
+
                     //configurar los endpoints publicos
+
+                    http.requestMatchers(HttpMethod.GET, "/cita/estado/{id}").permitAll();
+
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/cita/listar").permitAll();
+                    http.requestMatchers(HttpMethod.GET,"/cita/paciente/{patient_id}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/medico/listar").permitAll();
