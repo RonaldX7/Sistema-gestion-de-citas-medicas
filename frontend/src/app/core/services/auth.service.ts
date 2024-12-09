@@ -3,6 +3,13 @@ import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { decode } from 'punycode';
+
+interface JwtPayload {
+  exp?: number;
+  sub?: string;
+  // Otras propiedades
+}
 
 
 @Injectable({
@@ -69,30 +76,49 @@ export class AuthService {
 
   // Método para guardar el token en localStorage
   private setToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
-    console.log('Token almacenado en localStorage:', localStorage.getItem(this.tokenKey)); // Confirmación en consola
+    sessionStorage.setItem(this.tokenKey, token);
+    console.log('Token almacenado en localStorage:', sessionStorage.getItem(this.tokenKey)); // Confirmación en consola
   }
 
   // Método para guardar el userId en localStorage
   private setUserId(userId: string): void {
-    localStorage.setItem(this.userIdKey, userId);
-    console.log('User ID almacenado en localStorage:', localStorage.getItem(this.userIdKey)); // Confirmación en consola
+    sessionStorage.setItem(this.userIdKey, userId);
+    console.log('User ID almacenado en localStorage:', sessionStorage.getItem(this.userIdKey)); // Confirmación en consola
   }
 
   // Método para obtener el token desde localStorage
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return sessionStorage.getItem(this.tokenKey);
   }
 
   // Método para obtener el userId desde localStorage
   getUserId(): string | null {
-    return localStorage.getItem(this.userIdKey);
+    return sessionStorage.getItem(this.userIdKey);
   }
 
   // Método para cerrar sesión
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.userIdKey);
+    sessionStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem(this.userIdKey);
     this.router.navigate(['/login']);
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    if(token){
+      try {
+        const decodedToken: JwtPayload = jwtDecode(token);
+        if (decodedToken?.exp && typeof decodedToken.exp === 'number') {
+        return decodedToken?.exp > Date.now() / 1000;
+        }else {
+          console.error('La propiedad "exp" no existe o no es un número en el token');
+          return false;
+        }
+      } catch (error) {
+        console.error('Error decodificando el token:', error);
+        return false;
+      }
+    }
+    return false;
   }
 }

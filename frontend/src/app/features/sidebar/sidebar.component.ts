@@ -19,7 +19,7 @@ export class SidebarComponent  {
   constructor(private router:Router){}
   logout(): void {
     // Lógica de cierre de sesión
-    localStorage.clear();
+    sessionStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }
 }
