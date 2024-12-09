@@ -1,30 +1,213 @@
+
+     <!-- Sidebar -->
+      <!-- Contenido principal -->
 <div class="container mx-auto px-4 py-6">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Lista de Citas</h1>
-  
-    <div class="grid gap-4">
-      <!-- Card for each appointment -->
-      <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
-        <div class="flex justify-between items-center mb-2">
-          <h2 class="text-xl font-semibold text-gray-700">Nombre del Paciente</h2>
-          <span class="text-sm text-gray-500">Fecha y Hora de la Cita</span>
+      <!-- Encabezado -->
+      <div class="bg-deepBlue text-white p-4 rounded-lg shadow-md mb-5">
+        <h2 class="text-2xl font-bold text-center uppercase">Mis Citas</h2>
+      </div>
+
+      <!-- Botones para alternar secciones -->
+      <div class="flex justify-center mb-4 space-x-4">
+        <button (click)="showProgramadas()" class="toggle-button w-1/2 bg-deepBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900" data-section="citasProgramadas">
+          Mis Citas Programadas
+        </button>
+        <button (click)="toMyHistorial()" class="toggle-button w-1/2 bg-deepBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900" data-section="historialCitas">
+          Mi Historial de Citas
+        </button>
+      </div>
+
+<ng-container *ngIf="showMisCitas; else historialView">
+        <!-- Sección: Mis Citas Programadas -->
+        <!-- Atención 1 -->
+       <div class="overflow-x-auto bg-transparent rounded-lg shadow-lg mt-6 max-h-[610px] overflow-y-auto px-4 lg:px-8">
+        <div *ngFor="let cita of citas" class="bg-white shadow-md rounded-lg p-3 border border-blue-900 mb-3">
+          <div class="mb-4">
+            <p class="text-lg font-bold text-blue-900">{{"DR. " + cita.doctorName}}</p>
+            <p class="text-gray-600">{{ "Hora: " + formatHour(cita.startTime) + " a " + formatHour(cita.endTime)}} </p>
+            <p class="text-gray-600">{{ "Fecha: " + cita.date | date: 'dd/MM/yyyy' }}</p>
+            <p class="text-gray-600">{{"Costo: " + cita.cost }}</p>
+          </div>
+          <div class="flex justify-between items-center border-t pt-4">
+            <div >
+              <p class="text-blue-900 text-sm font-bold mb-2">ESTADO:</p>
+              <span class="inline-block bg-gray-200 text-blue-900 font-semibold px-3 py-1 rounded-lg border border-blue-900">
+                {{ cita.status }}
+              </span>
+            </div>
+            <div class="flex space-x-6">
+              <button (click)="openReprogramModal()" class="bg-deepBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                REPROGRAMAR
+              </button>
+              <button (click)="openAnularModal()" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                ANULAR
+              </button>
+            </div>
+          </div>
         </div>
-  
-        <div class="text-gray-600 mb-4">
-          <p><span class="font-semibold">Médico:</span> Nombre del Médico</p>
-          <p><span class="font-semibold">Especialidad:</span> Especialidad del Médico</p>
-        </div>
-  
-        <div class="flex justify-end space-x-2">
-          <button 
-            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
-            Ver Detalles
-          </button>
-          <button 
-            class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50">
-            Cancelar
-          </button>
-        </div>
+      </div>  
+        
+        <!-- Modal de Confirmación para Reprogramar -->
+<div *ngIf="showReprogramModal && showMisCitas" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-3xl shadow-lg p-6 w-1/3 text-center"> <!-- Cambiado a rounded-3xl -->
+    <h3 class="text-lg font-bold text-blue-900 mb-4">¿Está seguro que desea reprogramar?</h3>
+    <div class="flex justify-center space-x-4">
+      <button
+        (click)="confirmReprogram()"
+        class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 focus:outline-none"> <!-- Cambiado a rounded-full -->
+        Sí
+      </button>
+      <button
+        (click)="closeReprogramModal()"
+        class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 focus:outline-none"> <!-- Cambiado a rounded-full -->
+        No
+      </button>
+    </div>
+  </div>
+</div>
+
+     <!-- Modal de Confirmación para Anular -->
+<div *ngIf="showAnularModal && showMisCitas" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-3xl shadow-lg p-6 w-1/3 text-center"> <!-- Cambiado a rounded-3xl -->
+    <h3 class="text-lg font-bold text-blue-900 mb-4">¿Está seguro que desea anular la cita?</h3>
+    <div class="flex justify-center space-x-4">
+      <button
+        (click)="confirmAnular()"
+        class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 focus:outline-none"> <!-- Cambiado a rounded-full -->
+        Sí
+      </button>
+      <button
+        (click)="closeAnularModal()"
+        class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 focus:outline-none"> <!-- Cambiado a rounded-full -->
+        No
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Cita Anulada Exitosamente -->
+<div *ngIf="showAnuladaSuccessModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-3xl shadow-lg p-6 w-1/3 text-center"> <!-- Cambiado a rounded-3xl -->
+    <!-- Imagen de éxito -->
+    <div class="mb-4">
+      <img src="/check.png" alt="Confirmación" class="w-16 h-16 mx-auto">
+    </div>
+    <p class="text-gray-700 mb-4">La cita ha sido anulada exitosamente.</p>
+    <button
+      (click)="closeAnuladaSuccessModal()"
+      class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 focus:outline-none"> <!-- Cambiado a rounded-full -->
+      Aceptar
+    </button>
+  </div>
+</div>
+
+</ng-container>
+
+
+
+<!-- Sección: Mi Historial de Citas -->
+<ng-template #historialView>
+  <div id="historialCitas">
+    <div class="bg-white shadow-md  p-6 border border-blue-900 rounded-xl">
+      <h3 class="text-lg font-bold mb-4">Historial de Citas</h3>
+      <table class="w-full border-collapse border border-gray-300 rounded-lg overflow-hidden">
+        <thead>
+          <tr class="bg-deepBlue text-white">
+            <th class="py-2 px-4 border">Fecha</th>
+            <th class="py-2 px-4 border">Hora</th>
+            <th class="py-2 px-4 border">Médico</th>
+            <th class="py-2 px-4 border">Estado</th>
+            <th class="py-2 px-4 border">Orden Médica</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="py-2 px-4 border">10-09-24</td>
+            <td class="py-2 px-4 border">10:36 AM</td>
+            <td class="py-2 px-4 border">Juan Antonio Santos</td>
+            <td class="py-2 px-4 border">Atendido</td>
+            <td class="py-2 px-4 border text-center">
+              <button (click)="openModal()" class="bg-deepBlue text-white px-4 py-1 rounded hover:bg-blue-400 flex items-center justify-center mx-auto">
+                Diagnóstico
+                <img src="/lupa.png" alt="Lupa" class="w-5 ml-2" />
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2 px-4 border">15-09-24</td>
+            <td class="py-2 px-4 border">02:45 PM</td>
+            <td class="py-2 px-4 border">Ana María López</td>
+            <td class="py-2 px-4 border">Cancelado</td>
+            <td class="py-2 px-4 border text-center">
+              <button (click)="openModal()" class="bg-deepBlue text-white px-4 py-1 rounded hover:bg-blue-400 flex items-center justify-center mx-auto">
+                Diagnóstico
+                <img src="/lupa.png" alt="Lupa" class="w-5 ml-2" />
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2 px-4 border">20-10-24</td>
+            <td class="py-2 px-4 border">11:15 AM</td>
+            <td class="py-2 px-4 border">Carlos Ramírez</td>
+            <td class="py-2 px-4 border">Pendiente</td>
+            <td class="py-2 px-4 border text-center">
+              <button (click)="openModal()" class="bg-deepBlue text-white px-4 py-1 rounded hover:bg-blue-400 flex items-center justify-center mx-auto">
+                Diagnóstico
+                <img src="/lupa.png" alt="Lupa" class="w-5 ml-2" />
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2 px-4 border">05-11-24</td>
+            <td class="py-2 px-4 border">08:30 AM</td>
+            <td class="py-2 px-4 border">Katherine Obregón</td>
+            <td class="py-2 px-4 border">Atendido</td>
+            <td class="py-2 px-4 border text-center">
+              <button (click)="openModal()" class="bg-deepBlue text-white px-4 py-1 rounded hover:bg-blue-400 flex items-center justify-center mx-auto">
+                Diagnóstico
+                <img src="/lupa.png" alt="Lupa" class="w-5 ml-2" />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-gray-400 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-1/2">
+      <div class="border text-c bg-blue-900 rounded-lg p-4 mb-4"> <!-- Cuadro azul para el título -->
+      <h3 class="text-lg font-bold text-white">Detalles de la Orden</h3>
+      </div>
+    <div class="flex justify-between gap-6"> <!-- Añadido gap para mayor separación -->
+      <div class="w-1/2 p-4 border border-blue-900 rounded-lg"> <!-- Borde azul añadido -->
+        <h4 class="font-bold text-center text-blue-900">RECETA</h4>
+        <p><strong>Diagnóstico:</strong> Trastorno de Ansiedad Avanzado</p>
+        <p><strong>Sertralina 50 mg</strong></p>
+        <ul>
+          <li>Tomar 1 comprimido al día por la mañana.</li>
+          <li>Incrementar la dosis a 100 mg al cabo de 2 semanas.</li>
+        </ul>
+        <p><strong>Alprazolam 0.25 mg</strong></p>
+        <ul>
+          <li>Tomar 1 comprimido dos veces al día.</li>
+          <li class="text-red-500">No exceder la dosis recomendada.</li>
+        </ul>
+        <p>Dra. Katherine N. Obregón C.</p>
+      </div>
+      <div class="w-1/2 p-4 border border-blue-900 rounded-lg"> <!-- Borde azul añadido -->
+        <h4 class="font-bold text-center text-blue-900">NOTA</h4>
+        <p><strong>Descripción:</strong></p>
+        <p>Instrucciones de uso: Tomar según indicaciones médicas.</p>
+        <p class="text-red-500">Precauciones: No exceder la dosis para evitar daños hepáticos.</p>
+        <p>Puede causar reacciones alérgicas en casos raros.</p>
+      </div>
+    </div>
+      <div class="mt-4 text-right">
+      <button (click)="closeModal()" class="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 focus:outline-none">Cerrar</button>
       </div>
     </div>
   </div>
-    
+</div>

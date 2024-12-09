@@ -13,7 +13,7 @@ import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.repositories.UserRepository;
 import com.project.integradorII.security.util.JwtUtils;
 import com.project.integradorII.services.EmailService;
-import com.project.integradorII.services.HistoryRecuperationRepository;
+import com.project.integradorII.repositories.HistoryRecuperationRepository;
 import com.project.integradorII.services.UserService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import utilitarian.RandomCodeGenerator;
+import com.project.integradorII.utilitarian.RandomCodeGenerator;
 
 import java.io.BufferedReader;
 import java.io.IOException;

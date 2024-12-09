@@ -1,4 +1,4 @@
-package com.project.integradorII.services;
+package com.project.integradorII.repositories;
 
 import com.project.integradorII.entities.HistoryRecuperation;
 import org.springframework.data.jpa.repository.JpaRepository;

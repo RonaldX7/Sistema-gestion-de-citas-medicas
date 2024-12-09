@@ -4,7 +4,6 @@ import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -86,7 +85,7 @@ export class AuthService {
 
   // Método para obtener el userId desde localStorage
   getUserId(): string | null {
-    return localStorage.getItem(this.userIdKey);
+      return localStorage.getItem(this.userIdKey); // Cambia "userIdKey" si tiene otro nombre
   }
 
   // Método para cerrar sesión

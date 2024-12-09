@@ -11,6 +11,7 @@ import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.services.PatientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class PatientServiceImp implements PatientService {
     private final RoleRepository rolRepository;
     private final GenderRepository genderRepository;
     private final DistrictRepository districtRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -40,7 +42,10 @@ public class PatientServiceImp implements PatientService {
                     patientEntity.getDni(),
                     patientEntity.getName(),
                     patientEntity.getLastName(),
+                    patientEntity.getAddress().getStreet(),
                     patientEntity.getGender().getId(), //Aqui se obtiene el id del genero
+                    patientEntity.getAddress().getDistrict().getId(), //Aqui se obtiene el id del distrito
+                    patientEntity.getPhone(),
                     patientEntity.getEmail()
             );
 
@@ -61,7 +66,10 @@ public class PatientServiceImp implements PatientService {
                 patientEntity.getDni(),
                 patientEntity.getName(),
                 patientEntity.getLastName(),
-                patientEntity.getGender().getId(), //Aqui se obtiene el id del genero
+                patientEntity.getAddress().getStreet(),
+                patientEntity.getGender().getId(),//Aqui se obtiene el id del genero
+                patientEntity.getAddress().getDistrict().getId(),//Aqui se obtiene el id del distrito
+                patientEntity.getPhone(),
                 patientEntity.getEmail()
         ));
 
@@ -75,13 +83,20 @@ public class PatientServiceImp implements PatientService {
         //Buscar paciente por id
         PatientEntity patientEntity = patientRepository.findByUserId(userId);
 
+        if (patientEntity == null) {
+            throw new RuntimeException("El paciente no existe");
+        }
+
         //Mapeando lista de pacientes
         List<PatientList> patientLists = List.of(new PatientList(
                 patientEntity.getId(),
                 patientEntity.getDni(),
                 patientEntity.getName(),
                 patientEntity.getLastName(),
-                patientEntity.getGender().getId(), //Aqui se obtiene el id del genero
+                patientEntity.getAddress().getStreet(),
+                patientEntity.getGender().getId(),//Aqui se obtiene el id del genero
+                patientEntity.getAddress().getDistrict().getId(),//Aqui se obtiene el id del distrito
+                patientEntity.getPhone(),
                 patientEntity.getEmail()
         ));
 
@@ -161,11 +176,10 @@ public class PatientServiceImp implements PatientService {
         DistrictEntity districtEntity = districtRepository.findById(patientUpdate.districtId())
                 .orElseThrow(() -> new RuntimeException("El distrito no existe"));
 
-        //Actualiza la direccion
-        AddressEntity addressEntity = patientUpdate.address() != null ? AddressEntity.builder()
-                .street(patientUpdate.address())
-                .district(districtEntity)
-                .build() : patientEntity.getAddress();
+        //Actualizar la direccion
+        AddressEntity addressEntity = patientEntity.getAddress();
+        addressEntity.setStreet(patientUpdate.address());
+        addressEntity.setDistrict(districtEntity);
 
 
         //Actualizar los datos del paciente
@@ -178,7 +192,7 @@ public class PatientServiceImp implements PatientService {
         //actualizar los datos del usuario
         UserEntity user = patientEntity.getUser();
         if (patientUpdate.password() != null && !patientUpdate.password().equals(user.getPassword())) {
-            user.setPassword(patientUpdate.password());
+            user.setPassword(passwordEncoder.encode(patientUpdate.password()));
         }
 
         return patientRepository.save(patientEntity);

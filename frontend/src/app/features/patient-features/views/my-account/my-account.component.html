@@ -1,0 +1,141 @@
+<div class="container mx-auto px-4 py-4">
+  <div
+    class="max-w-4xl mx-auto bg-blue-900 text-white text-center py-4 rounded-md mb-8 shadow-xl"
+  >
+    <h1 class="text-2xl font-bold">MI CUENTA</h1>
+  </div>
+
+  <!-- Formulario -->
+  <form
+    class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-y-6 gap-x-6 p-8 bg-white shadow-lg rounded-lg"
+    (ngSubmit)="updatePatient()"
+    #form="ngForm"
+    >
+    <!-- Tipo de documento -->
+    <div class="md:col-span-3 col-span-1">
+      <label class="block text-sm font-medium text-gray-600"
+        >Tipo de documento</label
+      >
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        value="DNI" disabled
+      />
+    </div>
+    <!-- N° DNI -->
+    <div class="md:col-span-4 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">N° DNI</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]" disabled
+        [(ngModel)]="patientData.dni"
+        name="dni"
+        />
+    </div>
+    <!-- Nombres -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Nombres</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.name"
+        name="name"
+      />
+    </div>
+    <!-- Apellidos -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Apellidos</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.lastName"
+        name="lastName"
+      />
+    </div>
+    <!-- phone -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">N° Telefono</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.phone"
+        name="phone"
+      />
+    </div>
+    <!-- Email -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">E-mail</label>
+      <input
+        type="email"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.email"
+        name="email"
+      />
+    </div>
+    <!-- Departamento -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Departamento</label>
+      <select
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        id="department" (change)="onDepartmentChange($event)" required
+        >
+        <option value="" disabled selected>Seleccione un departamento</option>
+        <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
+      </select>
+    </div>
+    <!-- Distrito -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Distrito</label>
+      <select
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        id="district" [(ngModel)]="patientData.districtId" name="districtId" required
+        >
+        <option value="" disabled selected>Seleccione</option>
+        <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
+      </select>
+    </div>
+    <!-- Dirección -->
+    <div class="md:col-span-12 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Dirección</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.address"
+        name="address"
+      />
+    </div>
+    <!-- Contraseñas -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600"
+        >Contraseña nueva</label
+      >
+      <input
+        type="password"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.newPassword"
+        name="newPassword"
+      />
+    </div>
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600"
+        >Confirmar contraseña nueva</label
+      >
+      <input
+        type="password"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.confirmPassword"
+        name="confirmPassword"
+      />
+    </div>
+    <!-- Botón para contraseñas -->
+    <div class="col-span-1 md:col-span-12 flex justify-center">
+      <button
+        type="submit"
+        class="bg-blue-900 text-white px-10 py-3 rounded-full shadow-md hover:bg-blue-400 transition"
+      >
+        ACTUALIZAR
+      </button>
+    </div>
+  </form>
+</div>
+

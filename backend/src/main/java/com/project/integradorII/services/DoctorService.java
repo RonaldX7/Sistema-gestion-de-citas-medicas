@@ -10,9 +10,11 @@ import java.util.List;
 public interface DoctorService {
 
     List<DoctorList> ListAllDoctors();
-    List<DoctorList> ListById(Long id);
+    List<DoctorList> ListByUserId(Long userId);
     List<DoctorList> ListAllDoctorsBySpecialty(Long specialty_id);
     DoctorEntity createDoctor(DoctorRequest doctorRequest);
     DoctorEntity updateDoctor(Long id, DoctorUpdate doctorUpdate);
     void deleteDoctor(Long id);
+    void assignScheduleToDoctor(Long doctorId, List<Long> scheduleIds);
+    void updateScheduleToDoctor(Long doctorId, List<Long> scheduleIds);
 }

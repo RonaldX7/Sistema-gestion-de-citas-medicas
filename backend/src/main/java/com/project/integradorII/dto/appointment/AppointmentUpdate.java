@@ -1,6 +1,9 @@
 package com.project.integradorII.dto.appointment;
 
-public record AppointmentUpdate(
+import java.time.LocalDate;
 
+public record AppointmentUpdate(
+        LocalDate date,
+        Long scheduleId
 ) {
 }
