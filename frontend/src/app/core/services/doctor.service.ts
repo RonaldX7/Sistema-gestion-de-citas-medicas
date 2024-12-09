@@ -40,5 +40,9 @@ export class DoctorService {
   updateDoctor(id:string, doctorData:any): Observable<any>{
     return this.httpClient.put<any>(`${this.doctorUrl}/actualizar/${id}`,doctorData);
   }
+
+  deleteDoctor(id:string): Observable<any>{
+    return this.httpClient.delete<any>(`${this.doctorUrl}/eliminar/${id}`);
+  }
   
 }
