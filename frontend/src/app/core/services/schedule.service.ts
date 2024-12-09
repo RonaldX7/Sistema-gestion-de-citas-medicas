@@ -19,6 +19,10 @@ export class ScheduleService {
   private baseURL = 'http://localhost:8080/horarios/listar';
   constructor(private httpClient: HttpClient) {}
 
+  getSchedules(): Observable<Schedule[]> {
+    return this.httpClient.get<Schedule[]>(this.baseURL);
+  }
+
   getScheduleForDoctor(doctor_id:string): Observable<Schedule[]> {
     const url = `${this.baseURL}/${doctor_id}`;
     return this.httpClient.get<Schedule[]>(url);

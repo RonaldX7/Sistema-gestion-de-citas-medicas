@@ -1,202 +1,141 @@
-<div>
+<div class="container mx-auto px-4 py-4">
+  <div
+    class="max-w-4xl mx-auto bg-blue-900 text-white text-center py-4 rounded-md mb-8 shadow-xl"
+  >
+    <h1 class="text-2xl font-bold">MI CUENTA</h1>
+  </div>
 
-      <div class="container mx-auto px-4 py-6">
-        <div class="w-full bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
-          <div class="bg-deepBlue text-white text-center py-4 rounded-md mb-4">
-            <h1 class="text-2xl font-bold">MI CUENTA</h1>
-          </div>
-  
-          <!-- Formulario -->
-          <form class="grid grid-cols-12 gap-y-2 gap-x-6">
-            <!-- Tipo de documento -->
-            <div class="col-span-4">
-              <label class="block text-sm font-medium text-gray-600">Tipo de documento</label>
-              <input
-                type="text"
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-                value="DNI"
-              />
-            </div>
-            <!-- N° DNI -->
-            <div class="col-span-4">
-              <label class="block text-sm font-medium text-gray-600">N° DNI</label>
-              <input
-                type="text"
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-                value="xxxxxxxx"
-              />
-            </div>
-            <!-- Sexo -->
-            <div class="col-span-4">
-              <label class="block text-sm font-medium text-gray-600">Sexo</label>
-              <select
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-              >
-                <option>Masculino</option>
-                <option>Femenino</option>
-              </select>
-            </div>
-            <!-- Nombres -->
-            <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-600"
-                >Nombres</label
-              >
-              <input
-                type="text"
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-                value="xxxxxxxxx"
-              />
-            </div>
-            <!-- Apellidos -->
-            <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-600"
-                >Apellidos</label
-              >
-              <input
-                type="text"
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-                value="xxxxxxxxx"
-              />
-            </div>
-            <!-- Fecha de nacimiento -->
-            <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-600"
-                >Fecha de Nacimiento</label
-              >
-              <input
-                type="date"
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-                value="1998-04-27"
-              />
-            </div>
-            <!-- Email -->
-            <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-600"
-                >E-mail</label
-              >
-              <input
-                type="email"
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-                value="xxxxxxxxxx"
-              />
-            </div>
-            <!-- Distrito -->
-            <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-600"
-                >Distrito</label
-              >
-              <select
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-              >
-                <option>Ancón</option>
-              </select>
-            </div>
-            <!-- Provincia -->
-            <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-600"
-                >Provincia</label
-              >
-              <select
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-              >
-                <option>Lima Metropolitana</option>
-              </select>
-            </div>
-            <!-- Dirección -->
-            <div class="col-span-12">
-              <label class="block text-sm font-medium text-gray-600"
-                >Dirección</label
-              >
-              <input
-                type="text"
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none hover:bg-blue-900 transition duration-300"
-                value="xxxxxxxxxx"
-              />
-            </div>
-            <!-- Botones -->
-            <div class="col-span-12 flex justify-center mt-2">
-              <button
-                type="button"
-                (click)="showUpdateModal()"
-                class="bg-deepBlue text-white px-8 py-2 rounded-md shadow-md hover:bg-blue-900 transition duration-300"
-              >
-                Actualizar Datos
-              </button>
-            </div>
-  
-            <!-- Contraseñas -->
-            <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-600"
-                >Contraseña nueva</label
-              >
-              <input
-                type="text"
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-                value="xxxxxxxxx"
-              />
-            </div>
-            <div class="col-span-6">
-              <label class="block text-sm font-medium text-gray-600"
-                >Confirmar contraseña nueva</label
-              >
-              <input
-                type="text"
-                class="mt-1 block w-full rounded-md border-2 border-blue-900 bg-gray-200 text-gray-600 shadow-sm focus:outline-none focus:border-blue-900"
-                value="xxxxxxxxx"
-              />
-            </div>
-            <!-- Botón para contraseñas -->
-            <div class="col-span-12 flex justify-center mt-2">
-              <button
-                type="button"
-                (click)="showPasswordModal()"
-                class="bg-deepBlue  focus:border-blue-900 text-white px-8 py-2 rounded-md shadow-md"
-              >
-                Actualizar Contraseña
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-</div>
-  
-    <!-- Modal Actualizar Datos -->
-<div
-      *ngIf="showUpdateModalFlag"
-      class="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+  <!-- Formulario -->
+  <form
+    class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-y-6 gap-x-6 p-8 bg-white shadow-lg rounded-lg"
+    (ngSubmit)="updatePatient()"
+    #form="ngForm"
     >
-      <div class="bg-white p-8 rounded-lg shadow-md text-center">
-        <!-- Imagen de éxito -->
-        <div class="mb-4">
-          <img src="/check.png" alt="Confirmación" class="w-16 h-16 mx-auto" />
-        </div>
-        <p class="text-lg font-medium mb-4">¡Datos actualizados correctamente!</p>
-        <button
-          (click)="closeModal()"
-          class="bg-blue-900 text-white px-6 py-2 rounded-md shadow-md"
+    <!-- Tipo de documento -->
+    <div class="md:col-span-3 col-span-1">
+      <label class="block text-sm font-medium text-gray-600"
+        >Tipo de documento</label
+      >
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        value="DNI" disabled
+      />
+    </div>
+    <!-- N° DNI -->
+    <div class="md:col-span-4 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">N° DNI</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]" disabled
+        [(ngModel)]="patientData.dni"
+        name="dni"
+        />
+    </div>
+    <!-- Nombres -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Nombres</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.name"
+        name="name"
+      />
+    </div>
+    <!-- Apellidos -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Apellidos</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.lastName"
+        name="lastName"
+      />
+    </div>
+    <!-- phone -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">N° Telefono</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.phone"
+        name="phone"
+      />
+    </div>
+    <!-- Email -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">E-mail</label>
+      <input
+        type="email"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.email"
+        name="email"
+      />
+    </div>
+    <!-- Departamento -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Departamento</label>
+      <select
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        id="department" (change)="onDepartmentChange($event)" required
         >
-          Aceptar
-        </button>
-      </div>
-</div>
-  
-    <!-- Modal Actualizar Contraseña -->
-<div
-      *ngIf="showPasswordModalFlag"
-      class="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-    >
-      <div class="bg-white p-8 rounded-lg shadow-md text-center">
-        <div class="mb-4">
-          <img src="/check.png" alt="Confirmación" class="w-16 h-16 mx-auto" />
-        </div>
-        <p class="text-lg font-medium mb-4">
-          ¡Contraseña actualizada correctamente!
-        </p>
-        <button
-          (click)="closeModal()"
-          class="bg-blue-900 text-white px-6 py-2 rounded-md shadow-md"
+        <option value="" disabled selected>Seleccione un departamento</option>
+        <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
+      </select>
+    </div>
+    <!-- Distrito -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Distrito</label>
+      <select
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        id="district" [(ngModel)]="patientData.districtId" name="districtId" required
         >
-          Aceptar
-        </button>
-      </div>
+        <option value="" disabled selected>Seleccione</option>
+        <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
+      </select>
+    </div>
+    <!-- Dirección -->
+    <div class="md:col-span-12 col-span-1">
+      <label class="block text-sm font-medium text-gray-600">Dirección</label>
+      <input
+        type="text"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.address"
+        name="address"
+      />
+    </div>
+    <!-- Contraseñas -->
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600"
+        >Contraseña nueva</label
+      >
+      <input
+        type="password"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.newPassword"
+        name="newPassword"
+      />
+    </div>
+    <div class="md:col-span-6 col-span-1">
+      <label class="block text-sm font-medium text-gray-600"
+        >Confirmar contraseña nueva</label
+      >
+      <input
+        type="password"
+        class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+        [(ngModel)]="patientData.confirmPassword"
+        name="confirmPassword"
+      />
+    </div>
+    <!-- Botón para contraseñas -->
+    <div class="col-span-1 md:col-span-12 flex justify-center">
+      <button
+        type="submit"
+        class="bg-blue-900 text-white px-10 py-3 rounded-full shadow-md hover:bg-blue-400 transition"
+      >
+        ACTUALIZAR
+      </button>
+    </div>
+  </form>
 </div>
+
