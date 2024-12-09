@@ -15,4 +15,6 @@ public interface DoctorService {
     DoctorEntity createDoctor(DoctorRequest doctorRequest);
     DoctorEntity updateDoctor(Long id, DoctorUpdate doctorUpdate);
     void deleteDoctor(Long id);
+    void assignScheduleToDoctor(Long doctorId, List<Long> scheduleIds);
+    void updateScheduleToDoctor(Long doctorId, List<Long> scheduleIds);
 }

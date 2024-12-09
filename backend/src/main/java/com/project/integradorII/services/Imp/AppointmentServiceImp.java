@@ -2,6 +2,8 @@ package com.project.integradorII.services.Imp;
 
 import com.project.integradorII.dto.appointment.AppointmentList;
 import com.project.integradorII.dto.appointment.AppointmentRequest;
+import com.project.integradorII.dto.appointment.AppointmentUpdate;
+import com.project.integradorII.dto.appointment.DiagnosisRequest;
 import com.project.integradorII.entities.*;
 import com.project.integradorII.repositories.*;
 import com.project.integradorII.services.AppointmentService;
@@ -23,6 +25,8 @@ public class AppointmentServiceImp implements AppointmentService {
     private final ScheduleRepository scheduleRepository;
     private final AppointmentStatusRepository appointmentStatusRepository;
     private final AppointmentCostRepository appointmentCostRepository;
+    private final MedicalDiagnosisRepository diagnosisRepository;
+    private final MedicalHistoryRepository medicalHistoryRepository;
 
     private List<AppointmentList> getAppointmentLists(Stream<MedicalAppointment> stream, List<MedicalAppointment> appointments) {
         List<AppointmentList> appointmentLists = stream
@@ -132,4 +136,85 @@ public class AppointmentServiceImp implements AppointmentService {
 
         return saveMedicalAppointment;
     }
+
+    @Override
+    public MedicalAppointment updateAppointment(Long id, AppointmentUpdate appointmentUpdate) {
+
+        //Validar si la cita existe
+        MedicalAppointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("La cita no existe"));
+
+        //Validar si el horario existe
+        DoctorSchedule schedule = scheduleRepository.findById(appointmentUpdate.scheduleId())
+                .orElseThrow(() -> new IllegalArgumentException("El horario no existe"));
+
+        //Validar que no exista una cita en la misma fecha y horario
+        if (appointmentRepository
+                .existsByDateAndAndStartTimeAndAndEndTime(appointmentUpdate.date(), schedule.getHourStart(), schedule.getHourEnd())) {
+            throw new IllegalArgumentException("Ya existe una cita en la misma fecha y hora");
+        }
+
+        //Reprogramar cita
+        appointment.setDate(appointmentUpdate.date());
+        appointment.setStartTime(schedule.getHourStart());
+        appointment.setEndTime(schedule.getHourEnd());
+
+        //Guardar la cita medica
+        return appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public MedicalDiagnosis createDiagnosis(Long appointmentId, DiagnosisRequest diagnosisRequest) {
+        //Validar si la cita existe
+        MedicalAppointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new IllegalArgumentException("La cita no existe"));
+
+        //Crear el diagnostico
+        MedicalDiagnosis diagnosis = MedicalDiagnosis.builder()
+                .medicalAppointment(appointment)
+                .diagnosis(diagnosisRequest.diagnosis())
+                .istructions(diagnosisRequest.istructions())
+                .build();
+
+        //Guardar el diagnostico
+        diagnosisRepository.save(diagnosis);
+
+        //Cambiar el estado de la cita
+        AppointmentStatus appointmentStatus = appointmentStatusRepository.findById(2L)
+                .orElseThrow(() -> new IllegalArgumentException("El estado de la cita no existe"));
+
+        appointment.setStatus(appointmentStatus);
+        appointmentRepository.save(appointment);
+
+        //Creamos un historial médico
+        MedicalHistory medicalHistory = MedicalHistory.builder()
+                .patient(appointment.getPatient())
+                .medicalAppointment(appointment)
+                .description(diagnosisRequest.diagnosis())
+                .build();
+
+        //Guardar el historial médico
+        medicalHistoryRepository.save(medicalHistory);
+
+        return diagnosis;
+    }
+
+    @Override
+    public void cancelAppointment(Long id, Long statusId) {
+            //Validar si la cita existe
+            MedicalAppointment appointment = appointmentRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("La cita no existe"));
+
+            //Validar si el estado de la cita existe
+            AppointmentStatus appointmentStatus = appointmentStatusRepository.findById(statusId)
+                    .orElseThrow(() -> new IllegalArgumentException("El estado de la cita no existe"));
+
+            //Cancelar la cita
+            appointment.setStatus(appointmentStatus);
+
+            //Guardar la cita medica
+            appointmentRepository.save(appointment);
+    }
+
+
 }

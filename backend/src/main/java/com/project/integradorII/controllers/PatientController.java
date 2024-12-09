@@ -49,31 +49,49 @@ public class PatientController {
     //metodo para listar pacientes
     @GetMapping("/listar")
     public ResponseEntity<List<PatientList>>ListAllPatients(){
-        return new ResponseEntity<>(this.patientService.ListAllPatients(), HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(this.patientService.ListAllPatients(),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     //metodo para listar paciente por dni
-    @GetMapping("/listar/dni/{dni}")
+    @GetMapping("/buscar/{dni}")
     public ResponseEntity<PatientEntity> ListPatientByDni(@PathVariable String dni){
+        if (dni == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(this.patientRepository.findByDni(dni),HttpStatus.OK);
     }
 
     //metodo para listar pacientes por id
     @GetMapping("/{id}")
     public ResponseEntity<List<PatientList>> ListPatientById(@PathVariable Long id){
-        return new ResponseEntity<>(this.patientService.ListById(id),HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(this.patientService.ListById(id),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //metodo para listar paciente por user id
-    @GetMapping("/listar/{id}")
-    public ResponseEntity<List<PatientList>> ListPatientByUserId(@PathVariable Long id){
-        return new ResponseEntity<>(this.patientService.ListPatientByUserId(id),HttpStatus.OK);
+    @GetMapping("/listar/{userId}")
+    public ResponseEntity<List<PatientList>> ListPatientByUserId(@PathVariable Long userId){
+        if (userId == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(this.patientService.ListPatientByUserId(userId),HttpStatus.OK);
     }
 
     //metodo para actualizar paciente
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<PatientEntity> updatePatient(@PathVariable Long id, @RequestBody @Valid PatientUpdate patientUpdate){
-        return new ResponseEntity<>(this.patientService.updatePatient(id,patientUpdate),HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(this.patientService.updatePatient(id, patientUpdate),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //eliminar el paciente

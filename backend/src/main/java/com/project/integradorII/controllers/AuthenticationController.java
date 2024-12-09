@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -39,13 +40,21 @@ public class AuthenticationController {
     //metodo para crear paciente
     @PostMapping("/registrar")
     public ResponseEntity<PatientEntity> createPatient(@RequestBody @Valid PatientCreate patientCreate) {
-        return new ResponseEntity<>(this.patientService.createPatient(patientCreate), HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(this.patientService.createPatient(patientCreate), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     //metodo para logearse
     @PostMapping("/log-in")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
-        return new ResponseEntity<>(this.userService.loginUser(loginRequest), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(this.userService.loginUser(loginRequest), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     //metodo para recuperar contraseña
