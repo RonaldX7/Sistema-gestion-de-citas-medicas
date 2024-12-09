@@ -3,9 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DoctorService } from '../../../../core/services/doctor.service';
-import Swal from 'sweetalert2';
+import { ScheduleService } from '../../../../core/services/schedule.service';
 import { SpecialtyService } from '../../../../core/services/specialty.service';
 import { Doctor } from '../../../../Models/doctor.model';
+import Swal from 'sweetalert2';
 
 interface UDoctor {
   id: string;
@@ -27,6 +28,7 @@ interface UDoctor {
 
 export class AddDocComponent implements OnInit {
   searchName: string = '';
+  schedules: any[] = [];
   specialties: any[] = [];
   selectedSpecialty: string = '';
   doctorId: string | null = null;
@@ -46,6 +48,7 @@ export class AddDocComponent implements OnInit {
     password:'',
     cmp:'',
     specialty: '',
+    schedulesIds: [] as number[],
     roleId: 3
   };
 
@@ -63,13 +66,42 @@ export class AddDocComponent implements OnInit {
 
   fieldErrors: { [key: string]: string } = {};
 
-  constructor(private doctorService:DoctorService, private specialtyService:SpecialtyService, private router: Router){}
+  constructor(
+    private doctorService:DoctorService, 
+    private specialtyService:SpecialtyService, 
+    private scheduleService:ScheduleService,
+    private router: Router){}
 
   ngOnInit(): void {
+    this.loadSchedules();
     this.loadDoctors();
     this.loadSpecialties();
     this.filteredDoctors = this.doctors;
     
+  }
+
+  loadSchedules(): void {
+    this.scheduleService.getSchedules().subscribe(
+      (data) => {
+        console.log('Horarios cargados:', data);
+        this.schedules = data;
+      },
+      (error) => {
+        console.error('Error al cargar horarios', error);
+      }
+    );
+  }
+
+  toggleScheduleSelection(scheduleId: number, event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    const index = this.newDoctor.schedulesIds.indexOf(scheduleId);
+    if (isChecked && index === -1) {
+      // Agregar el ID si no está presente y el checkbox está marcado
+      this.newDoctor.schedulesIds.push(scheduleId);
+    } else if (!isChecked && index > -1) {
+      // Eliminar el ID si ya está presente y el checkbox está desmarcado
+      this.newDoctor.schedulesIds.splice(index, 1);
+    }
   }
 
   loadSpecialties(): void {
@@ -143,7 +175,7 @@ export class AddDocComponent implements OnInit {
     this.showModal = true;
     if (editMode && doctor) {
       this.doctorId = doctor.id;
-      this.doctorUpdate = { ...doctor };
+      this.doctorUpdate = { ...doctor};
     } else {
       this.doctorId = null;
       this.doctorUpdate = {
@@ -175,6 +207,7 @@ export class AddDocComponent implements OnInit {
       password:'',
       cmp:'',
       specialty: '',
+      schedulesIds: [],
       roleId: 3
     };
     //this.fieldErrors = { cmp: '', nombre:'', apellido:'' ,phone: '', email: '', specialty: '' };
