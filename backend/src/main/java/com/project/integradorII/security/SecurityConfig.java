@@ -60,6 +60,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/horarios/registrar").permitAll();
 
                     //Endpoints de las citas medicas
+                    http.requestMatchers(HttpMethod.GET, "/horarios/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/cita/estado/{id}").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
@@ -70,7 +71,6 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.PUT, "/cita/diagnostico/{appoinmentId}").permitAll();
                     http.requestMatchers(HttpMethod.PUT, "/cita/reprogramar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.PUT, "/cita/cancelar/{id}/{statusId}").permitAll();
-
 
                     //Endpoints del administrador
 
