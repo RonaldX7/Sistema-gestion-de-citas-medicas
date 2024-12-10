@@ -91,7 +91,7 @@
 
 <!-- Modal para agregar -->
 <div *ngIf="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 max-h-full overflow-y-auto">
     <h2 class="text-2xl font-bold mb-4 text-deepBlue">
       {{ isEditing ? 'Editar Doctor' : 'Agregar Nuevo Doctor' }}
     </h2>
@@ -136,6 +136,18 @@
         </select>
         <div *ngIf="fieldErrors['specialty']" class="text-red-500 text-sm">
           La especialidad es obligatoria.
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Horarios</label>
+        <div class="p-2 grid grid-cols-3 gap-3">
+          <div *ngFor="let schedule of schedules; index as i" class="flex items-center">
+            <input type="checkbox" 
+            [checked]="newDoctor.schedulesIds.includes(schedule.id)"
+            (change)="toggleScheduleSelection(schedule.id, $event)"
+            [name]="'scheduleIds' + i" class="mr-2">
+            {{ schedule.startHour }} - {{ schedule.endHour }}
+          </div>
         </div>
       </div>
       <div class="mb-4">

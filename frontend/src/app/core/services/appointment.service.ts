@@ -20,9 +20,8 @@ export interface Appointment  {
   providedIn: 'root'
 })
 export class AppointmentService {
-  private appointment_url = 'http://localhost:8080/cita/paciente';
-  private APPOINTMENT_URL = 'http://localhost:8080/cita/registrar';
-  private citas_url='http://localhost:8080/cita/listar';
+  private APPOINTMENT_URL = 'http://localhost:8080/cita';
+  //private citas_url='http://localhost:8080/cita/listar';
   //private citas_patient= 'const url = `${this.baseURL}/${doctor_id}`;'
   
   constructor(private httpClient: HttpClient,
@@ -30,11 +29,15 @@ export class AppointmentService {
   ) {}
 
   appointment(userData: any): Observable<any> {
-    return this.httpClient.post<any>(this.APPOINTMENT_URL, userData);
+    return this.httpClient.post<any>(`${this.APPOINTMENT_URL}/registrar`, userData);
+  }
+
+  getAppointmentStatus(): Observable<any> {
+    return this.httpClient.get<any>(`${this.APPOINTMENT_URL}/estados`);
   }
 
   getCitasByPatientId(patient_id: string): Observable<any> {
-    const url = `${this.appointment_url}/${patient_id}`;
+    const url = `${this.APPOINTMENT_URL}/paciente/${patient_id}`;
     return this.httpClient.get<any>(url).pipe(
       tap((response) => {
         console.log('Respuesta de la API:', response); // Verifica si `statusName` está presente en la respuesta
@@ -42,7 +45,26 @@ export class AppointmentService {
     );
   }
   getCitas(){
-    return this.httpClient.get<any>(this.citas_url);
+    return this.httpClient.get<any>(`${this.APPOINTMENT_URL}/listar`);
+  }
+
+  getCitasByDoctorId(doctor_id: string): Observable<any> {
+    const url = `${this.APPOINTMENT_URL}/doctor/${doctor_id}`;
+    return this.httpClient.get<any>(url).pipe(
+      tap((response) => {
+        console.log('Respuesta de la API:', response); // Verifica si `statusName` está presente en la respuesta
+      })
+    );
+  }
+
+  reprogramarCita(appointment_id:string,appointmentData:any): Observable<any>{
+    return this.httpClient.put<any>(`${this.APPOINTMENT_URL}/reprogramar/${appointment_id}`,appointmentData);
+  }
+
+
+  addDiagnosis(appointmentId: string, diagnosisData: any): Observable<any> {
+    const url = `${this.APPOINTMENT_URL}/diagnostico/${appointmentId}`;
+    return this.httpClient.post<any>(url, diagnosisData);
   }
 
 }

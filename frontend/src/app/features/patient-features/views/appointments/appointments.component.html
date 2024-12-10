@@ -67,13 +67,16 @@
         </div>
 
         <!-- Botón de Agendar Cita -->
-        <button
-         [disabled]="!selectedDoctor || !selectedDate || !selectedSchedule"
-          (click)="confirmAppointment()"
-          type="button"
-          class="w-full py-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold items-center">
-          Agendar Cita
-        </button>
+         <div class="flex justify-center">
+          <button
+          [disabled]="!selectedDoctor || !selectedDate || !selectedSchedule"
+           (click)="confirmAppointment()"
+           type="button"
+           class="w-1/2 py-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold items-center">
+           Agendar Cita
+         </button>
+        </div>
+        
       </form>
     </ng-container>
 

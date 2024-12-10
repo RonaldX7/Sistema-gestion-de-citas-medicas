@@ -178,9 +178,6 @@ public class DoctorServiceImp implements DoctorService {
             user.setPassword(passwordEncoder.encode(doctorUpdate.password()));
         }
 
-        //Actualizar horarios del medico
-        updateScheduleToDoctor(id, doctorUpdate.schedulesIds());
-
         return doctorRepository.save(doctorEntity);
     }
 
@@ -202,14 +199,4 @@ public class DoctorServiceImp implements DoctorService {
         });
     }
 
-    @Override
-    public void updateScheduleToDoctor(Long doctorId, List<Long> scheduleIds) {
-        doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
-
-        //Actualizar horarios al medico
-        scheduleIds.forEach(scheduleId ->{
-            scheduleRepository.updateScheduleToDoctor(doctorId, scheduleId);
-        });
-    }
 }

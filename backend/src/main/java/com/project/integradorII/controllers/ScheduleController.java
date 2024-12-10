@@ -20,6 +20,15 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
+    //metodo para listar todos los horarios
+    @GetMapping("/listar")
+    public ResponseEntity<List<ScheduleList>> getAllSchedules(){
+        try {
+            return new ResponseEntity<>(this.scheduleService.getAllSchedules(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     //metodo para listar el horario por doctor
     @GetMapping("/listar/{doctorId}")

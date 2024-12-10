@@ -27,7 +27,7 @@ export class PatientFeaturesComponent {
     return this.router.url.startsWith(route);
   }
   logout(): void {
-    localStorage.removeItem('authToken');
+    sessionStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }
 

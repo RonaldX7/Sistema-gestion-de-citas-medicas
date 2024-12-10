@@ -25,10 +25,10 @@ public class MedicalDiagnosis {
     @Column(name = "diagnosis", columnDefinition = "TEXT")
     private String diagnosis;
 
-    @Column(name = "istructions", columnDefinition = "TEXT")
-    private String istructions;
+    @Column(name = "instructions", columnDefinition = "TEXT")
+    private String instructions;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "medical_appointment_id")
     private MedicalAppointment medicalAppointment;
 }
