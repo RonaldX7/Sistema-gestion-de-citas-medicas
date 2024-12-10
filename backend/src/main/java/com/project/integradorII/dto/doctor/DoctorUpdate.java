@@ -2,6 +2,8 @@ package com.project.integradorII.dto.doctor;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.List;
+
 public record DoctorUpdate(
         @NotBlank
         String cmp,

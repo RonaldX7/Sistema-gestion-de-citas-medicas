@@ -30,10 +30,13 @@ public class MedicalAppointment {
     @Column(name = "appointment_date")
     private LocalDate date;
 
-    @Column(name = "appointment_time")
-    private LocalTime time;
+    @Column(name = "appointment_start_time")
+    private LocalTime startTime;
 
-    @OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.PERSIST)
+    @Column(name = "appointment_end_time")
+    private LocalTime endTime;
+
+    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cost_id")
     private AppointmentCosts cost;
 

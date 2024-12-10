@@ -1,0 +1,111 @@
+<div class="p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-deepBlue text-2xl font-bold mb-4">Lista de Citas</h2>
+  
+<!-- Contenedor de filtros -->
+<div class="flex flex-wrap gap-4 mb-4">
+  <!-- Campo de búsqueda por fecha -->
+  <div class="flex-1 min-w-[200px]">
+    <label for="searchDate" class="block text-sm font-medium text-gray-700">Buscar por Fecha</label>
+    <input
+      id="searchDate"
+      type="date"
+      [(ngModel)]="searchDate"
+      (input)="filterCitas()"
+      class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
+    />
+  </div>
+
+  <!-- Campo de búsqueda por especialidad -->
+  <div class="flex-1 min-w-[200px]">
+    <label for="searchSpecialty" class="block text-sm font-medium text-gray-700">Buscar por Especialidad</label>
+    <select
+      id="searchSpecialty"
+      [(ngModel)]="searchSpecialty"
+      (change)="filterCitas()"
+      class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
+    >
+      <option value="" selected>Todas las Especialidades</option>
+      <option *ngFor="let specialty of specialties" [value]="specialty">{{ specialty }}</option>
+    </select>
+  </div>
+</div>
+  
+    <!-- Tabla de citas -->
+    <div *ngIf="!selectedCita" class="overflow-x-auto">
+      <table class="w-full border-collapse rounded-lg overflow-hidden shadow-md">
+        <thead>
+          <tr class="bg-deepBlue text-white text-center">
+            <th class="py-2 px-4">DNI</th>
+            <th class="py-2 px-4">Nombre</th>
+            <th class="py-2 px-4">Fecha</th>
+            <th class="py-2 px-4">Hora</th>
+            <th class="py-2 px-4">Estado</th>
+            <th class="py-2 px-4">Especialidad</th>
+            <th class="py-2 px-4">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cita of filteredCitas" class="hover:bg-slate-200 text-center">
+            <td class="py-2 px-4">{{ cita.dni }}</td>
+            <td class="py-2 px-4">{{ cita.nombre }}</td>
+            <td class="py-2 px-4">{{ cita.fecha }}</td>
+            <td class="py-2 px-4">{{ cita.hora }}</td>
+            <td class="py-2 px-4">{{ cita.estado }}</td>
+            <td class="py-2 px-4">{{ cita.especialidad }}</td>
+            <td class="py-2 px-4">
+              <button
+                class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition"
+                (click)="verCita(cita)"
+              >
+                Ver
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Detalle de cita -->
+    <div *ngIf="selectedCita" class="bg-white rounded-lg shadow-md p-6">
+      <h2 class="text-deepBlue text-2xl font-bold mb-4 text-center">Detalle de la Cita</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <strong>Número de Cita</strong>
+          <p>{{ selectedCita.id }}</p>
+        </div>
+        <div>
+          <strong>DNI</strong>
+          <p>{{ selectedCita.dni }}</p>
+        </div>
+        <div>
+          <strong>Especialidad</strong>
+          <p>{{ selectedCita.especialidad }}</p>
+        </div>
+        <div>
+          <strong>Nombre</strong>
+          <p>{{ selectedCita.nombre }}</p>
+        </div>
+        <div>
+          <strong>Fecha</strong>
+          <p>{{ selectedCita.fecha }}</p>
+        </div>
+        <div>
+          <strong>Hora</strong>
+          <p>{{ selectedCita.hora }}</p>
+        </div>
+        <div>
+          <strong>Estado</strong>
+          <p>{{ selectedCita.estado }}</p>
+        </div>
+      </div>
+  
+      <div class="flex justify-center mt-6">
+        <button
+          class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+          (click)="volver()"
+        >
+          Volver
+        </button>
+      </div>
+    </div>
+  

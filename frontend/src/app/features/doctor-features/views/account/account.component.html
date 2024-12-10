@@ -1,0 +1,111 @@
+<div class="container mx-auto px-4 py-4">
+    <!-- Encabezado -->
+    <div class="max-w-4xl mx-auto bg-blue-900 text-white text-center py-4 rounded-md mb-8 shadow-xl">
+      <h1 class="text-2xl font-bold">MI CUENTA</h1>
+    </div>
+    <!-- Formulario -->
+    <form
+      class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-y-6 gap-x-6 p-8 bg-white shadow-lg rounded-lg"
+      (ngSubmit)="updateDoctor()"
+      #form="ngForm"
+    >
+      <!-- Tipo y número de CMP -->
+      <div class="md:col-span-2 col-span-1">
+        <label class="block text-sm font-medium text-gray-600">CMP</label>
+        <input
+          type="text"
+          class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]" 
+          [(ngModel)]="doctorData.cmp"
+          name="cmp"
+          readonly
+        />
+      </div>
+
+      <!-- Nombres y Apellidos -->
+      <div class="md:col-span-10 col-span-1">
+        <label class="block text-sm font-medium text-gray-600">Nombres</label>
+        <input
+          type="text"
+          class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]" 
+          [(ngModel)]="doctorData.name"
+          name="firstName"
+        />
+
+        <label class="block text-sm font-medium text-gray-600">Apellidos</label>
+        <input
+          type="text"
+          class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]" 
+          [(ngModel)]="doctorData.lastName"
+          name="lastName"
+        />
+      </div>
+
+      <!-- Teléfono -->
+      <div class="md:col-span-4 col-span-1">
+        <label class="block text-sm font-medium text-gray-600">Teléfono</label>
+        <input
+          type="text"
+          class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+          [(ngModel)]="doctorData.phone"
+          name="phone"
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="md:col-span-8 col-span-1">
+        <label class="block text-sm font-medium text-gray-600">E-mail</label>
+        <input
+          type="email"
+          class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+          [(ngModel)]="doctorData.email"
+          name="email"
+        />
+      </div>
+
+      <!-- Contraseña nueva -->
+      <div class="md:col-span-6 col-span-1">
+        <label class="block text-sm font-medium text-gray-600"
+          >Contraseña nueva</label
+        >
+        <div class="relative">
+          <input
+            [type]="showNewPassword ? 'text' : 'password'"
+            class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+            [(ngModel)]="doctorData.newPassword"
+            name="newPassword"
+            />
+          
+        </div>
+      </div>
+
+      <!-- Confirmar contraseña nueva -->
+      <div class="md:col-span-6 col-span-1">
+        <label class="block text-sm font-medium text-gray-600"
+          >Confirmar contraseña nueva</label
+        >
+        <div class="relative">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            class="w-full px-4 py-1 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53CDE2]"
+            [(ngModel)]="doctorData.confirmPassword"
+            name="confirmPassword"
+          />
+          <button
+            type="button"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+          >
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón Actualizar -->
+      <div class="col-span-1 md:col-span-12 flex justify-center">
+        <button
+          type="submit"
+          class="bg-blue-900 text-white px-10 py-3 rounded-full shadow-md hover:bg-blue-400 transition"
+        >
+          ACTUALIZAR
+        </button>
+      </div>
+    </form>
+  </div>

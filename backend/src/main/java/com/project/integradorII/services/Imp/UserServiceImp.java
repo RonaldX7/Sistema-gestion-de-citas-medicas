@@ -3,12 +3,22 @@ package com.project.integradorII.services.Imp;
 import com.project.integradorII.dto.authentication.AuthResponse;
 import com.project.integradorII.dto.authentication.LoginRequest;
 import com.project.integradorII.dto.authentication.UserRequest;
+import com.project.integradorII.dto.password.PasswordUpdateRequest;
+import com.project.integradorII.entities.HistoryRecuperation;
+import com.project.integradorII.entities.PatientEntity;
 import com.project.integradorII.entities.RoleEntity;
 import com.project.integradorII.entities.UserEntity;
+import com.project.integradorII.repositories.PatientRepository;
 import com.project.integradorII.repositories.RoleRepository;
 import com.project.integradorII.repositories.UserRepository;
 import com.project.integradorII.security.util.JwtUtils;
+import com.project.integradorII.services.EmailService;
+import com.project.integradorII.repositories.HistoryRecuperationRepository;
+import com.project.integradorII.services.UserService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,17 +26,26 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.project.integradorII.utilitarian.RandomCodeGenerator;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
 @Service
-public class UserServiceImp implements UserDetailsService {
+public class UserServiceImp implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
@@ -36,7 +55,16 @@ public class UserServiceImp implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    private final PatientRepository patientRepository;
+
+    private RandomCodeGenerator randomCodeGenerator;
+
+    private final EmailService emailService;
+
+    private final HistoryRecuperationRepository historyRecuperationRepository;
+
     //Metodo que busca el usuario en la base de datos
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -55,6 +83,8 @@ public class UserServiceImp implements UserDetailsService {
     }
 
     //Metodo para logearse
+    @Transactional
+    @Override
     public AuthResponse loginUser(LoginRequest loginRequest){
 
         String username  = loginRequest.username();
@@ -80,6 +110,8 @@ public class UserServiceImp implements UserDetailsService {
 
 
     //Metodo que se encarga de verificar si las credenciales son correctas
+    @Transactional
+    @Override
     public Authentication authenticate(String username, String password){
 
         UserDetails userDetails = this.loadUserByUsername(username);
@@ -94,6 +126,8 @@ public class UserServiceImp implements UserDetailsService {
     }
 
     //metodo para crear un usuario
+    @Transactional
+    @Override
     public UserEntity createUser(UserRequest userRequest){
 
         //Asignar el rol al paciente
@@ -127,5 +161,73 @@ public class UserServiceImp implements UserDetailsService {
         AuthResponse authResponse = new AuthResponse(userCreated.getId(), userCreated.getUsername(), "Usuario creado correctamente", accessToken, true);
 
         return userCreated;
+    }
+
+    //Metodo para recuperar la contraseña
+    @Transactional
+    @Override
+    public Map<String, String> recuperarContrasena(String email) throws IOException, MessagingException {
+
+        //validar si el paciente existe
+        PatientEntity patientEntity = patientRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("El paciente no existe"));
+
+        String code =randomCodeGenerator.generateRandomCode(5);
+
+        String content = stringHtml("templates/EmailRecuperation.html")
+                .replace("{code}", code);
+
+        //Guardar el codigo de recuperacion
+        HistoryRecuperation historyRecuperation = HistoryRecuperation.builder()
+                .user(patientEntity.getUser())
+                .code(code)
+                .build();
+
+        historyRecuperationRepository.save(historyRecuperation);
+
+        emailService.sendMail(email, "Recuperar contraseña", content);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Se ha enviado un correo a su dirección de correo electrónico");
+        return response;
+    }
+
+    //Metodo para cambiar la contraseña
+    @Transactional
+    @Override
+    public ResponseEntity<?> cambiarContrasena(PasswordUpdateRequest passwordUpdate) {
+        //Verificar si el codigo es correcto
+        HistoryRecuperation codeData = historyRecuperationRepository.findByCode(passwordUpdate.code());
+
+        Map<String, String> response = new HashMap<>();
+        if (codeData == null || !codeData.getCode().equals(passwordUpdate.code())) {
+            response.put("message", "El código no es correcto");
+            return ResponseEntity.status(400).body(response);
+        }
+
+        //Obtener el usuario
+        Optional<UserEntity> userUpdatePassword = userRepository.findById(codeData.getUser().getId());
+        if (userUpdatePassword == null) {
+            return ResponseEntity.badRequest().body("El usuario no existe");
+        }
+
+        //Actualizar la contraseña
+        userUpdatePassword.get().setPassword(passwordEncoder.encode(passwordUpdate.password()));
+        userRepository.save(userUpdatePassword.get());
+
+        //Eliminar el codigo de recuperacion
+        historyRecuperationRepository.delete(codeData);
+
+        response.put("message", "Se ha actualizado la contraseña");
+
+        return ResponseEntity.ok(response);
+    }
+
+    private static String stringHtml(String resourcePath) throws IOException {
+        ClassPathResource resource = new ClassPathResource(resourcePath);
+        try (InputStream inputStream = resource.getInputStream();
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        }
     }
 }

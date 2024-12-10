@@ -11,4 +11,7 @@ public interface DoctorRepository extends JpaRepository<DoctorEntity, Long> {
 
     List<DoctorEntity> findDoctorEntitiesBySpecialties_Id(Long id);
 
+    //Listar Doctor por user_id
+    DoctorEntity findDoctorEntitiesByUserId(Long userId);
+
 }
