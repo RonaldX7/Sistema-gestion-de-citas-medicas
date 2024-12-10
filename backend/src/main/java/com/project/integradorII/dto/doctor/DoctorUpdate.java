@@ -15,7 +15,6 @@ public record DoctorUpdate(
         String phone,
         @NotBlank
         String email,
-        List<Long> schedulesIds,
         @NotBlank
         String password
 ) {

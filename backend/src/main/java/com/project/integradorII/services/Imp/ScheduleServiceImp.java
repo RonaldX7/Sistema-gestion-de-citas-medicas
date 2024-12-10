@@ -25,6 +25,23 @@ public class ScheduleServiceImp implements ScheduleService {
 
     private final DoctorRepository doctorRepository;
 
+    @Override
+    public List<ScheduleList> getAllSchedules() {
+        List<DoctorSchedule> doctorSchedules = scheduleRepository.findAll();
+
+        //Mapear la lista de horarios
+        List<ScheduleList> scheduleLists = doctorSchedules.stream().map(doctorSchedule -> {
+            return new ScheduleList(
+                    doctorSchedule.getId(),
+                    doctorSchedule.getHourStart(),
+                    doctorSchedule.getHourEnd(),
+                    doctorSchedule.isAvailable()
+            );
+        }).collect(Collectors.toList());
+
+        return scheduleLists;
+    }
+
     //Metodo para listar los horarios por medico
     @Transactional
     @Override

@@ -45,6 +45,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
 
                     //Endpoints del paciente
+                    http.requestMatchers(HttpMethod.GET, "/paciente/{id}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/paciente/departamentos").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/paciente/distritos/{deparmentId}").permitAll();
@@ -60,17 +61,17 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/horarios/registrar").permitAll();
 
                     //Endpoints de las citas medicas
+                    http.requestMatchers(HttpMethod.GET, "/horarios/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/cita/estado/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/cita/estados").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/cita/listar").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/cita/listar/{statusId}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/cita/doctor/{doctor_id}").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/cita/paciente/{patient_id}").permitAll();
-                    http.requestMatchers(HttpMethod.PUT, "/cita/diagnostico/{appoinmentId}").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/cita/diagnostico/{appoinmentId}").permitAll();
                     http.requestMatchers(HttpMethod.PUT, "/cita/reprogramar/{id}").permitAll();
                     http.requestMatchers(HttpMethod.PUT, "/cita/cancelar/{id}/{statusId}").permitAll();
-
 
                     //Endpoints del administrador
 

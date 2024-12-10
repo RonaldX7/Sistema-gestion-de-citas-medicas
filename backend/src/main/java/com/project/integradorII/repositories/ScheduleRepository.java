@@ -20,15 +20,16 @@ public interface ScheduleRepository extends JpaRepository<DoctorSchedule, Long> 
 
     List<DoctorSchedule> findByDoctors_IdAndAvailableIs(Long doctorId, Boolean available);
 
+
     //asignar horario a doctor
     @Modifying
     @Query(value = "INSERT INTO tb_doctor_schedule (doctor_id, schedule_id) VALUES (:doctorId, :scheduleId)", nativeQuery = true)
     void assignScheduleToDoctor(Long doctorId, Long scheduleId);
 
     //actualizar horario de un doctor
-    @Modifying
-    @Query(value = "UPDATE tb_doctor_schedule SET schedule_id = :scheduleId WHERE doctor_id = :doctorId", nativeQuery = true)
-    void updateScheduleToDoctor(Long doctorId, Long scheduleId);
+//    @Modifying
+//    @Query(value = "UPDATE tb_doctor_schedule SET schedule_id = :scheduleId WHERE doctor_id = :doctorId", nativeQuery = true)
+//    void updateScheduleToDoctor(Long doctorId, Long scheduleId);
 
 
     //eliminar horario de doctor
