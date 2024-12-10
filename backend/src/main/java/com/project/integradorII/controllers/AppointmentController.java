@@ -25,13 +25,10 @@ public class AppointmentController {
     private final AppointmentStatusRepository appointmentStatusRepository;
 
     //Metodo para listar el estado por id
-    @GetMapping("/estado/{id}")
-    public ResponseEntity<?> getAppointmentStatusById(@PathVariable Long id){
+    @GetMapping("/estados")
+    public ResponseEntity<?> getAppointmentStatusById(){
         try {
-            if (id == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(this.appointmentStatusRepository.findById(id), HttpStatus.OK);
+            return new ResponseEntity<>(this.appointmentStatusRepository.findAll(), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
