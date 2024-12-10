@@ -54,8 +54,8 @@ export class LoginComponent {
           error: (err) => {
             Swal.fire({
               icon: 'error',
-              title: 'Error al loge',
-              text: err.error?.message || 'Hubo un problema al registrar una cita.',
+              title: 'Error al ingresar',
+              text: err.error?.message || 'Hubo un problema al intentar ingresar.',
               confirmButtonText: 'Cerrar'
             });
             this.loginError = true;
