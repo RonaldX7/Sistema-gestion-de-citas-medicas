@@ -57,6 +57,11 @@ export class AppointmentService {
     );
   }
 
+  reprogramarCita(appointment_id:string,appointmentData:any): Observable<any>{
+    return this.httpClient.put<any>(`${this.APPOINTMENT_URL}/reprogramar/${appointment_id}`,appointmentData);
+  }
+
+
   addDiagnosis(appointmentId: string, diagnosisData: any): Observable<any> {
     const url = `${this.APPOINTMENT_URL}/diagnostico/${appointmentId}`;
     return this.httpClient.post<any>(url, diagnosisData);
