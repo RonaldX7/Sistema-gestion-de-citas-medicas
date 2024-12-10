@@ -280,7 +280,7 @@ reprogramarCita(appointmentId: string): void {
     next: () => {
       Swal.fire({
         icon: 'success',
-        title: 'Reprogramación Exitosa',
+        title: 'Reprogramación',
         text: 'Cita reprogramada con éxito.',
         showConfirmButton: true,
         confirmButtonText: 'Cerrar',

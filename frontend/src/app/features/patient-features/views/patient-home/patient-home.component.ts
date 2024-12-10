@@ -14,13 +14,13 @@ export class PatientHomeComponent {
     
   }
   toAppointment(){
-    this.router.navigate(['/patient-features/appointments']);
+    this.router.navigate(['/patient-features/appointments'])
   }
   toAppointmentList(){
-    this.router.navigate(['/patient-features/appointments-list']);
+    this.router.navigate(['/patient-features/appointments-list'])
   }
   
   toAccount(){
-    this.router.navigate(['/patient-features/my-account']);
+    this.router.navigate(['/patient-features/my-account'])
   }
 }

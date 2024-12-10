@@ -98,8 +98,10 @@
       <p><strong>DNI:</strong> {{ patient.dni}}</p>
     </div>
   </div>
-  <button   href="/appointments" class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="toAppointment()">Volver</button>
-  <button class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="submitAppointment()">Confirmar</button>
+    <div class="flex justify-center">
+      <button   href="/appointments" class="mt-6 w-1/2 mr-4 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="toAppointment()">Volver</button>
+      <button class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="submitAppointment()">Confirmar</button>
+    </div>
     </ng-template>
   </div>
 </div>

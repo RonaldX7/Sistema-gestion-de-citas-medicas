@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppointmentService } from '../../../../core/services/appointment.service';
+import { Schedule, ScheduleService } from '../../../../core/services/schedule.service';
+import { PatientService } from '../../../../core/services/patient.service';
 
 @Component({
   selector: 'app-list-citas',
@@ -11,13 +13,14 @@ import { AppointmentService } from '../../../../core/services/appointment.servic
 })
 export class ListCitasComponent implements OnInit {
   
-  constructor(private appointmentService:AppointmentService){}
+  constructor(private appointmentService:AppointmentService, private scheduleService:ScheduleService,private patientService:PatientService){}
   selectedDate: string = ''; // fecha por defecto
   
   specialties = ['Dermatología', 'Cardiología', 'Oftalmología', 'Pediatría', 'Todas'];
 
-  citas: any[]=[];
-
+  citas: { id: string; doctorId:string; doctorName: string; specialtyName: string; date: string; patientId: string; dni: string; name: string; lastName:string; startTime: string;endTime: string;cost: any; statusId: string; status: string; }[] = [];
+  doctors: { id: string; name: string; lastName: string; specialties: string; specialtyId: string; schedule?: string[];  scheduleObjects?: Schedule[]; }[] = [];
+  patients: {id: string; dni:string; name:string; lastName: string}[]=[]
   // citas = [
   //   { id: '0012', dni: '08052697', nombre: 'Julio Cesar Medrano Ossco', especialidad: 'Dermatología', fecha: '2024-09-20', hora: '12:30 PM', estado: 'Atendido' },
   //   { id: '0013', dni: '08052697', nombre: 'Julio Cesar Medrano Ossco', especialidad: 'Cardiología', fecha: '2024-09-30', hora: '01:30 PM', estado: 'Atendido' },
@@ -35,6 +38,11 @@ export class ListCitasComponent implements OnInit {
   searchSpecialty: string = '';
 
   ngOnInit() {
+
+    this.loadAppointments();
+    this.loadPatients();
+
+
      //Para la fecha actual
      const todayDate = new Date();
      const year = todayDate.getFullYear();
@@ -42,8 +50,55 @@ export class ListCitasComponent implements OnInit {
      const day = String(todayDate.getDate()).padStart(2, '0'); // Día en formato 2 dígitos
  
      this.selectedDate = `${year}-${month}-${day}`;
-      this.filterCitas(); // Filtrar citas para la fecha actual al cargar la página
+     //this.filterCitas(); // Filtrar citas para la fecha actual al cargar la página
   }
+
+  loadPatients(): void{
+    this.patientService.getPatients().subscribe(
+        (data)=>{
+          this.patients=data;
+          this.patients.forEach((patient) =>{
+            console.log(patient.id, patient.dni,patient.name,patient.lastName)
+          }
+          );
+        },
+        (error)=>{
+          console.error('No se cargaron pacientes',error);
+        }
+    );
+  }
+
+
+  loadAppointments(): void{
+    this.appointmentService.getCitas().subscribe(
+      (data) => {
+        this.citas=data;
+        this.addDoctorDetailsToAppointments();
+        this.citas.forEach((cita) => {
+          console.log(cita.dni);
+        });
+      },
+      (error) => {
+        console.error('Error al cargar las citas', error);
+      }
+      
+      );
+  }
+
+  addDoctorDetailsToAppointments(): void {
+    this.citas.forEach(cita => {
+      const doctor = this.doctors.find(doctor => doctor.id === cita.doctorId);
+      if (doctor) {
+        // Añadir nombre completo y especialidad a la cita
+        cita.doctorName = `${doctor.name} ${doctor.lastName}`;
+        cita.specialtyName = doctor.specialties;
+      } else {
+        // Si no se encuentra el doctor, dejamos los campos vacíos
+        cita.doctorName = 'Doctor no encontrado';
+        cita.specialtyName = 'Especialidad no disponible';
+      }
+    });
+}
 
 
 
@@ -78,4 +133,9 @@ export class ListCitasComponent implements OnInit {
   volver() {
     this.selectedCita = null;
   }
+
+  formatHour(hour: string): string {
+    // Asume que `hour` está en formato "HH:mm:ss" y corta los segundos
+    return hour.slice(0, 5); // Devuelve "HH:mm"
+}
 }

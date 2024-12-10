@@ -45,13 +45,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let cita of filteredCitas" class="hover:bg-slate-200 text-center">
+          <tr *ngFor="let cita of citas" class="hover:bg-slate-200 text-center">
             <td class="py-2 px-4">{{ cita.dni }}</td>
-            <td class="py-2 px-4">{{ cita.nombre }}</td>
-            <td class="py-2 px-4">{{ cita.fecha }}</td>
-            <td class="py-2 px-4">{{ cita.hora }}</td>
-            <td class="py-2 px-4">{{ cita.estado }}</td>
-            <td class="py-2 px-4">{{ cita.especialidad }}</td>
+            <td class="py-2 px-4">{{ cita.name }}</td>
+            <td class="py-2 px-4">{{ cita.date }}</td>
+            <td class="py-2 px-4">{{formatHour(cita.startTime) +" - "+ formatHour(cita.endTime)}}</td>
+            <td class="py-2 px-4">{{ cita.status }}</td>
+            <td class="py-2 px-4">{{ cita.doctorName }}</td>
             <td class="py-2 px-4">
               <button
                 class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition"
