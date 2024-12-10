@@ -1,4 +1,4 @@
-<aside class="w-64 h-full bg-aqua text-blue-900 p-6">
+<!-- <aside class="w-64 h-full bg-aqua text-blue-900 p-6">
     <div class="flex flex-col items-center">
       <img src="logo-render.png" alt="Logo de VidaPlena" class="h-30 w-100 mb-6 brightness-90">
     </div>
@@ -20,4 +20,27 @@
       <button (click)="logout()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
       <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
     </div>
+</aside> -->
+
+<aside class="w-64 h-full bg-aqua text-blue-900 p-6 flex flex-col">
+  <div class="flex flex-col items-center">
+    <img src="logo-render.png" alt="Logo" class="h-30 w-100 mb-6 brightness-90" />
+  </div>
+  <nav class="space-y-4">
+    <!-- Renderizar opciones dinámicas -->
+    <ng-container *ngFor="let option of options">
+      <a [routerLink]="option.route" 
+        routerLinkActive="bg-blue-900 text-white"
+        class="block w-full text-left py-2 px-4 rounded-lg text-blue-900 hover:bg-blue-300 focus:outline-none"
+        [routerLinkActiveOptions]="{exact:true}">
+        {{ option.name }}
+      </a>
+    </ng-container>
+  </nav>
+  <div class="mt-auto pt-6 border-t border-gray-300">
+    <button (click)="logout()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">
+      Logout
+    </button>
+    <p class="text-center mt-4 text-sm text-gray-600">Sistema Médico 2024</p>
+  </div>
 </aside>

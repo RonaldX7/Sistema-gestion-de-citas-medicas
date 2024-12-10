@@ -2,7 +2,7 @@ package com.project.integradorII.security;
 
 import com.project.integradorII.security.filter.JwtValidator;
 import com.project.integradorII.security.util.JwtUtils;
-import com.project.integradorII.services.Imp.UserServiceImp;
+import com.project.integradorII.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -40,29 +40,40 @@ public class SecurityConfig {
                 .csrf(csrfConfigurer -> csrfConfigurer.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
+
                     //configurar los endpoints publicos
                     http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/medico/listar/{id}").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/medico/listar").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}/{date}").permitAll();
-                    http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
-                    http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").permitAll();
-                    http.requestMatchers(HttpMethod.DELETE, "/paciente/eliminar/{id}").hasAnyRole("USER");
-                    http.requestMatchers(HttpMethod.POST, "/medico/registrar").permitAll();
-                    http.requestMatchers(HttpMethod.POST, "/horarios/registrar").permitAll();
-                    //configurar los endpoints privados
-                    //Endpoints del paciente
 
+                    //Endpoints del paciente
+                    http.requestMatchers(HttpMethod.GET, "/paciente/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/paciente/listar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/paciente/departamentos").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/paciente/distritos/{deparmentId}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/paciente/buscar/{dni}").permitAll();
+                    http.requestMatchers(HttpMethod.PUT, "/paciente/actualizar/{id}").permitAll();
 
                     //Endpoints del medico
-                    http.requestMatchers(HttpMethod.PUT, "/medico/actualizar/{id}").hasAnyRole("MEDICO");
-                    http.requestMatchers(HttpMethod.DELETE, "/medico/eliminar/{id}").hasAnyRole("MEDICO");
+                    http.requestMatchers(HttpMethod.GET, "/especialidades/listar").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/medico/{userId}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/medico/listar/{specialty_id}").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/medico/registrar").permitAll();
+                    http.requestMatchers(HttpMethod.PUT, "/medico/actualizar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/horarios/registrar").permitAll();
+
+                    //Endpoints de las citas medicas
+                    http.requestMatchers(HttpMethod.GET, "/horarios/listar").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/horarios/listar/{doctorId}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/cita/estados").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/cita/registrar").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/cita/listar").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/cita/listar/{statusId}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/cita/doctor/{doctor_id}").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/cita/paciente/{patient_id}").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/cita/diagnostico/{appoinmentId}").permitAll();
+                    http.requestMatchers(HttpMethod.PUT, "/cita/reprogramar/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.PUT, "/cita/cancelar/{id}/{statusId}").permitAll();
 
                     //Endpoints del administrador
-                    //http.requestMatchers(HttpMethod.POST, "/medico/registrar").hasAnyRole("ADMIN");
-                    //http.requestMatchers(HttpMethod.POST, "/horarios/registrar").hasAnyRole("ADMIN");
 
                     http.anyRequest().denyAll();
                 })
@@ -76,10 +87,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserServiceImp userServiceImp) {
+    public AuthenticationProvider authenticationProvider(UserService userService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userServiceImp);
+        provider.setUserDetailsService(userService);
         return provider;
     }
 

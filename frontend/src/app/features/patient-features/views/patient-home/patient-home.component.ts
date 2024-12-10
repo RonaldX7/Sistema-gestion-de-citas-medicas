@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,6 +14,13 @@ export class PatientHomeComponent {
     
   }
   toAppointment(){
-    this.router.navigate(['/appointments'])
+    this.router.navigate(['/patient-features/appointments'])
+  }
+  toAppointmentList(){
+    this.router.navigate(['/patient-features/appointments-list'])
+  }
+  
+  toAccount(){
+    this.router.navigate(['/patient-features/my-account'])
   }
 }

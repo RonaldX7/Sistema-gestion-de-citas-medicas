@@ -7,15 +7,15 @@ import com.project.integradorII.dto.doctor.DoctorUpdate;
 import com.project.integradorII.entities.*;
 import com.project.integradorII.repositories.DoctorRepository;
 import com.project.integradorII.repositories.RoleRepository;
+import com.project.integradorII.repositories.ScheduleRepository;
 import com.project.integradorII.repositories.SpecialtyRepository;
 import com.project.integradorII.services.DoctorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -29,6 +29,10 @@ public class DoctorServiceImp implements DoctorService {
     private final SpecialtyRepository specialtyRepository;
 
     private final RoleRepository rolRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final ScheduleRepository scheduleRepository;
 
     //Metodo para listar todos los medicos
     @Transactional
@@ -46,10 +50,36 @@ public class DoctorServiceImp implements DoctorService {
                     doctorEntity.getLastName(),
                     doctorEntity.getPhone(),
                     doctorEntity.getCmp(),
-                    doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName)
-                            .collect(Collectors.toList())
+                    doctorEntity.getEmail(),
+                    doctorEntity.getSpecialties().getName()
             );
         }).collect(Collectors.toList());
+
+        return doctorLists;
+    }
+
+    //Metodo para listar un medico por user_id
+    @Transactional
+    @Override
+    public List<DoctorList> ListByUserId(Long userId){
+
+
+        DoctorEntity doctors = doctorRepository.findDoctorEntitiesByUserId(userId);
+
+        if (doctors == null) {
+            throw new IllegalArgumentException("El medico no existe");
+        }
+
+        //Mapear la lista de doctores
+        List<DoctorList> doctorLists = List.of(new DoctorList(
+                doctors.getId(),
+                doctors.getName(),
+                doctors.getLastName(),
+                doctors.getPhone(),
+                doctors.getCmp(),
+                doctors.getEmail(),
+                doctors.getSpecialties().getName()
+        ));
 
         return doctorLists;
     }
@@ -70,8 +100,8 @@ public class DoctorServiceImp implements DoctorService {
                             doctorEntity.getLastName(),
                             doctorEntity.getPhone(),
                             doctorEntity.getCmp(),
-                            doctorEntity.getSpecialties().stream().map(SpecialtyEntity::getName)
-                                    .collect(Collectors.toList())
+                            doctorEntity.getEmail(),
+                            doctorEntity.getSpecialties().getName()
                     );
                 }).collect(Collectors.toList());
 
@@ -92,21 +122,12 @@ public class DoctorServiceImp implements DoctorService {
             throw new IllegalArgumentException("Agrege un rol valido");
         }
 
-        //Guardar la especialidad si no existe
-        doctorRequest.specialty().specialtyListName().forEach(specialtyName -> {
-            Optional<SpecialtyEntity> specialtyEntity = specialtyRepository.findByName(specialtyName);
+        //Validar si la especialidad existe
+        SpecialtyEntity specialtyEntity = specialtyRepository.findByName(doctorRequest.specialty());
 
-            //Si no existe la especialidad se crea
-            if (specialtyEntity.isEmpty()) {
-                SpecialtyEntity specialty = SpecialtyEntity.builder().name(specialtyName).build();
-                specialtyRepository.save(specialty);
-            }
-        });
-
-        // Asignar especialidades al doctor
-        Set<SpecialtyEntity> specialties = specialtyRepository.
-                findSpecialtyEntitiesByNameIn(doctorRequest.specialty().specialtyListName())
-                .stream().collect(Collectors.toSet());
+        if (specialtyEntity.getId() == null) {
+            throw new IllegalArgumentException("La especialidad no existe");
+        }
 
         //Crear el usuario
         UserRequest userRequest = new UserRequest(
@@ -124,12 +145,16 @@ public class DoctorServiceImp implements DoctorService {
                 .phone(doctorRequest.phone())
                 .email(doctorRequest.email())
                 .cmp(doctorRequest.cmp())
-                .specialties(specialties)
+                .specialties(specialtyEntity)
                 .user(userEntity)
                 .build();
 
-        //Guardar doctor
-        return doctorRepository.save(doctorEntity);
+        doctorRepository.save(doctorEntity);
+
+        //Asignar horarios al medico
+        assignScheduleToDoctor(doctorEntity.getId(), doctorRequest.schedulesIds());
+
+        return doctorEntity;
     }
 
     //Metodo para actualizar los datos del medico
@@ -149,7 +174,9 @@ public class DoctorServiceImp implements DoctorService {
         doctorEntity.setEmail(doctorUpdate.email());
 
         UserEntity user = doctorEntity.getUser();
-        user.setPassword(doctorUpdate.password());
+        if (doctorUpdate.password() != null && !doctorUpdate.password().equals(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(doctorUpdate.password()));
+        }
 
         return doctorRepository.save(doctorEntity);
     }
@@ -160,4 +187,16 @@ public class DoctorServiceImp implements DoctorService {
     public void deleteDoctor(Long id){
         doctorRepository.deleteById(id);
     }
+
+    @Override
+    public void assignScheduleToDoctor(Long doctorId, List<Long> scheduleIds) {
+        doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
+
+        //Asignar horarios al medico
+        scheduleIds.forEach(scheduleId ->{
+            scheduleRepository.assignScheduleToDoctor(doctorId, scheduleId);
+        });
+    }
+
 }

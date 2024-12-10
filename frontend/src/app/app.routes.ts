@@ -1,39 +1,14 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './authentication/login/login.component';
+import { AuthRedirectGuard } from './core/services/auth-redirect.guard';
 
 export const routes: Routes = [
+    {path:'login', loadComponent:()=> import('./authentication/login/login.component').then(m=>m.LoginComponent), canActivate: [AuthRedirectGuard]},
+    {path:'register',loadComponent:()=>import('./authentication/register/register.component').then(m=>m.RegisterComponent)},
+    {path:'recover-password',loadComponent:()=> import('./authentication/recover-password/recover-password.component').then(m=>m.RecoverPasswordComponent)},
+    {path: 'patient-features', loadChildren: () => import('./features/patient-features/patient-features.route').then(m => m.PatientFeaturesRoutingModule)},
 
-    //pacientes
-    {
-        path:'login',
-        loadComponent:()=> import('./authentication/login/login.component').then(m=>m.LoginComponent)
-    },
-    
-    {
-        path:'patient-home',
-        loadComponent:()=> import('./features/patient-home/patient-home.component').then(m=>m.PatientHomeComponent)
-    },
-    {
-        path:'register',
-        loadComponent:()=>import('./authentication/register/register.component').then(m=>m.RegisterComponent)
-    },
-    {
-        path: 'appointments',
-        loadComponent:()=>import('./features/appointments/appointments.component').then(m=>m.AppointmentsComponent)
-    },
-    //doctor
-    {
-        path:'doctor-home',
-        loadComponent:()=>import('./features/doctor-home/doctor-home.component').then(m=>m.DoctorHomeComponent)
-    },
-    {
-        path:'citar-cita',
-        loadComponent:()=>import('./features/citar-cita/citar-cita.component').then(m=>m.CitarCitaComponent)
-    },
-    {
-        path:'**',
-        redirectTo:'login'
-    }
- 
+    {path: 'admin-home',loadChildren: () => import('./features/admin-home/admin-home.route').then(m => m.AdminHomeRoutingModule),},
+    {path: 'doctor-features',loadChildren: () => import('./features/doctor-features/doctor-features.route').then(m=>m.DoctorFeaturesRoutingModule)},
+    {path:'**',redirectTo:'login',pathMatch: 'full'},
 
 ];

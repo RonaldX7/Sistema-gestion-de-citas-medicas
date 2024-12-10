@@ -22,9 +22,6 @@ public class DoctorSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
-
     @Column(name = "hour_start")
     @JsonFormat(pattern = "HH:mm")
     private LocalTime hourStart;
@@ -33,8 +30,8 @@ public class DoctorSchedule {
     @JsonFormat(pattern = "HH:mm")
     private LocalTime hourEnd;
 
-    @Column(name = "is_avaible")
-    private boolean avialable;
+    @Column(name = "is_available")
+    private boolean available;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonIgnore

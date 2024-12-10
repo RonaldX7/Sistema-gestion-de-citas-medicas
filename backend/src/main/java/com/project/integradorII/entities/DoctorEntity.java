@@ -38,11 +38,11 @@ public class DoctorEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "tb_doctor_specialties",
             joinColumns = @JoinColumn(name = "doctor_id"),
             inverseJoinColumns = @JoinColumn(name = "specialty_id")
     )
-    private Set<SpecialtyEntity> specialties = new HashSet<>();
+    private SpecialtyEntity specialties;
 }

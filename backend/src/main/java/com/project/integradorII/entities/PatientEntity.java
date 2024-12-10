@@ -37,7 +37,9 @@ public class PatientEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
-    private String direction;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "address_id")
+    private AddressEntity address;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "gender_id")

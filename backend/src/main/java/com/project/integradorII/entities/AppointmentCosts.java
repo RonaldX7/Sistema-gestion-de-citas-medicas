@@ -20,7 +20,7 @@ public class AppointmentCosts {
     private double cost;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "specialty_id")
     private SpecialtyEntity specialty;
 }

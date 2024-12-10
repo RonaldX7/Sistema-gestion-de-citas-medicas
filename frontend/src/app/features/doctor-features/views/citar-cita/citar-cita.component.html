@@ -1,0 +1,94 @@
+<div class="bg-white container mx-auto p-6 shadow-md rounded-lg">
+
+  <!-- class="flex flex-col md:flex-row min-h-screen" -->
+    <!-- Encabezado -->
+    <div class="bg-blue-900 text-white p-4 rounded-lg shadow-md mb-5">
+      <h2 class="text-2xl font-bold text-center uppercase">
+        Lista de Citas
+      </h2>
+    </div>
+
+    <!-- Contenedor de filtros -->
+    <div class="flex flex-wrap gap-4 mb-4">
+      <!-- Campo de búsqueda por fecha
+      <div class="flex-1 min-w-[200px]">
+        <label for="searchDate" class="block text-sm font-medium text-gray-700">Buscar por Fecha</label>
+        <input
+          id="searchDate"
+          type="date"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
+        />
+      </div> -->
+
+      <!-- Campo de búsqueda por estado -->
+      <div class="flex-col min-w-[200px]">
+        <label for="estados" class="block text-sm font-medium text-gray-700">Buscar por Estado</label>
+        <select
+          id="estados"
+          name="estados"
+          [(ngModel)]="selectStatus"
+          (change)="onStatusChange($event)"
+          class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-500"
+        >
+          <option value="" selected>Todas los estados</option>
+          <option *ngFor="let estado of estados" [value]="estado.id">{{estado.status}}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Tabla de citas -->
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full border-collapse rounded-lg overflow-hidden shadow-md">
+        <thead>
+          <tr class="bg-[#005792] text-white text-center">
+            <th class="p-2">DNI</th>
+            <th class="p-2">Nombres</th>
+            <th class="p-2">Apellidos</th>
+            <th class="p-2">Fecha</th>
+            <th class="p-2">Especialidad</th>
+            <th class="p-2">Estado</th>
+            <th class="p-2">Receta</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let cita of getFilteredCitas()">
+            <td class="border px-4 py-2">{{ patient.dni }}</td>
+            <td class="border px-4 py-2">{{ patient.name }}</td>
+            <td class="border px-4 py-2">{{ patient.lastName }}</td>
+            <td class="border px-4 py-2">{{ cita.date }}</td>
+            <td class="border px-4 py-2">{{ doctor.specialties }}</td>
+            <td class="border px-4 py-2">{{ cita.status }}</td>
+            <td class="border px-4 py-2">
+              <button (click)="openDiagnosisModal(cita)" 
+              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-300 transition"
+              [disabled]="cita.status === 'COMPLETADO'">
+              Agregar Diagnóstico</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <!-- Modal de receta -->
+    <!-- Modal para agregar diagnóstico -->
+  <div *ngIf="showDiagnosisModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2">
+      <h2 class="text-2xl font-bold mb-4 text-deepBlue">Agregar Diagnóstico</h2>
+      <form (ngSubmit)="saveDiagnosis()">
+        <div class="mb-4">
+          <label class="block text-gray-700">Diagnóstico</label>
+          <textarea [(ngModel)]="diagnosis" name="diagnosis" class="w-full p-2 border rounded-lg" rows="4"></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Instrucciones</label>
+          <textarea [(ngModel)]="instructions" name="instructions" class="w-full p-2 border rounded-lg" rows="4"></textarea>
+        </div>
+        <div class="flex justify-end">
+          <button type="button" (click)="closeDiagnosisModal()" class="mr-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Cancelar</button>
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-300 transition">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

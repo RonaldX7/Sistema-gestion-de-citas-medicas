@@ -18,8 +18,4 @@ public class SpecialtyEntity {
     @Column(name = "specialty_name")
     private String name;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "cost_id")
-    private AppointmentCosts cost;
-
 }

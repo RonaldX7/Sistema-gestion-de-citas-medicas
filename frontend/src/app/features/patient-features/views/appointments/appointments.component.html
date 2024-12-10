@@ -1,11 +1,7 @@
-<div class="flex min-h-screen bg-gray-100" style="background-image: url('/fondo-noazul.png');">
-  <!-- Sidebar -->
-  <app-sidebar></app-sidebar>
-
-  
-
+<div class="container mx-auto px-4 py-6">
+  <!-- class="flex min-h-screen bg-gray-100" -->
   <!-- Contenido principal: Componente Appointments -->
-  <div class="flex-1 overflow-y-auto p-6 lg:p-12">
+  <div class="flex-1 p-6 lg:p-12">
     <ng-container *ngIf="!showConfirmation; else confirmationView">
       <h2 class="text-deepBlue text-3xl font-bold mb-6">Pide tu cita</h2>
 
@@ -37,17 +33,20 @@
         </div>
 
         <!-- Tabla de doctores y horarios -->
-        <div class="overflow-x-auto bg-white rounded-lg shadow-lg mt-6">
+        <div class="overflow-x-auto bg-white rounded-lg shadow-lg mt-6 max-h-96 overflow-y-auto">
+          <!-- style="max-height: 400px; overflow-y: auto;" -->
           <table class="min-w-full bg-white">
             <thead>
               <tr class="w-full bg-deepBlue text-white text-center">
                 <th class="py-3 px-4 font-semibold text-sm">Médico</th>
+                <th class="py-3 px-4 font-semibold text-sm">Especialidad</th>
                 <th class="py-3 px-4 font-semibold text-sm">Horario</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let doctor of doctors" class="border-b text-center">
                 <td class="py-3 px-4">{{ doctor.lastName + " " + doctor.name }}</td>
+                <td class="py-3 px-4">{{ doctor.specialties}}</td>
                 <td class="py-3 px-4">
                   <div *ngIf="doctor.schedule && doctor.schedule.length > 0; else noSchedule">
                     <button 
@@ -68,48 +67,41 @@
         </div>
 
         <!-- Botón de Agendar Cita -->
-        <button
-          (click)="confirmAppointment()"
-          type="button"
-          class="w-40 py-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold">
-          Agendar Cita
-        </button>
+         <div class="flex justify-center">
+          <button
+          [disabled]="!selectedDoctor || !selectedDate || !selectedSchedule"
+           (click)="confirmAppointment()"
+           type="button"
+           class="w-1/2 py-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold items-center">
+           Agendar Cita
+         </button>
+        </div>
+        
       </form>
     </ng-container>
 
     <!-- Vista de Confirmación -->
     <ng-template #confirmationView>
-      <h2 class="text-deepBlue text-3xl font-bold mb-6 text-center">Confirmar Cita</h2>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-xl font-bold mb-4 text-center">Datos de la Cita</h3>
-          <p><strong>Médico:</strong> {{ selectedDoctor?.lastName + " " + selectedDoctor?.name }}</p>
-          <p><strong>Especialidad:</strong> {{ selectedSpecialtyName }}</p>
-          <p><strong>Fecha de Cita:</strong> {{ selectedDate }}</p>
-          <p><strong>Hora de Cita:</strong> {{ selectedSchedule }}</p>
-        </div>
-        <div *ngIf="patient" class="bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-xl font-bold mb-4 text-center">Datos del Paciente</h3>
-          <p><strong>Nombre:</strong> {{ patient.name }} {{ patient.lastName }}</p>
-          <p><strong>Email:</strong> {{ patient.email }}</p>
-          <p><strong>DNI:</strong> {{ patient.dni }}</p>
-        </div>
-      </div>
-      <!-- Botones Centrados -->
-      <div class="flex justify-center mt-6 space-x-4">
-        <button
-          class="w-1/2 py-2 px-4 bg-deepBlue text-white rounded-md hover:bg-blue-900 transition duration-300 font-semibold"
-          (click)="toAppointment()"
-        >
-          Volver
-        </button>
-        <button
-          class="w-1/2 py-2 px-4 bg-deepBlue text-white rounded-md hover:bg-blue-900 transition duration-300 font-semibold"
-          (click)="submitAppointment()"
-        >
-          Confirmar
-        </button>
-      </div>
+      <h2 class="text-deepBlue text-3xl font-bold mb-6">Confirmar Cita</h2>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <h3 class="text-xl font-bold mb-4 text-center">Datos de la Cita</h3>
+      <p><strong>Médico:</strong> {{ selectedDoctor?.lastName + " " + selectedDoctor?.name }}</p>
+      <p><strong>Especialidad:</strong> {{ selectedSpecialtyName }}</p>
+      <p><strong>Fecha de Cita:</strong> {{ selectedDate }}</p>
+      <p><strong>Hora de Cita:</strong> {{ selectedSchedule }}</p>
+    </div>
+    <div *ngIf="patient" class="bg-white p-6 rounded-lg shadow-lg">
+      <h3 class="text-xl font-bold mb-4 text-center">Datos del Paciente</h3>
+      <p><strong>Nombre:</strong> {{ patient.name }} {{ patient.lastName }}</p>
+      <p><strong>Email:</strong> {{ patient.email}}</p>
+      <p><strong>DNI:</strong> {{ patient.dni}}</p>
+    </div>
+  </div>
+    <div class="flex justify-center">
+      <button   href="/appointments" class="mt-6 w-1/2 mr-4 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="toAppointment()">Volver</button>
+      <button class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="submitAppointment()">Confirmar</button>
+    </div>
     </ng-template>
   </div>
 </div>

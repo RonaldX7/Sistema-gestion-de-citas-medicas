@@ -4,17 +4,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record PatientList(
-        @NotNull
         Long id,
-        @NotBlank
         String dni,
-        @NotBlank
         String name,
-        @NotBlank
         String lastName,
-        @NotNull
+        String address,
         Long genderId,
-        @NotBlank
+        Long districtId,
+        String phone,
         String email
         ) {
 }
