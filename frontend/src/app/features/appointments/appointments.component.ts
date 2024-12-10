@@ -8,12 +8,12 @@ import { ScheduleService, Schedule } from '../../core/services/schedule.service'
 import { PatientService } from '../../core/services/patient.service';
 import { AuthService } from '../../core/services/auth.service';
 import { AppointmentService } from '../../core/services/appointment.service';
-
+import { SidebarComponent } from '../sidebar/sidebar.component';
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, SidebarComponent]
 })
 export class AppointmentsComponent implements OnInit {
   showModal = false; // Controla la visibilidad del modal
@@ -26,16 +26,19 @@ export class AppointmentsComponent implements OnInit {
   };
 
   specialties: any[] = []; // Arreglo para almacenar las especialidades
-  selectedSpecialty: string = 'todas'; // Especialidad seleccionada
-  selectedDate: string = '2024-11-05'; // Fecha por defecto
+  selectedSpecialty: string = 'todas'; // con esto guardo la especialidad seleccionada
+  selectedDate: string = ''; // fecha por defecto
   selectedDoctor: { id: string; name: string; lastName: string; specialty: string; specialtyId: string; schedule?: string[] } | null = null;
   selectedSchedule: string | null = null; // Almacena el horario seleccionado
   selectedSpecialtyName: string | null = null; // Almacena la especialidad seleccionada
 
-  userId: string | null = null;
-  specialtyId: string = ''; // ID de la especialidad seleccionada
-  doctorId: string = ''; // ID del doctor seleccionado
-  scheduleId: number | null = null; // ID del horario seleccionado
+
+// Variables para almacenar los datos e IDs necesarios
+ userId: string | null = null;
+ specialtyId: string = ''; // ID de la especialidad seleccionada
+ doctorId: string = ''; // ID del doctor seleccionado
+ scheduleId: number | null = null; // ID del horario seleccionado
+
 
   constructor(
     private router: Router,
@@ -53,6 +56,15 @@ export class AppointmentsComponent implements OnInit {
     this.userId = this.authService.getUserId();
     this.loadPatientData();
     console.log('User ID en AppointmentsComponent:', this.userId);
+    
+  //Para la fecha actual
+  const todayDate = new Date();
+  const year = todayDate.getFullYear();
+  const month = String(todayDate.getMonth() + 1).padStart(2, '0'); // Mes en formato 2 dígitos
+  const day = String(todayDate.getDate()).padStart(2, '0'); // Día en formato 2 dígitos
+
+  this.selectedDate = `${year}-${month}-${day}`;
+    
   }
 
   loadSpecialties(): void {

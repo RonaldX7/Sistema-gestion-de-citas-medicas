@@ -9,7 +9,7 @@ export interface Schedule {
     startHour: string;
     endHour: string;
     isAvailable: boolean;
-  }
+}
 
 
 @Injectable({
