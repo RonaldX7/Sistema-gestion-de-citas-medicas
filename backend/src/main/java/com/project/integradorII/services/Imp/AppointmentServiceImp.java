@@ -173,7 +173,7 @@ public class AppointmentServiceImp implements AppointmentService {
         MedicalDiagnosis diagnosis = MedicalDiagnosis.builder()
                 .medicalAppointment(appointment)
                 .diagnosis(diagnosisRequest.diagnosis())
-                .istructions(diagnosisRequest.istructions())
+                .instructions(diagnosisRequest.instructions())
                 .build();
 
         //Guardar el diagnostico
