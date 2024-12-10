@@ -7,6 +7,7 @@ import { PatientService } from '../../../../core/services/patient.service';
 import { ScheduleService, Schedule } from '../../../../core/services/schedule.service';
 import { DoctorService } from '../../../../core/services/doctor.service';
 import { AppointmentsComponent } from "../appointments/appointments.component";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-appointments-list',
@@ -38,7 +39,7 @@ export class AppointmentsListComponent implements OnInit {
     roleId: 3
   };
 
-  
+  selectedDate: string = '';
   patientId: string =' ';
   patient: { id: string; dni: string; name: string; lastName: string; genderId:string; email: string;  } = {id:'',dni: '',name: '',lastName: '',genderId:'',email: ''};
   
@@ -48,7 +49,9 @@ export class AppointmentsListComponent implements OnInit {
   citasProgramadas: any[] = [];
   citasCompletadas: any[] = [];
   schedules:any[]=[];
-
+  selectedScheduleId: number | null = null; // ID del horario seleccionado
+  selectedAppointmentId: string = '';
+  selectedCita: any = null;
 
   
   doctors: { id: string; name: string; lastName: string; specialties: string; specialtyId: string; schedule?: string[];  scheduleObjects?: Schedule[]; }[] = [];
@@ -67,6 +70,16 @@ export class AppointmentsListComponent implements OnInit {
     this.loadDoctors();
     this.loadSchedules();
     //console.log(this.cita);
+
+
+      //Para la fecha actual
+      const todayDate = new Date();
+      const year = todayDate.getFullYear();
+      const month = String(todayDate.getMonth() + 1).padStart(2, '0'); // Mes en formato 2 dígitos
+      const day = String(todayDate.getDate()).padStart(2, '0'); // Día en formato 2 dígitos
+  
+      this.selectedDate = `${year}-${month}-${day}`;
+  
   }
 
   //Cargar data del paciente
@@ -104,8 +117,6 @@ export class AppointmentsListComponent implements OnInit {
     //console.log('Citas Completadas:', this.citasCompletadas);
   }
 
-
-
   //Cargar data de la cita por ID del paciente
   loadAppoByPattientId(): void{
     console.log("Id llegando a funcion: " + this.patientId)
@@ -127,9 +138,6 @@ export class AppointmentsListComponent implements OnInit {
       }
     );
   }
-
-  
-
 
   loadDoctors(): void {
     this.doctorService.getDoctors().subscribe(
@@ -219,22 +227,6 @@ export class AppointmentsListComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  PatientHome() {
-    this.router.navigate(['/patient-home']); // Cambiar ruta según configuración
-  }
-
-  PidetuCita() {
-    this.router.navigate(['/appointments']); // Cambiar ruta según configuración
-  }
-
-  MisCitas() {
-    this.router.navigate(['/mis-citas']);
-  }
-
-  MiCuenta() {
-    this.router.navigate(['/my-account']);
-  }
-
   toMyHistorial(){
     this.showMisCitas = false; // Ocultamos "Mis Citas Programadas"
     this.showMiHistorial = true;
@@ -252,26 +244,7 @@ export class AppointmentsListComponent implements OnInit {
   closeModal() {
     this.showModal = false;
   }
-  // Modal de confirmación para reprogramar
-  openReprogramModal() {
-    this.showReprogramModal = true; // Abre el modal de confirmación
-  }
 
-  closeReprogramModal() {
-    this.showReprogramModal = false; // Cierra el modal de confirmación
-  }
-
-  // Confirmar reprogramación
-  confirmReprogram() {
-    console.log('Reprogramación confirmada.');
-    this.closeReprogramModal(); // Cierra el modal después de confirmar
-    this.router.navigate(['/appointments']); // Redirige a la página de citas
-  }
-
-  // Reprogramar directamente (función original)
-  Reprogramar() {
-    this.router.navigate(['/appointments']);
-  }
   // Modal de Anulación
   openAnularModal() {
     this.showAnularModal = true;
@@ -292,21 +265,71 @@ closeAnuladaSuccessModal() {
 }
 
 
-  reprogramarCita(){
-    console.log("Se reprogramo cita");
+reprogramarCita(appointmentId: string): void {
+  if (!this.selectedDate || !this.selectedScheduleId) {
+    alert('Por favor, selecciona una fecha y un horario.');
+    return;
   }
-  abrirReprogramModal() {
+
+  const appointmentData = {
+    date: this.selectedDate,
+    scheduleId: this.selectedScheduleId
+  };
+
+  this.appointmentService.reprogramarCita(appointmentId, appointmentData).subscribe({
+    // next: (response) => {
+    //   console.log('Cita reprogramada con éxito:', response);
+    //   alert('Cita reprogramada con éxito.');
+    //   this.cerrarReprogramModal();
+    //   this.loadAppoByPattientId(); // Recargar las citas actualizadas
+    // },
+    // error: (err) => {
+    //   console.error('Error al reprogramar la cita:', err);
+    //   alert('Hubo un error al reprogramar la cita.');
+    // }
+
+    next: () => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Registro exitoso',
+        text: 'Cita reprogramada con éxito.',
+        showConfirmButton: true,
+        confirmButtonText: 'Cerrar',
+        confirmButtonColor: '#3085d6'
+      }).then(() => {
+        
+        this.showReprogramModal2=false;
+        this.loadAppoByPattientId(); 
+        //this.router.navigate(['/patient-features/appointments-list']);
+      });
+    },
+    error: (err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error en el registro',
+        text: err.error?.message || 'Hubo un problema al reprogramar su cita.',
+        confirmButtonText: 'Cerrar'
+      });
+    }
+
+
+  });
+}
+
+selectCita(cita: any): void {
+  this.selectedCita = cita;
+  this.abrirReprogramModal(cita.id);
+  console.log('Cita seleccionada:', this.selectedCita); // Para verificar que la cita seleccionada es correcta
+}
+
+
+  abrirReprogramModal(appointmentId: string) {
+    this.selectedAppointmentId = appointmentId;
     this.showReprogramModal2 = true; // Abre el modal de confirmación
   }
 
   cerrarReprogramModal() {
     this.showReprogramModal2 = false; // Cierra el modal de confirmación
   }
-
-  
-
-
-
-
   
 }

@@ -229,6 +229,7 @@ export class AddDocComponent implements OnInit {
         }).then(() => {
           this.router.navigate(['/admin-home/add-doc']);
           this.loadDoctors();
+          this.closeModal();
         });
       },
       error: (err) => {
