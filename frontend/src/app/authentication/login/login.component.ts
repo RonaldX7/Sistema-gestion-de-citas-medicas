@@ -3,6 +3,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -37,15 +38,39 @@ export class LoginComponent {
       }
 
       this.authService.login(this.user.username, this.user.password).subscribe({
-        next: () => {
-          // Llama al método de redirección después de un login exitoso
-          this.authService.redirectToRoleBasedView();
-        },
-        error: (err) => {
-          console.error('Error en autenticación:', err);
-          this.loginError = true; // Mostrar mensaje de error en caso de fallo
-        }
+   
+          next: () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Ingreso exitoso',
+              text: 'Bienvenido a Vida Plena',
+              showConfirmButton: true,
+              confirmButtonText: 'Cerrar',
+              confirmButtonColor: '#3085d6'
+            }).then(() => {
+              this.authService.redirectToRoleBasedView();
+            });
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al loge',
+              text: err.error?.message || 'Hubo un problema al registrar una cita.',
+              confirmButtonText: 'Cerrar'
+            });
+            this.loginError = true;
+          }
+
+        // next: () => {
+        //   // Llama al método de redirección después de un login exitoso
+        //   this.authService.redirectToRoleBasedView();
+        // },
+        // error: (err) => {
+        //   console.error('Error en autenticación:', err);
+        //   this.loginError = true; // Mostrar mensaje de error en caso de fallo
+        // }
       });
+      
     }
   }
 

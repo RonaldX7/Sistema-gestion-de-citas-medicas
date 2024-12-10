@@ -19,7 +19,7 @@ export class PatientFeaturesComponent {
     { name: 'Inicio', route: '/patient-features/patient-home' },
     { name: 'Pide tu Cita', route: '/patient-features/appointments' },
     { name: 'Mis citas', route: '/patient-features/appointments-list' },
-    { name: 'Orden Médica', route:'/**'},
+    // { name: 'Orden Médica', route:'/**'},
     { name: 'Mi Cuenta', route: '/patient-features/my-account'}
   ];
 

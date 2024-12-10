@@ -277,21 +277,10 @@ reprogramarCita(appointmentId: string): void {
   };
 
   this.appointmentService.reprogramarCita(appointmentId, appointmentData).subscribe({
-    // next: (response) => {
-    //   console.log('Cita reprogramada con éxito:', response);
-    //   alert('Cita reprogramada con éxito.');
-    //   this.cerrarReprogramModal();
-    //   this.loadAppoByPattientId(); // Recargar las citas actualizadas
-    // },
-    // error: (err) => {
-    //   console.error('Error al reprogramar la cita:', err);
-    //   alert('Hubo un error al reprogramar la cita.');
-    // }
-
     next: () => {
       Swal.fire({
         icon: 'success',
-        title: 'Registro exitoso',
+        title: 'Reprogramación Exitosa',
         text: 'Cita reprogramada con éxito.',
         showConfirmButton: true,
         confirmButtonText: 'Cerrar',
