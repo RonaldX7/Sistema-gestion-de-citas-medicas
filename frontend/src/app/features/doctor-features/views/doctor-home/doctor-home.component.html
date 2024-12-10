@@ -12,9 +12,9 @@
     <!-- Tarjeta Pide tu cita -->
     <div class="bg-deepBlue text-white rounded-lg shadow-md p-6 flex flex-col items-center">
       <img src="/pide-cita.png"  class="w-20">
-      <h3 class="text-xl font-semibold mb-2">AGENDA DE CITAS</h3>
+      <h3 class="text-xl font-semibold mb-2">VISUALIZAR CITAS</h3>
       <p class="text-center mb-4">Visualice sus citas programadas de las atenciones del día.</p>
-      <button (click)="citas()" class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+      <button (click)="toCitas()" class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
     </div>
 
     <!-- Tarjeta Mis citas -->
@@ -22,7 +22,7 @@
       <img src="/lista-cita.png"  class="w-20">
       <h3 class="text-xl font-semibold mb-2">HISTORIAL CLINICO</h3>
       <p class="text-center mb-4">Visualice los antecedentes médicos de los pacientes solicitados.</p>
-      <button (click)="history()" class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+      <button (click)="toHistory()" class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
     </div>
 
     <!-- Tarjeta Mi cuenta -->
@@ -30,7 +30,7 @@
       <img src="/mi-cuenta.png"  class="w-20">
       <h3 class="text-xl font-semibold mb-2">MI CUENTA</h3>
       <p class="text-center mb-4">Ingresa tus datos para realizar modificaciones de tu cuenta.</p>
-      <button (click)="cuenta()" class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
+      <button (click)="toAccount()" class="bg-gray-200 text-deepBlue font-semibold px-6 py-2 rounded-full hover:bg-gray-300">VER</button>
     </div>
   </div>
 </div>

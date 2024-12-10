@@ -13,18 +13,14 @@ import { AuthService } from '../../../../core/services/auth.service';
 export class DoctorHomeComponent {
   constructor(private router:Router){}
 
-    citas(){
-      console.log('Navegando a /citar-cita');
-      this.router.navigate(['/citar-cita']);
-    }
+  toCitas(){
+    this.router.navigate(['/doctor-features/citar-cita'])
+  }
+  toAccount(){
+    this.router.navigate(['/doctor-features/account'])
+  }
 
-    cuenta(){
-      console.log('Navegando a /account');
-      this.router.navigate(['/account']);
-    }
-
-    history(){
-      console.log('Navegando a /medical-history');
-      this.router.navigate(['medical-history'])
-    }
+  toHistory(){
+    this.router.navigate(['/doctor-features/medical-history'])
+  }
 }
