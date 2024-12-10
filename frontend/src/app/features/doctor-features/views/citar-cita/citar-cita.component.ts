@@ -18,7 +18,6 @@ export class CitarCitaComponent implements OnInit {
   showDiagnosisModal: boolean = false; // Controla la visibilidad del modal de receta
 
   doctor: any;
-  cita: any = {};
   citas: any[] = [];
   patient: any;
   selectedPatient: any;
@@ -102,6 +101,12 @@ export class CitarCitaComponent implements OnInit {
     });
   }
 
+  getFilteredCitas(): any[] {
+    if (!this.selectStatus) {
+      return this.citas;
+    }
+    return this.citas.filter(cita => cita.statusId === this.selectStatus);
+  }
 
 
   openDiagnosisModal(cita: any): void {
@@ -129,6 +134,7 @@ export class CitarCitaComponent implements OnInit {
         console.log('Diagnóstico guardado para la cita:', this.selectedCita.id);
         this.selectedCita.diagnosis = this.diagnosis;
         this.selectedCita.instructions = this.instructions;
+        this.selectedCita.diagnosisSaved = true;
         this.closeDiagnosisModal();
         Swal.fire('Éxito', 'Diagnóstico guardado correctamente', 'success').then(() => {
           this.router.navigate(['/doctor-features/doctor-home']); // Reemplaza '/ruta-principal' con la ruta de tu ventana principal
