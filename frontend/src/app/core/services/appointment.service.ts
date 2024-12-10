@@ -52,4 +52,9 @@ export class AppointmentService {
       })
     );
   }
+
+  reprogramarCita(appointment_id:string,appointmentData:any): Observable<any>{
+    return this.httpClient.put<any>(`${this.APPOINTMENT_URL}/reprogramar/${appointment_id}`,appointmentData);
+  }
+
 }

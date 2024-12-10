@@ -20,7 +20,17 @@ export class ScheduleService {
   constructor(private httpClient: HttpClient) {}
 
   getSchedules(): Observable<Schedule[]> {
-    return this.httpClient.get<Schedule[]>(this.baseURL);
+    return this.httpClient.get<Schedule[]>(this.baseURL).pipe(
+      map((data) => {
+        console.log('Horarios cargados desde la API:', data);
+        return data;
+      }),
+      catchError((error) => {
+        console.error('Error al obtener los horarios:', error);
+        return throwError(() => error);
+      })
+
+    );
   }
 
   getScheduleForDoctor(doctor_id:string): Observable<Schedule[]> {

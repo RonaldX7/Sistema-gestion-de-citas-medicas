@@ -16,7 +16,7 @@ const routes: Routes = [
       { path: 'appointments', component: AppointmentsComponent, canActivate:[AuthGuard] },
       { path: 'appointments-list', component: AppointmentsListComponent, canActivate:[AuthGuard] },
       { path: 'my-account', component: MyAccountComponent, canActivate:[AuthGuard]},
-      { path: '**', redirectTo: 'patient-home', pathMatch: 'full' },
+      { path: '**', redirectTo: 'patient-home', pathMatch: 'full' }, 
     ],
   },
 ];

@@ -6,6 +6,7 @@ import { AppointmentService } from '../../../../core/services/appointment.servic
 import { PatientService } from '../../../../core/services/patient.service';
 import { ScheduleService, Schedule } from '../../../../core/services/schedule.service';
 import { DoctorService } from '../../../../core/services/doctor.service';
+import { AppointmentsComponent } from "../appointments/appointments.component";
 
 @Component({
   selector: 'app-appointments-list',
@@ -20,8 +21,22 @@ export class AppointmentsListComponent implements OnInit {
   showMiHistorial: boolean = false;
   showModal: boolean = false;
   showReprogramModal: boolean = false; // Modal de confirmación para reprogramar
+  showReprogramModal2: boolean =false;
   showAnularModal: boolean = false; // Modal de anulación
   showAnuladaSuccessModal: boolean = false; // Modal de éxito tras anulación
+
+  newDoctor = {
+    name:'',
+    lastName:'',
+    phone: '',
+    email: '',
+    username:'',
+    password:'',
+    cmp:'',
+    specialty: '',
+    schedulesIds: [] as number[],
+    roleId: 3
+  };
 
   
   patientId: string =' ';
@@ -30,6 +45,11 @@ export class AppointmentsListComponent implements OnInit {
   citas: { id: string; doctorName: string; specialtyName: string; date: string; patientId: string; doctorId:string ;startTime: string;endTime: string;cost: any; statusId: string; status: string; }[] = [];
   cita:{id: string; date: string; patientId: string; doctorId:string ;startTime: string;endTime: string;cost: any; statusId: string;}=
   {id:'', date:'', patientId:'', doctorId:'', startTime:'', endTime:'', cost:'',statusId:''};
+  citasProgramadas: any[] = [];
+  citasCompletadas: any[] = [];
+  schedules:any[]=[];
+
+
   
   doctors: { id: string; name: string; lastName: string; specialties: string; specialtyId: string; schedule?: string[];  scheduleObjects?: Schedule[]; }[] = [];
 
@@ -45,6 +65,7 @@ export class AppointmentsListComponent implements OnInit {
     console.clear();
     this.loadPatientData();
     this.loadDoctors();
+    this.loadSchedules();
     //console.log(this.cita);
   }
 
@@ -67,6 +88,24 @@ export class AppointmentsListComponent implements OnInit {
       }
     });
   }
+
+  filterCitas(): void {
+    this.citasProgramadas = [];
+    this.citasCompletadas = [];
+  
+    for (const cita of this.citas) {
+      if (Number(cita.statusId) === 1) {
+        this.citasProgramadas.push(cita);
+      } else if (Number(cita.statusId) === 2) {
+        this.citasCompletadas.push(cita);
+      }
+    }
+    //console.log('Citas Programadas:', this.citasProgramadas);
+    //console.log('Citas Completadas:', this.citasCompletadas);
+  }
+
+
+
   //Cargar data de la cita por ID del paciente
   loadAppoByPattientId(): void{
     console.log("Id llegando a funcion: " + this.patientId)
@@ -74,13 +113,22 @@ export class AppointmentsListComponent implements OnInit {
       (data) => {
         this.citas=data;
         this.addDoctorDetailsToAppointments();
-        console.log('Datos cita cargada: ' + this.citas);
+        this.citas.forEach((cita) => {
+          //console.log(`Cita ID: ${cita.id}, Status ID: ${cita.statusId}, Tipo de Status ID: ${typeof cita.statusId}`);
+        });
+        this.filterCitas();
+
+      //console.log('Citas Programadas:', this.citasProgramadas);
+      //console.log('Citas Completadas:', this.citasCompletadas);
+
       },
       (error) => {
         console.error('Error al cargar las citas', error);
       }
     );
   }
+
+  
 
 
   loadDoctors(): void {
@@ -136,6 +184,29 @@ export class AppointmentsListComponent implements OnInit {
       );
     });
     }
+
+    loadSchedules(): void {
+      this.scheduleService.getSchedules().subscribe(
+        (data) => {
+          console.log('Horarios cargados:', data);
+          this.schedules = data;
+        },
+        (error) => {
+          console.error('Error al cargar horarios', error);
+        }
+      );
+    }
+
+  toggleScheduleSelection(scheduleId: number, event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      // Si el checkbox está marcado, deseleccionar todos los demás horarios
+      this.newDoctor.schedulesIds = [scheduleId];
+    } else {
+      // Si el checkbox está desmarcado, limpiar la selección
+      this.newDoctor.schedulesIds = [];
+    }
+  }
   
   formatHour(hour: string): string {
       // Asume que `hour` está en formato "HH:mm:ss" y corta los segundos
@@ -219,5 +290,23 @@ export class AppointmentsListComponent implements OnInit {
 closeAnuladaSuccessModal() {
   this.showAnuladaSuccessModal = false;
 }
+
+
+  reprogramarCita(){
+    console.log("Se reprogramo cita");
+  }
+  abrirReprogramModal() {
+    this.showReprogramModal2 = true; // Abre el modal de confirmación
+  }
+
+  cerrarReprogramModal() {
+    this.showReprogramModal2 = false; // Cierra el modal de confirmación
+  }
+
+  
+
+
+
+
   
 }
