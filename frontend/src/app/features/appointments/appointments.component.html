@@ -1,24 +1,11 @@
-<div class="flex min-h-screen bg-gray-100">
+<div class="flex min-h-screen bg-gray-100" style="background-image: url('/fondo-noazul.png');">
   <!-- Sidebar -->
-  <aside class="w-64 bg-aqua text-blue-900 p-6">
-    <div class="flex flex-col items-center">
-      <img src="logo-render.png" alt="Logo de VidaPlena" class="h-30 w-100 mb-6 brightness-90">
-      
-    </div>
-    <nav class="space-y-4">
-      <a href="/appointments" class="block py-2 px-4 rounded-lg bg-deepBlue text-white hover:bg-blue-900">Pide tu cita</a>
-      <a href="/mis-citas" class="block py-2 px-4 rounded hover:bg-blue-300">Mis citas</a>
-      <a href="/orden-medica" class="block py-2 px-4 rounded hover:bg-blue-300">Orden Médica</a>
-      <a href="/mi-cuenta" class="block py-2 px-4 rounded hover:bg-blue-300">Mi cuenta</a>
-    </nav>
-    <div class="mt-auto pt-6 border-t border-gray-300">
-      <button (click)="logout()" class="block w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Logout</button>
-      <p class="text-center mt-4 text-sm text-gray-600">Centro Médico 2024</p>
-    </div>
-  </aside>
+  <app-sidebar></app-sidebar>
+
+  
 
   <!-- Contenido principal: Componente Appointments -->
-  <div class="flex-1 p-6 lg:p-12">
+  <div class="flex-1 overflow-y-auto p-6 lg:p-12">
     <ng-container *ngIf="!showConfirmation; else confirmationView">
       <h2 class="text-deepBlue text-3xl font-bold mb-6">Pide tu cita</h2>
 
@@ -84,7 +71,7 @@
         <button
           (click)="confirmAppointment()"
           type="button"
-          class="w-full py-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold items-center">
+          class="w-40 py-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold">
           Agendar Cita
         </button>
       </form>
@@ -92,28 +79,37 @@
 
     <!-- Vista de Confirmación -->
     <ng-template #confirmationView>
-      <h2 class="text-deepBlue text-3xl font-bold mb-6">Confirmar Cita</h2>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <div class="bg-white p-6 rounded-lg shadow-lg">
-      <h3 class="text-xl font-bold mb-4 text-center">Datos de la Cita</h3>
-      <p><strong>Médico:</strong> {{ selectedDoctor?.lastName + " " + selectedDoctor?.name }}</p>
-      <p><strong>Especialidad:</strong> {{ selectedSpecialtyName }}</p>
-      <p><strong>Fecha de Cita:</strong> {{ selectedDate }}</p>
-      <p><strong>Hora de Cita:</strong> {{ selectedSchedule }}</p>
-    </div>
-    <div *ngIf="patient" class="bg-white p-6 rounded-lg shadow-lg">
-      <h3 class="text-xl font-bold mb-4 text-center">Datos del Paciente</h3>
-      <p><strong>Nombre:</strong> {{ patient.name }} {{ patient.lastName }}</p>
-      <p><strong>Email:</strong> {{ patient.email}}</p>
-      <p><strong>DNI:</strong> {{ patient.dni}}</p>
-    </div>
-  </div>
-  <button   href="/appointments" class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="toAppointment()">Volver</button>
-  <button class="mt-6 w-1/2 py-3 px-3 bg-deepBlue text-white rounded-lg hover:bg-blue-900 transition duration-300 font-semibold" (click)="submitAppointment()">Confirmar</button>
+      <h2 class="text-deepBlue text-3xl font-bold mb-6 text-center">Confirmar Cita</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-bold mb-4 text-center">Datos de la Cita</h3>
+          <p><strong>Médico:</strong> {{ selectedDoctor?.lastName + " " + selectedDoctor?.name }}</p>
+          <p><strong>Especialidad:</strong> {{ selectedSpecialtyName }}</p>
+          <p><strong>Fecha de Cita:</strong> {{ selectedDate }}</p>
+          <p><strong>Hora de Cita:</strong> {{ selectedSchedule }}</p>
+        </div>
+        <div *ngIf="patient" class="bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-bold mb-4 text-center">Datos del Paciente</h3>
+          <p><strong>Nombre:</strong> {{ patient.name }} {{ patient.lastName }}</p>
+          <p><strong>Email:</strong> {{ patient.email }}</p>
+          <p><strong>DNI:</strong> {{ patient.dni }}</p>
+        </div>
+      </div>
+      <!-- Botones Centrados -->
+      <div class="flex justify-center mt-6 space-x-4">
+        <button
+          class="w-1/2 py-2 px-4 bg-deepBlue text-white rounded-md hover:bg-blue-900 transition duration-300 font-semibold"
+          (click)="toAppointment()"
+        >
+          Volver
+        </button>
+        <button
+          class="w-1/2 py-2 px-4 bg-deepBlue text-white rounded-md hover:bg-blue-900 transition duration-300 font-semibold"
+          (click)="submitAppointment()"
+        >
+          Confirmar
+        </button>
+      </div>
     </ng-template>
   </div>
-
-  
-
-
 </div>
