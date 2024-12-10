@@ -67,4 +67,7 @@ export class AppointmentService {
     return this.httpClient.post<any>(url, diagnosisData);
   }
 
-}
+  anularCita(idCita:string, statusId:string){
+    const url=`${this.APPOINTMENT_URL}/cancelar/${idCita}/${statusId}`;
+    return this.httpClient.put<void>(url,null)
+  }};

@@ -42,7 +42,7 @@
                 <button (click)="selectCita(cita)" class="bg-deepBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900">
                   REPROGRAMAR
                 </button>
-                <button (click)="openAnularModal()" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red focus:outline-none focus:ring-2 focus:ring-red-500">
+                <button (click)="selectCita2(cita); openAnularModal()" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red focus:outline-none focus:ring-2 focus:ring-red-500">
                   ANULAR
                 </button>
               </div>
@@ -57,7 +57,7 @@
     <h3 class="text-lg font-bold text-blue-900 mb-4">¿Está seguro que desea anular la cita?</h3>
     <div class="flex justify-center space-x-4">
       <button
-        (click)="confirmAnular()"
+        (click)="cancelAppointment()"
         class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 focus:outline-none"> <!-- Cambiado a rounded-full -->
         Sí
       </button>
@@ -96,9 +96,9 @@
     <div *ngFor="let cita of citasCompletadas" class="bg-white shadow-md rounded-lg p-3 border border-blue-900 mb-3">
       <div class="mb-4">
         <p class="text-lg font-bold text-blue-900">{{"DR. " + cita.doctorName + " - " + cita.specialtyName}}</p>
-        <p class="text-gray-600">{{ "Hora: " + formatHour(cita.startTime) + " a " + formatHour(cita.endTime)}} </p>
+        <p class="text-gray-600">{{ "Hora: " + formatHour(cita.startTime) + " a " + formatHour(cita.endTime) }}</p>
         <p class="text-gray-600">{{ "Fecha: " + cita.date | date: 'dd/MM/yyyy' }}</p>
-        <p class="text-gray-600">{{"Costo: " + cita.cost }}</p>
+        <p class="text-gray-600">{{ "Costo: " + cita.cost }}</p>
       </div>
       <div class="border-t pt-4">
         <!-- Contenedor principal responsivo -->
@@ -112,8 +112,11 @@
           </div>
           <!-- Botones -->
           <div class="flex flex-col sm:flex-row gap-4">
-            <button (click)="openModal()" class="bg-deepBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900">
-              DIAGNOSTICO
+            <button 
+              *ngIf="cita.status === 'COMPLETADO'" 
+              (click)="openModal()" 
+              class="bg-deepBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900">
+              DIAGNÓSTICO
             </button>
           </div>
         </div>

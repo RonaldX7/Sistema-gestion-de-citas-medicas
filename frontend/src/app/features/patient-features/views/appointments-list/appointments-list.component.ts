@@ -111,6 +111,8 @@ export class AppointmentsListComponent implements OnInit {
         this.citasProgramadas.push(cita);
       } else if (Number(cita.statusId) === 2) {
         this.citasCompletadas.push(cita);
+      } else if (Number(cita.statusId)===3){
+        this.citasCompletadas.push(cita);
       }
     }
     //console.log('Citas Programadas:', this.citasProgramadas);
@@ -311,6 +313,10 @@ selectCita(cita: any): void {
   console.log('Cita seleccionada:', this.selectedCita); // Para verificar que la cita seleccionada es correcta
 }
 
+selectCita2(cita: any): void {
+  this.selectedCita = cita; // Asignar la cita seleccionada
+  console.log('Cita seleccionada:', this.selectedCita);
+}
 
   abrirReprogramModal(appointmentId: string) {
     this.selectedAppointmentId = appointmentId;
@@ -319,6 +325,43 @@ selectCita(cita: any): void {
 
   cerrarReprogramModal() {
     this.showReprogramModal2 = false; // Cierra el modal de confirmación
+  }
+
+  cancelAppointment(): void {
+    if (!this.selectedCita) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Por favor, selecciona una cita para anular.',
+        confirmButtonText: 'Cerrar',
+      });
+      return;
+    }
+  
+    const citaId = this.selectedCita.id; // ID de la cita seleccionada
+    const statusId = '3'; // Suponiendo que el ID de estado para "Cancelado" es 3
+  
+    this.appointmentService.anularCita(citaId, statusId).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cita Anulada',
+          text: 'La cita ha sido anulada con éxito.',
+          confirmButtonText: 'Cerrar',
+        }).then(() => {
+          this.showAnularModal = false; // Cerrar el modal de confirmación
+          this.loadAppoByPattientId(); // Recargar la lista de citas
+        });
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: err.error?.message || 'Hubo un problema al anular la cita.',
+          confirmButtonText: 'Cerrar',
+        });
+      },
+    });
   }
   
 }
