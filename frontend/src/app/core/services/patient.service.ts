@@ -26,6 +26,13 @@ export class PatientService {
     return this.httpClient.get<any>(url);
   }
 
+  // Método para obtener los datos del paciente utilizando el ID
+  getPatientById(id: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.patientUrl}/${id}`);
+  }
+
+
+  // Método para obtener los datos del paciente utilizando el DNI
   getPatientByDni(dni: string): Observable<any> {
     return this.httpClient.get<any>(`${this.patientUrl}/buscar/${dni}`);
   }

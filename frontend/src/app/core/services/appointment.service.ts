@@ -32,6 +32,10 @@ export class AppointmentService {
     return this.httpClient.post<any>(`${this.APPOINTMENT_URL}/registrar`, userData);
   }
 
+  getAppointmentStatus(): Observable<any> {
+    return this.httpClient.get<any>(`${this.APPOINTMENT_URL}/estados`);
+  }
+
   getCitasByPatientId(patient_id: string): Observable<any> {
     const url = `${this.APPOINTMENT_URL}/paciente/${patient_id}`;
     return this.httpClient.get<any>(url).pipe(
@@ -52,4 +56,10 @@ export class AppointmentService {
       })
     );
   }
+
+  addDiagnosis(appointmentId: string, diagnosisData: any): Observable<any> {
+    const url = `${this.APPOINTMENT_URL}/diagnostico/${appointmentId}`;
+    return this.httpClient.post<any>(url, diagnosisData);
+  }
+
 }
