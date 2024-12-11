@@ -64,7 +64,7 @@ spring.datasource.password=tu_contraseña
 ```
 ## 🌟 Uso
 - 🌐 Accede a la interfaz web del sistema a través de http://localhost:4200.
-- 👤 Registra usuarios y pacientes según sea necesario.
+- 👤 Registrate según sea necesario.
 - 🗓️ Utiliza las funcionalidades de programación y gestión de citas disponibles en la plataforma.
 
 
