@@ -6,6 +6,7 @@
 
 - 🗓️ **Programación de citas**: Permite a los pacientes agendar citas con diferentes especialistas de manera sencilla.
 - ✅ **Confirmación de citas**: Los pacientes pueden confirmar, cancelar o reprogramar sus citas.
+- 🛠️ **Recuperación de contraseñas**: Los pacientes podrán acceder a una recuperación de contraseñas mediante un correo electrónico que les asignará un código de verificación.
 - 📋 **Gestión de disponibilidad**: Los profesionales de la salud pueden administrar su agenda y disponibilidad.
 - 🔔 **Notificaciones**: Envía recordatorios y notificaciones a los pacientes sobre sus citas.
 
